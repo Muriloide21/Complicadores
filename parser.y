@@ -38,8 +38,8 @@ newline_fecho: newline_fecho NEWLINE
 ;
 // eval_input: testlist newline_fecho
 // ;
-// opt_arglist: arglist | %empty
-// ;
+opt_arglist: arglist | %empty
+;
 // opt_lpar: LPAR | %empty
 // ;
 // opt_rpar: RPAR | %empty
@@ -439,7 +439,7 @@ yield_arg: FROM test
 
 // # the TYPE_COMMENT in suites is only parsed for funcdefs,
 // # but can't go elsewhere due to ambiguity
-// func_body_suite: simple_stmt | NEWLINE [TYPE_COMMENT NEWLINE] INDENT stmt+ DEDENT
+// func_body_suite: simple_stmt | NEWLINE [TYPE_COMMENT NEWLINE] INDENT stmt+ DEDENT;
 
 func_type_input: func_type newline_fecho
 ;
