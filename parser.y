@@ -6,6 +6,7 @@
 int yylex(void);
 void yyerror(char const *s);
 
+
 %}
 
 %token FALSE AWAIT ELSE IMPORT PASS NONE BREAK EXCEPT IN RAISE TRUE CLASS FINALLY IS RETURN AND 
@@ -19,608 +20,292 @@ ARROW NEWLINE OR TYPE_COMMENT SEMICOLON
 
 %%
 
-start_program: start_program single_input
-			 | start_program file_input
-			 | start_program func_type_input
-			 | start_program eval_input
-			 | %empty
+start_program: start_program func_type_input
+             | %empty
 ;
-single_input: NEWLINE 
-            | simple_stmt 
-            | compound_stmt NEWLINE
+// single_input: NEWLINE 
+//             | simple_stmt 
+//             | compound_stmt NEWLINE
+// ;
+// newline_or_stmt_fecho: newline_or_stmt_fecho NEWLINE
+//                     | newline_or_stmt_fecho stmt
+//                     | %empty
+// ;
+// file_input: newline_or_stmt_fecho
+// ;
+newline_fecho: newline_fecho NEWLINE
+             | %empty
 ;
-
-newline_kleene: newline_kleene NEWLINE
-              | %empty
-;
-
-file_input: file_input NEWLINE
-          | file_input stmt
-		  | stmt
-;
-
-eval_input: testlist newline_kleene
-;   
-
-// decorator: AT dotted_name NEWLINE
-//         | AT dotted_as_name LPAR RPAR NEWLINE
-//         | AT dotted_name LPAR arglist RPAR NEWLINE
+// eval_input: testlist newline_fecho
+// ;
+// opt_arglist: arglist | %empty
+// ;
+// opt_lpar: LPAR | %empty
+// ;
+// opt_rpar: RPAR | %empty
+// ;
+// decorator: AT dotted_name opt opt_arglist opt_rpar NEWLINE
+// ;
+// decorator_fecho_plus: decorator_fecho_plus decorator
+//                     | decorator
+// ;
+// decorators: decorator_fecho_plus
+// ;
+// decorated: decorators classdef 
+//          | decorators funcdef 
+//          | decorators async_funcdef
 // ;
 
-// decorators_fecho: decorators_fecho AT dotted_name NEWLINE
-// 				| decorators_fecho AT dotted_as_name LPAR RPAR NEWLINE
-// 				| decorators_fecho AT dotted_name LPAR arglist RPAR NEWLINE
-//                 | AT dotted_name NEWLINE
-//         		| AT dotted_as_name LPAR RPAR NEWLINE
-//         		| AT dotted_name LPAR arglist RPAR NEWLINE
+// async_funcdef: ASYNC funcdef;
+
+// opt_arrow_test: ARROW test| %empty
+// ; 
+// opt_typecomment: TYPE_COMMENT | %empty
+// ;
+// funcdef: DEF NAME parameters opt_arrow_test COLON opt_typecomment func_body_suite
+// ;
+// opt_typedargslist: typedargslist | %empty
+// ;
+// parameters: LPAR opt_typedargslist RPAR
+// ;
+// typedargslist: (
+//   (tfpdef opt_equal_test (',' opt_typecomment tfpdef opt_equal_test)* ',' opt_typecomment '/' [',' [ opt_typecomment tfpdef opt_equal_test (
+//         ',' opt_typecomment tfpdef opt_equal_test)* (TYPE_COMMENT | [',' opt_typecomment [
+//         '*' [tfpdef] (',' opt_typecomment tfpdef opt_equal_test)* (TYPE_COMMENT | [',' opt_typecomment ['**' tfpdef opt_comma opt_typecomment]])
+//       | '**' tfpdef opt_comma opt_typecomment]])
+//   | '*' [tfpdef] (',' opt_typecomment tfpdef opt_equal_test)* (TYPE_COMMENT | [',' opt_typecomment ['**' tfpdef opt_comma opt_typecomment]])
+//   | '**' tfpdef opt_comma opt_typecomment]] )
+// |  (tfpdef opt_equal_test (',' opt_typecomment tfpdef opt_equal_test)* (TYPE_COMMENT | [',' opt_typecomment [
+//    '*' [tfpdef] (',' opt_typecomment tfpdef opt_equal_test)* (TYPE_COMMENT | [',' opt_typecomment ['**' tfpdef opt_comma opt_typecomment]])
+//   | '**' tfpdef opt_comma opt_typecomment]])
+//   | '*' [tfpdef] (',' opt_typecomment tfpdef opt_equal_test)* (TYPE_COMMENT | [',' opt_typecomment ['**' tfpdef opt_comma opt_typecomment]])
+//   | '**' tfpdef opt_comma opt_typecomment)
+// )
+// tfpdef: NAME [':' test]
+
+opt_equal_test: EQUAL test | %empty
+;
+opt_comma: COMMA | %empty
+;
+opt_vfpdef: vfpdef | %empty
+;
+opt_doublestar_vfpdef_comma: DOUBLESTAR vfpdef opt_comma | %empty
+;
+opt_comma_e_o_de_cima: COMMA opt_doublestar_vfpdef_comma | %empty
+;
+comma_vfpdef_opt_equal_test_kleene: comma_vfpdef_opt_equal_test_kleene COMMA vfpdef opt_equal_test
+                                  | %empty
+;
+// Equivale a [STAR opt_vfpdef comma_vfpdef_opt_equal_test_kleene opt_comma_e_o_de_cima | DOUBLESTAR vfpdef opt_comma]
+opt_menor_varargslist: STAR opt_vfpdef comma_vfpdef_opt_equal_test_kleene opt_comma_e_o_de_cima
+                     | DOUBLESTAR vfpdef opt_comma
+                     | %empty
+;
+opt_segundo_menor_varargslist: COMMA opt_menor_varargslist | %empty
+;
+opt_terceiro_menor_varargslist: vfpdef opt_equal_test comma_vfpdef_opt_equal_test_kleene opt_segundo_menor_varargslist
+                              | STAR opt_vfpdef comma_vfpdef_opt_equal_test_kleene opt_comma_e_o_de_cima
+                              | DOUBLESTAR vfpdef opt_comma
+                              | %empty
+;
+comma_slash: COMMA SLASH;
+varargslist: vfpdef opt_equal_test comma_vfpdef_opt_equal_test_kleene comma_slash COMMA opt_terceiro_menor_varargslist
+           | vfpdef opt_equal_test comma_vfpdef_opt_equal_test_kleene comma_slash
+           | vfpdef opt_equal_test comma_vfpdef_opt_equal_test_kleene opt_segundo_menor_varargslist
+           | STAR opt_vfpdef comma_vfpdef_opt_equal_test_kleene opt_comma_e_o_de_cima
+           | DOUBLESTAR vfpdef opt_comma
+;
+vfpdef: NAME
+;
+// stmt: simple_stmt | compound_stmt
+// ;
+// semicolon_smallstmt_fecho: semicolon_smallstmt_fecho  SEMICOLON small_stmt
+//                           |%empty
+// ;
+// opt_semicolon: SEMICOLON | %empty 
+// ;
+// simple_stmt: small_stmt semicolon_smallstmt_fecho opt_semicolon NEWLINE
+// ;
+// small_stmt: expr_stmt 
+//           | del_stmt 
+//           | pass_stmt 
+//           | flow_stmt 
+//           | import_stmt 
+//           | global_stmt 
+//           | nonlocal_stmt 
+//           | assert_stmt
 // ;
 
-decorators: AT dotted_name NEWLINE
-		  | AT dotted_as_name LPAR RPAR NEWLINE
-		  | AT dotted_name LPAR arglist RPAR NEWLINE
-          | decorators AT dotted_name NEWLINE
-		  | decorators AT dotted_as_name LPAR RPAR NEWLINE
-		  | decorators AT dotted_name LPAR arglist RPAR NEWLINE
+// eq_yieldexpr_testliststar_kleene: eq_yieldexpr_testliststar_kleene
+
+// expr_stmt: testlist_star_expr (annassign | augassign (yield_expr|testlist) |
+//                      [('=' (yield_expr|testlist_star_expr))+ opt_typecomment] )
+
+// annassign: ':' test ['=' (yield_expr|testlist_star_expr)]
+
+comma_or_test_star_expr_kleene: comma_or_test_star_expr_kleene COMMA or_test_star_expr
+                                | %empty
+;
+testlist_star_expr: or_test_star_expr comma_or_test_star_expr_kleene opt_comma
 ;
 
-decorated: decorators classdef  
-         | decorators funcdef 
-         | decorators async_funcdef
-;
+// augassign: ('+=' | '-=' | '*=' | '@=' | '/=' | '%=' | '&=' | '|=' | '^=' |
+//             '<<=' | '>>=' | '**=' | '//=')
+// # For normal and annotated assignments, additional restrictions enforced by the interpreter
+// del_stmt: 'del' exprlist
+// pass_stmt: 'pass'
+// flow_stmt: break_stmt | continue_stmt | return_stmt | raise_stmt | yield_stmt
+// break_stmt: 'break'
+// continue_stmt: 'continue'
+// return_stmt: 'return' [testlist_star_expr]
+// yield_stmt: yield_expr
+// raise_stmt: 'raise' [test ['from' test]]
+// import_stmt: import_name | import_from
+// import_name: 'import' dotted_as_names
+// # note below: the ('.' | '...') is necessary because '...' is tokenized as ELLIPSIS
+// import_from: ('from' (('.' | '...')* dotted_name | ('.' | '...')+)
+//               'import' ('*' | LPAR import_as_names RPAR | import_as_names))
+// import_as_name: NAME ['as' NAME]
+// dotted_as_name: dotted_name ['as' NAME]
+// import_as_names: import_as_name (',' import_as_name)* opt_comma
+// dotted_as_names: dotted_as_name (',' dotted_as_name)*
+// dotted_name: NAME ('.' NAME)*
+// global_stmt: 'global' NAME (',' NAME)*
+// nonlocal_stmt: 'nonlocal' NAME (',' NAME)*
+// assert_stmt: 'assert' test [',' test]
 
-async_funcdef: ASYNC funcdef
-;
-
-funcdef: DEF NAME parameters COLON func_body_suite
-        |DEF NAME parameters ARROW test COLON func_body_suite
-        |DEF NAME parameters COLON TYPE_COMMENT func_body_suite
-        |DEF NAME parameters ARROW test COLON TYPE_COMMENT func_body_suite
-;
-parameters:LPAR RPAR
-          |LPAR typedargslist RPAR
-;
-
-// comma_type_argument_fecho: comma_type_argument_fecho COMMA TYPE_COMMENT argument
-//                          | comma_type_argument_fecho COMMA argument
-//                          | COMMA TYPE_COMMENT argument
-//                          | COMMA argument 
-//                          | %empty
+// compound_stmt: if_stmt
+//             | while_stmt
+//             | for_stmt
+//             | try_stmt
+//             | with_stmt
+//             | funcdef
+//             | classdef
+//             | decorated
+//             | async_stmt
 // ;
 
-// Essa regra equivale a (',' [TYPE_COMMENT] tfpdef ['=' test])*
-bolsonaro: bolsonaro COMMA TYPE_COMMENT tfpdef EQUAL test
-         | bolsonaro COMMA TYPE_COMMENT tfpdef
-         | bolsonaro COMMA tfpdef EQUAL test
-         | bolsonaro COMMA tfpdef
-         | %empty
-        ;
-		
-// [',' [TYPE_COMMENT] ['**' tfpdef [','] [TYPE_COMMENT]]]
-pauloguedes: COMMA TYPE_COMMENT DOUBLESTAR tfpdef COMMA TYPE_COMMENT
-           | COMMA TYPE_COMMENT DOUBLESTAR tfpdef COMMA
-           | COMMA TYPE_COMMENT DOUBLESTAR tfpdef TYPE_COMMENT
-           | COMMA TYPE_COMMENT DOUBLESTAR tfpdef
-           | COMMA TYPE_COMMENT
-           | COMMA DOUBLESTAR tfpdef COMMA TYPE_COMMENT
-           | COMMA DOUBLESTAR tfpdef COMMA
-           | COMMA DOUBLESTAR tfpdef TYPE_COMMENT
-           | COMMA DOUBLESTAR tfpdef
-           | COMMA
-           | %empty
-;
-
-// Equivale a '*' [tfpdef] bolsonaro (TYPE_COMMENT | pauloguedes) | '**' tfpdef [','] [TYPE_COMMENT]
-ricardosalles: STAR tfpdef bolsonaro TYPE_COMMENT
-			 | STAR tfpdef bolsonaro pauloguedes
-             | STAR bolsonaro TYPE_COMMENT
-			 | STAR bolsonaro pauloguedes
-             | DOUBLESTAR tfpdef COMMA TYPE_COMMENT
-             | DOUBLESTAR tfpdef COMMA 
-             | DOUBLESTAR tfpdef TYPE_COMMENT
-             | DOUBLESTAR tfpdef
-	;
-typedargslist: tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT SLASH COMMA TYPE_COMMENT tfpdef EQUAL test bolsonaro TYPE_COMMENT
-		| tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT SLASH COMMA TYPE_COMMENT tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT ricardosalles
-        | tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT SLASH COMMA TYPE_COMMENT tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT
-        | tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT SLASH COMMA TYPE_COMMENT tfpdef EQUAL test bolsonaro COMMA ricardosalles
-        | tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT SLASH COMMA TYPE_COMMENT tfpdef EQUAL test bolsonaro COMMA
-		| tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT SLASH COMMA TYPE_COMMENT tfpdef EQUAL test bolsonaro
-		| tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT SLASH COMMA TYPE_COMMENT tfpdef bolsonaro TYPE_COMMENT
-		| tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT SLASH COMMA TYPE_COMMENT tfpdef bolsonaro COMMA TYPE_COMMENT ricardosalles
-        | tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT SLASH COMMA TYPE_COMMENT tfpdef bolsonaro COMMA TYPE_COMMENT
-        | tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT SLASH COMMA TYPE_COMMENT tfpdef bolsonaro COMMA ricardosalles
-        | tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT SLASH COMMA TYPE_COMMENT tfpdef bolsonaro COMMA
-		| tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT SLASH COMMA TYPE_COMMENT tfpdef bolsonaro
-        | tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT SLASH COMMA tfpdef EQUAL test bolsonaro TYPE_COMMENT
-		| tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT SLASH COMMA tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT ricardosalles
-        | tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT SLASH COMMA tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT
-        | tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT SLASH COMMA tfpdef EQUAL test bolsonaro COMMA ricardosalles
-        | tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT SLASH COMMA tfpdef EQUAL test bolsonaro COMMA
-		| tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT SLASH COMMA tfpdef EQUAL test bolsonaro
-		| tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT SLASH COMMA tfpdef bolsonaro TYPE_COMMENT
-		| tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT SLASH COMMA tfpdef bolsonaro COMMA TYPE_COMMENT ricardosalles
-        | tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT SLASH COMMA tfpdef bolsonaro COMMA TYPE_COMMENT
-        | tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT SLASH COMMA tfpdef bolsonaro COMMA ricardosalles
-        | tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT SLASH COMMA tfpdef bolsonaro COMMA
-		| tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT SLASH COMMA tfpdef bolsonaro
-        | tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT SLASH COMMA
-        | tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT SLASH
-        | tfpdef EQUAL test bolsonaro COMMA SLASH COMMA TYPE_COMMENT tfpdef EQUAL test bolsonaro TYPE_COMMENT
-		| tfpdef EQUAL test bolsonaro COMMA SLASH COMMA TYPE_COMMENT tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT ricardosalles
-        | tfpdef EQUAL test bolsonaro COMMA SLASH COMMA TYPE_COMMENT tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT
-        | tfpdef EQUAL test bolsonaro COMMA SLASH COMMA TYPE_COMMENT tfpdef EQUAL test bolsonaro COMMA ricardosalles
-        | tfpdef EQUAL test bolsonaro COMMA SLASH COMMA TYPE_COMMENT tfpdef EQUAL test bolsonaro COMMA
-		| tfpdef EQUAL test bolsonaro COMMA SLASH COMMA TYPE_COMMENT tfpdef EQUAL test bolsonaro
-		| tfpdef EQUAL test bolsonaro COMMA SLASH COMMA TYPE_COMMENT tfpdef bolsonaro TYPE_COMMENT
-		| tfpdef EQUAL test bolsonaro COMMA SLASH COMMA TYPE_COMMENT tfpdef bolsonaro COMMA TYPE_COMMENT ricardosalles
-        | tfpdef EQUAL test bolsonaro COMMA SLASH COMMA TYPE_COMMENT tfpdef bolsonaro COMMA TYPE_COMMENT
-        | tfpdef EQUAL test bolsonaro COMMA SLASH COMMA TYPE_COMMENT tfpdef bolsonaro COMMA ricardosalles
-        | tfpdef EQUAL test bolsonaro COMMA SLASH COMMA TYPE_COMMENT tfpdef bolsonaro COMMA
-		| tfpdef EQUAL test bolsonaro COMMA SLASH COMMA TYPE_COMMENT tfpdef bolsonaro
-        | tfpdef EQUAL test bolsonaro COMMA SLASH COMMA tfpdef EQUAL test bolsonaro TYPE_COMMENT
-		| tfpdef EQUAL test bolsonaro COMMA SLASH COMMA tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT ricardosalles
-        | tfpdef EQUAL test bolsonaro COMMA SLASH COMMA tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT
-        | tfpdef EQUAL test bolsonaro COMMA SLASH COMMA tfpdef EQUAL test bolsonaro COMMA ricardosalles
-        | tfpdef EQUAL test bolsonaro COMMA SLASH COMMA tfpdef EQUAL test bolsonaro COMMA
-		| tfpdef EQUAL test bolsonaro COMMA SLASH COMMA tfpdef EQUAL test bolsonaro
-		| tfpdef EQUAL test bolsonaro COMMA SLASH COMMA tfpdef bolsonaro TYPE_COMMENT
-		| tfpdef EQUAL test bolsonaro COMMA SLASH COMMA tfpdef bolsonaro COMMA TYPE_COMMENT ricardosalles
-        | tfpdef EQUAL test bolsonaro COMMA SLASH COMMA tfpdef bolsonaro COMMA TYPE_COMMENT
-        | tfpdef EQUAL test bolsonaro COMMA SLASH COMMA tfpdef bolsonaro COMMA ricardosalles
-        | tfpdef EQUAL test bolsonaro COMMA SLASH COMMA tfpdef bolsonaro COMMA
-		| tfpdef EQUAL test bolsonaro COMMA SLASH COMMA tfpdef bolsonaro
-        | tfpdef EQUAL test bolsonaro COMMA SLASH COMMA
-        | tfpdef EQUAL test bolsonaro COMMA SLASH
-        | tfpdef bolsonaro COMMA TYPE_COMMENT SLASH COMMA TYPE_COMMENT tfpdef EQUAL test bolsonaro TYPE_COMMENT
-		| tfpdef bolsonaro COMMA TYPE_COMMENT SLASH COMMA TYPE_COMMENT tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT ricardosalles
-        | tfpdef bolsonaro COMMA TYPE_COMMENT SLASH COMMA TYPE_COMMENT tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT
-        | tfpdef bolsonaro COMMA TYPE_COMMENT SLASH COMMA TYPE_COMMENT tfpdef EQUAL test bolsonaro COMMA ricardosalles
-        | tfpdef bolsonaro COMMA TYPE_COMMENT SLASH COMMA TYPE_COMMENT tfpdef EQUAL test bolsonaro COMMA
-		| tfpdef bolsonaro COMMA TYPE_COMMENT SLASH COMMA TYPE_COMMENT tfpdef EQUAL test bolsonaro
-		| tfpdef bolsonaro COMMA TYPE_COMMENT SLASH COMMA TYPE_COMMENT tfpdef bolsonaro TYPE_COMMENT
-		| tfpdef bolsonaro COMMA TYPE_COMMENT SLASH COMMA TYPE_COMMENT tfpdef bolsonaro COMMA TYPE_COMMENT ricardosalles
-        | tfpdef bolsonaro COMMA TYPE_COMMENT SLASH COMMA TYPE_COMMENT tfpdef bolsonaro COMMA TYPE_COMMENT
-        | tfpdef bolsonaro COMMA TYPE_COMMENT SLASH COMMA TYPE_COMMENT tfpdef bolsonaro COMMA ricardosalles
-        | tfpdef bolsonaro COMMA TYPE_COMMENT SLASH COMMA TYPE_COMMENT tfpdef bolsonaro COMMA
-		| tfpdef bolsonaro COMMA TYPE_COMMENT SLASH COMMA TYPE_COMMENT tfpdef bolsonaro
-        | tfpdef bolsonaro COMMA TYPE_COMMENT SLASH COMMA tfpdef EQUAL test bolsonaro TYPE_COMMENT
-		| tfpdef bolsonaro COMMA TYPE_COMMENT SLASH COMMA tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT ricardosalles
-        | tfpdef bolsonaro COMMA TYPE_COMMENT SLASH COMMA tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT
-        | tfpdef bolsonaro COMMA TYPE_COMMENT SLASH COMMA tfpdef EQUAL test bolsonaro COMMA ricardosalles
-        | tfpdef bolsonaro COMMA TYPE_COMMENT SLASH COMMA tfpdef EQUAL test bolsonaro COMMA
-		| tfpdef bolsonaro COMMA TYPE_COMMENT SLASH COMMA tfpdef EQUAL test bolsonaro
-		| tfpdef bolsonaro COMMA TYPE_COMMENT SLASH COMMA tfpdef bolsonaro TYPE_COMMENT
-		| tfpdef bolsonaro COMMA TYPE_COMMENT SLASH COMMA tfpdef bolsonaro COMMA TYPE_COMMENT ricardosalles
-        | tfpdef bolsonaro COMMA TYPE_COMMENT SLASH COMMA tfpdef bolsonaro COMMA TYPE_COMMENT
-        | tfpdef bolsonaro COMMA TYPE_COMMENT SLASH COMMA tfpdef bolsonaro COMMA ricardosalles
-        | tfpdef bolsonaro COMMA TYPE_COMMENT SLASH COMMA tfpdef bolsonaro COMMA
-		| tfpdef bolsonaro COMMA TYPE_COMMENT SLASH COMMA tfpdef bolsonaro
-        | tfpdef bolsonaro COMMA TYPE_COMMENT SLASH COMMA
-        | tfpdef bolsonaro COMMA TYPE_COMMENT SLASH
-        | tfpdef bolsonaro COMMA SLASH COMMA TYPE_COMMENT tfpdef EQUAL test bolsonaro TYPE_COMMENT
-		| tfpdef bolsonaro COMMA SLASH COMMA TYPE_COMMENT tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT ricardosalles
-        | tfpdef bolsonaro COMMA SLASH COMMA TYPE_COMMENT tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT
-        | tfpdef bolsonaro COMMA SLASH COMMA TYPE_COMMENT tfpdef EQUAL test bolsonaro COMMA ricardosalles
-        | tfpdef bolsonaro COMMA SLASH COMMA TYPE_COMMENT tfpdef EQUAL test bolsonaro COMMA
-		| tfpdef bolsonaro COMMA SLASH COMMA TYPE_COMMENT tfpdef EQUAL test bolsonaro
-		| tfpdef bolsonaro COMMA SLASH COMMA TYPE_COMMENT tfpdef bolsonaro TYPE_COMMENT
-		| tfpdef bolsonaro COMMA SLASH COMMA TYPE_COMMENT tfpdef bolsonaro COMMA TYPE_COMMENT ricardosalles
-        | tfpdef bolsonaro COMMA SLASH COMMA TYPE_COMMENT tfpdef bolsonaro COMMA TYPE_COMMENT
-        | tfpdef bolsonaro COMMA SLASH COMMA TYPE_COMMENT tfpdef bolsonaro COMMA ricardosalles
-        | tfpdef bolsonaro COMMA SLASH COMMA TYPE_COMMENT tfpdef bolsonaro COMMA
-		| tfpdef bolsonaro COMMA SLASH COMMA TYPE_COMMENT tfpdef bolsonaro
-        | tfpdef bolsonaro COMMA SLASH COMMA tfpdef EQUAL test bolsonaro TYPE_COMMENT
-		| tfpdef bolsonaro COMMA SLASH COMMA tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT ricardosalles
-        | tfpdef bolsonaro COMMA SLASH COMMA tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT
-        | tfpdef bolsonaro COMMA SLASH COMMA tfpdef EQUAL test bolsonaro COMMA ricardosalles
-        | tfpdef bolsonaro COMMA SLASH COMMA tfpdef EQUAL test bolsonaro COMMA
-		| tfpdef bolsonaro COMMA SLASH COMMA tfpdef EQUAL test bolsonaro
-		| tfpdef bolsonaro COMMA SLASH COMMA tfpdef bolsonaro TYPE_COMMENT
-		| tfpdef bolsonaro COMMA SLASH COMMA tfpdef bolsonaro COMMA TYPE_COMMENT ricardosalles
-        | tfpdef bolsonaro COMMA SLASH COMMA tfpdef bolsonaro COMMA TYPE_COMMENT
-        | tfpdef bolsonaro COMMA SLASH COMMA tfpdef bolsonaro COMMA ricardosalles
-        | tfpdef bolsonaro COMMA SLASH COMMA tfpdef bolsonaro COMMA
-		| tfpdef bolsonaro COMMA SLASH COMMA tfpdef bolsonaro
-        | tfpdef bolsonaro COMMA SLASH COMMA
-        | tfpdef bolsonaro COMMA SLASH
-        | tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT SLASH COMMA ricardosalles
-        | tfpdef EQUAL test bolsonaro COMMA SLASH COMMA ricardosalles
-        | tfpdef bolsonaro COMMA TYPE_COMMENT SLASH COMMA ricardosalles
-        | tfpdef bolsonaro COMMA SLASH COMMA ricardosalles
-        | tfpdef EQUAL test bolsonaro TYPE_COMMENT 
-        | tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT ricardosalles
-        | tfpdef EQUAL test bolsonaro COMMA TYPE_COMMENT
-        | tfpdef EQUAL test bolsonaro COMMA ricardosalles
-        | tfpdef EQUAL test bolsonaro COMMA
-        | tfpdef EQUAL test bolsonaro
-        | tfpdef bolsonaro TYPE_COMMENT 
-        | tfpdef bolsonaro COMMA TYPE_COMMENT ricardosalles
-        | tfpdef bolsonaro COMMA TYPE_COMMENT
-        | tfpdef bolsonaro COMMA ricardosalles
-        | tfpdef bolsonaro COMMA
-        | tfpdef bolsonaro
-        | ricardosalles
-;
-
-tfpdef: NAME COLON test
-	  | NAME
-;
-
-//equivale a (',' vfpdef ['=' test])*
-damares: damares COMMA vfpdef
-        |damares COMMA vfpdef EQUAL test
-        |%empty
-;
-
-// Equivale a '**' vfpdef [',']
-mourao: DOUBLESTAR vfpdef COMMA
-	  | DOUBLESTAR vfpdef
-;
-varargslist:  vfpdef EQUAL test damares COMMA SLASH COMMA vfpdef EQUAL test damares COMMA STAR vfpdef damares COMMA mourao
-            | vfpdef EQUAL test damares COMMA SLASH COMMA vfpdef EQUAL test damares COMMA STAR vfpdef damares COMMA
-			| vfpdef EQUAL test damares COMMA SLASH COMMA vfpdef EQUAL test damares COMMA STAR vfpdef damares
-			| vfpdef EQUAL test damares COMMA SLASH COMMA vfpdef EQUAL test damares COMMA STAR damares COMMA mourao
-            | vfpdef EQUAL test damares COMMA SLASH COMMA vfpdef EQUAL test damares COMMA STAR damares COMMA
-			| vfpdef EQUAL test damares COMMA SLASH COMMA vfpdef EQUAL test damares COMMA STAR damares
-			| vfpdef EQUAL test damares COMMA SLASH COMMA vfpdef EQUAL test damares COMMA
-			| vfpdef EQUAL test damares COMMA SLASH COMMA vfpdef EQUAL test damares
-			| vfpdef EQUAL test damares COMMA SLASH COMMA vfpdef EQUAL test damares COMMA mourao
-			| vfpdef EQUAL test damares COMMA SLASH COMMA vfpdef damares COMMA STAR vfpdef damares COMMA mourao
-            | vfpdef EQUAL test damares COMMA SLASH COMMA vfpdef damares COMMA STAR vfpdef damares COMMA
-			| vfpdef EQUAL test damares COMMA SLASH COMMA vfpdef damares COMMA STAR vfpdef damares
-			| vfpdef EQUAL test damares COMMA SLASH COMMA vfpdef damares COMMA STAR damares COMMA mourao
-            | vfpdef EQUAL test damares COMMA SLASH COMMA vfpdef damares COMMA STAR damares COMMA
-			| vfpdef EQUAL test damares COMMA SLASH COMMA vfpdef damares COMMA STAR damares
-			| vfpdef EQUAL test damares COMMA SLASH COMMA vfpdef damares COMMA
-			| vfpdef EQUAL test damares COMMA SLASH COMMA vfpdef damares
-			| vfpdef EQUAL test damares COMMA SLASH COMMA vfpdef damares COMMA mourao
-            | vfpdef EQUAL test damares COMMA SLASH COMMA STAR vfpdef damares COMMA mourao
-			| vfpdef EQUAL test damares COMMA SLASH COMMA STAR vfpdef damares COMMA
-			| vfpdef EQUAL test damares COMMA SLASH COMMA STAR vfpdef damares
-			| vfpdef EQUAL test damares COMMA SLASH COMMA STAR damares COMMA mourao
-			| vfpdef EQUAL test damares COMMA SLASH COMMA STAR damares COMMA
-			| vfpdef EQUAL test damares COMMA SLASH COMMA STAR damares
-			| vfpdef EQUAL test damares COMMA SLASH COMMA mourao
-            | vfpdef EQUAL test damares COMMA SLASH COMMA
-            | vfpdef EQUAL test damares COMMA SLASH
-			| vfpdef damares COMMA SLASH COMMA vfpdef EQUAL test damares COMMA STAR vfpdef damares COMMA mourao
-            | vfpdef damares COMMA SLASH COMMA vfpdef EQUAL test damares COMMA STAR vfpdef damares COMMA
-			| vfpdef damares COMMA SLASH COMMA vfpdef EQUAL test damares COMMA STAR vfpdef damares
-			| vfpdef damares COMMA SLASH COMMA vfpdef EQUAL test damares COMMA STAR damares COMMA mourao
-            | vfpdef damares COMMA SLASH COMMA vfpdef EQUAL test damares COMMA STAR damares COMMA
-			| vfpdef damares COMMA SLASH COMMA vfpdef EQUAL test damares COMMA STAR damares
-			| vfpdef damares COMMA SLASH COMMA vfpdef EQUAL test damares COMMA
-			| vfpdef damares COMMA SLASH COMMA vfpdef EQUAL test damares
-			| vfpdef damares COMMA SLASH COMMA vfpdef EQUAL test damares COMMA mourao
-			| vfpdef damares COMMA SLASH COMMA vfpdef damares COMMA STAR vfpdef damares COMMA mourao
-            | vfpdef damares COMMA SLASH COMMA vfpdef damares COMMA STAR vfpdef damares COMMA
-			| vfpdef damares COMMA SLASH COMMA vfpdef damares COMMA STAR vfpdef damares
-			| vfpdef damares COMMA SLASH COMMA vfpdef damares COMMA STAR damares COMMA mourao
-            | vfpdef damares COMMA SLASH COMMA vfpdef damares COMMA STAR damares COMMA
-			| vfpdef damares COMMA SLASH COMMA vfpdef damares COMMA STAR damares
-			| vfpdef damares COMMA SLASH COMMA vfpdef damares COMMA
-			| vfpdef damares COMMA SLASH COMMA vfpdef damares
-			| vfpdef damares COMMA SLASH COMMA vfpdef damares COMMA mourao
-            | vfpdef damares COMMA SLASH COMMA STAR vfpdef damares COMMA mourao
-			| vfpdef damares COMMA SLASH COMMA STAR vfpdef damares COMMA
-			| vfpdef damares COMMA SLASH COMMA STAR vfpdef damares
-			| vfpdef damares COMMA SLASH COMMA STAR damares COMMA mourao
-			| vfpdef damares COMMA SLASH COMMA STAR damares COMMA
-			| vfpdef damares COMMA SLASH COMMA STAR damares
-			| vfpdef damares COMMA SLASH COMMA mourao
-            | vfpdef damares COMMA SLASH COMMA
-            | vfpdef damares COMMA SLASH
-			| vfpdef EQUAL test damares COMMA STAR vfpdef damares COMMA mourao
-            | vfpdef EQUAL test damares COMMA STAR vfpdef damares COMMA
-            | vfpdef EQUAL test damares COMMA STAR vfpdef damares
-            | vfpdef EQUAL test damares COMMA STAR damares COMMA mourao
-            | vfpdef EQUAL test damares COMMA STAR damares COMMA
-            | vfpdef EQUAL test damares COMMA STAR damares
-			| vfpdef EQUAL test damares COMMA mourao
-            | vfpdef EQUAL test damares COMMA
-            | vfpdef EQUAL test damares
-            | vfpdef damares COMMA STAR vfpdef damares COMMA mourao
-            | vfpdef damares COMMA STAR vfpdef damares COMMA
-            | vfpdef damares COMMA STAR vfpdef damares
-            | vfpdef damares COMMA STAR damares COMMA mourao
-            | vfpdef damares COMMA STAR damares COMMA
-            | vfpdef damares COMMA STAR damares
-			| vfpdef damares COMMA mourao
-            | vfpdef damares COMMA
-            | vfpdef damares
-            | STAR vfpdef damares COMMA mourao
-            | STAR vfpdef damares COMMA
-            | STAR vfpdef damares
-            | STAR damares COMMA mourao
-            | STAR damares COMMA
-            | STAR damares
-            | mourao
-;
-
-vfpdef: NAME;
-
-stmt: simple_stmt 
-    | compound_stmt 
-;
-semicolon_smallstmt_kleene: semicolon_smallstmt_kleene SEMICOLON small_stmt
-                          | %empty
-;
-simple_stmt: small_stmt semicolon_smallstmt_kleene NEWLINE
-           | small_stmt semicolon_smallstmt_kleene SEMICOLON NEWLINE
-;
-small_stmt: expr_stmt 
-          | del_stmt 
-		  | pass_stmt 
-		  | flow_stmt 
-          | import_stmt 
-		  | global_stmt 
-		  | nonlocal_stmt 
-		  | assert_stmt
-;
-
-eq_yieldexpr_or_teststr_kleene_plus: eq_yieldexpr_or_teststr_kleene_plus EQUAL yield_expr
-									| eq_yieldexpr_or_teststr_kleene_plus EQUAL testlist_star_expr
-									| EQUAL yield_expr
-									| EQUAL testlist_star_expr
-;
-expr_stmt: testlist_star_expr annassign yield_expr
-	     | testlist_star_expr annassign testlist
-	     | testlist_star_expr augassign yield_expr
-	     | testlist_star_expr augassign testlist
-         | eq_yieldexpr_or_teststr_kleene_plus
-	     | eq_yieldexpr_or_teststr_kleene_plus TYPE_COMMENT
-;
-annassign: COLON test EQUAL yield_expr
-		 | COLON test EQUAL testlist_star_expr
-		 | COLON test
-	;
-testlist_star_expr: test comma_test_or_star_expr_kleene COMMA
-                  | star_expr comma_test_or_star_expr_kleene COMMA
-		          | test comma_test_or_star_expr_kleene
-                  | star_expr comma_test_or_star_expr_kleene
-	;
-augassign: PLUSEQUAL 
-         | MINEQUAL 
-         | STAREQUAL 
-         | ATEQUAL 
-         | SLASHEQUAL 
-         | PERCENTEQUAL 
-         | AMPEREQUAL 
-         | VBAREQUAL 
-         | CIRCUMFLEXEQUAL 
-         | LEFTSHIFTEQUAL 
-         | RIGHTSHIFTEQUAL 
-         | DOUBLESTAREQUAL 
-         | DOUBLESLASHEQUAL
-	;
-del_stmt: DEL exprlist
-;
-pass_stmt: PASS
-;
-flow_stmt: break_stmt 
-        | continue_stmt 
-        | return_stmt 
-        | raise_stmt 
-        | yield_expr
-;
-
-break_stmt: BREAK
-;
-
-continue_stmt: CONTINUE
-;
-
-return_stmt: RETURN testlist_star_expr
-           | RETURN
-;
-
-// yield_stmt: yield_expr;
-
-raise_stmt: RAISE test FROM test
-          | RAISE test
-          | RAISE
-;
-
-import_stmt: import_name 
-           | import_from
-;
-import_name: IMPORT dotted_as_names;
-
-dots_kleene_plus: dots_kleene_plus DOT
-                | dots_kleene_plus ELLIPSIS
-                | DOT
-                | ELLIPSIS
-;
-
-import_from: FROM dotted_name IMPORT STAR
-           | FROM dotted_name IMPORT import_as_names
-           | FROM dotted_name IMPORT LPAR import_as_names RPAR
-           | FROM dots_kleene_plus IMPORT STAR
-           | FROM dots_kleene_plus IMPORT import_as_names
-           | FROM dots_kleene_plus IMPORT LPAR import_as_names RPAR
-;
-
-// import_as_name: NAME AS NAME
-//               | NAME
+// async_stmt: ASYNC funcdef
+//          | ASYNC with_stmt
+//          | ASYNC for_stmt
 // ;
 
-dotted_as_name: dotted_name AS NAME
-              | dotted_name
-;
+// if_stmt: IF namedexpr_test COLON suite elif_colon_suite_kleene
+//       | IF namedexpr_test COLON suite elif_colon_suite_kleene ELSE COLON suite
+// ;
 
-comma_import: comma_import COMMA NAME AS NAME
-			| comma_import COMMA NAME
-            | %empty
-;
+// elif_colon_suite_kleene: elif_colon_suite_kleene ELIF namedexpr_test COLON suite
+//                         | %empty
+// ;
 
-import_as_names: NAME AS NAME comma_import COMMA
-			   | NAME comma_import COMMA
-               | NAME AS NAME comma_import
-			   | NAME comma_import
-;
-comma_dotted: comma_dotted COMMA dotted_as_name
-            | %empty
-;
-dotted_as_names: dotted_as_name comma_dotted
-;
-dot_name_kleene: dot_name_kleene DOT NAME
-               | %empty
-;
-dotted_name: NAME dot_name_kleene
-;
-comma_name_kleene: comma_name_kleene COMMA NAME
-                 | %empty
-;
-global_stmt: GLOBAL NAME comma_name_kleene
-;
-nonlocal_stmt: NONLOCAL NAME comma_name_kleene
-;
-assert_stmt: ASSERT test COMMA test
-           | ASSERT test
-;
-compound_stmt: if_stmt 
-              | while_stmt 
-            | for_stmt 
-            | try_stmt 
-            | with_stmt 
-            | funcdef 
-            | classdef 
-            | decorated 
-            | async_stmt
-;
+// while_stmt: WHILE namedexpr_test COLON suite ELSE COLON suite
+//           | WHILE namedexpr_test COLON suite
+// ;
 
-async_stmt: ASYNC funcdef 
-        | ASYNC with_stmt    
-        | ASYNC for_stmt
-;
-    
-elif_stmt: elif_stmt ELIF namedexpr_test COLON suite
-         | %empty
-;
-if_stmt: IF namedexpr_test COLON suite elif_stmt 
-       | IF namedexpr_test COLON suite elif_stmt ELSE COLON suite
-;
-while_stmt: WHILE namedexpr_test COLON suite 
-        | WHILE namedexpr_test COLON suite ELSE COLON suite
-;
-for_stmt: FOR exprlist IN testlist COLON suite
-        |FOR exprlist IN testlist COLON suite ELSE COLON suite
-        |FOR exprlist IN testlist COLON TYPE_COMMENT suite    
-        |FOR exprlist IN testlist COLON TYPE_COMMENT suite ELSE COLON suite
-;
+// for_in_colon_prefix: FOR exprlist IN testlist COLON;
 
-expect_clause_suite: expect_clause_suite EXCEPT test AS NAME
-                   | expect_clause_suite EXCEPT test
-                   | expect_clause_suite EXCEPT
-                   | EXCEPT test AS NAME COLON suite
-                   | EXCEPT test COLON suite
-                   | EXCEPT COLON suite
-        ;   
-try_stmt: TRY COLON suite expect_clause_suite
-        | TRY COLON suite expect_clause_suite FINALLY COLON suite 
-        | TRY COLON suite expect_clause_suite ELSE COLON suite
-        | TRY COLON suite expect_clause_suite ELSE COLON suite FINALLY COLON suite 
-;
-comma_with_item: comma_with_item COMMA with_item
-               | %empty
-;
+// for_stmt: for_in_colon_prefix TYPE_COMMENT suite ELSE COLON suite
+//         | for_in_colon_prefix TYPE_COMMENT suite
+//         | for_in_colon_prefix suite ELSE COLON suite
+//         | for_in_colon_prefix suite
 
-with_stmt: WITH with_item comma_with_item COLON suite
-         | WITH with_item comma_with_item COLON TYPE_COMMENT suite
-;
-with_item: test 
-         |test AS expr
-;
-stmt_kleene_plus: stmt_kleene_plus stmt
-                | stmt
-;
-suite: simple_stmt 
-     | NEWLINE INDENT stmt_kleene_plus DEDENT
-;
+// try_stmt: ('try' ':' suite
+//            ((except_clause ':' suite)+
+//             ['else' ':' suite]
+//             ['finally' ':' suite] |
+//            'finally' ':' suite))
+
+// comma_with_item_kleene: comma_with_item_kleene COMMA with_item
+//                       | %empty
+// ;
+// with_stmt: WITH with_item comma_with_item_kleene COLON TYPE_COMMENT suite
+//          | WITH with_item comma_with_item_kleene COLON suite
+// ;
+// with_item: test AS expr
+//         | test
+// ;
+
+// # NB compile.c makes sure that the default except clause is last
+// except_clause: 'except' [test ['as' NAME]]
+// suite: simple_stmt | NEWLINE INDENT stmt+ DEDENT;
+
 namedexpr_test: test COLONEQUAL test
               | test
 ;
-test: or_test IF or_test ELSE test
-    | or_test
+opt_if_ortest_else_test: IF or_test ELSE test
+                       | %empty
+;
+test: or_test opt_if_ortest_else_test 
     | lambdef
 ;
 test_nocond: or_test 
            | lambdef_nocond
 ;
-lambda_colon: LAMBDA COLON
+opt_varargslist: varargslist | %empty
 ;
-lambdef: LAMBDA varargslist COLON or_test IF or_test ELSE test
-       | LAMBDA varargslist COLON lambdef
-       | lambda_colon or_test IF or_test ELSE test
-       | lambda_colon lambdef
+lambdef: LAMBDA opt_varargslist COLON test
 ;
-lambdef_nocond: LAMBDA varargslist COLON or_test
-			  | LAMBDA varargslist COLON lambdef_nocond	
-              | LAMBDA COLON or_test
-			  | LAMBDA COLON lambdef_nocond
+lambdef_nocond: LAMBDA opt_varargslist COLON test_nocond
 ;
 or_and_test_kleene: or_and_test_kleene OR and_test
-				  | OR and_test
-;
-or_test: and_test or_and_test_kleene
-	   | and_test
-;
-and_not_test_kleene: and_not_test_kleene AND not_test
-				   | AND not_test
-;
-and_test: not_test and_not_test_kleene
-		| not_test
-;
-not_test: NOT not_test 
-        | comparison
-;
-comp_op_expr_kleene: comp_op_expr_kleene comp_op expr
-                   | comp_op expr
-;
-comparison: expr comp_op_expr_kleene
-		  | expr
-;
-comp_op: LESS
-       | GREATER
-       | EQEQUAL
-       | GREATEREQUAL
-       | LESSEQUAL
-       | NOTEQUAL
-       | IN
-       | NOT IN
-       | IS
-       | IS NOT
-;
-star_expr: STAR expr
-;
-vbar_xor_kleene: vbar_xor_kleene VBAR xor_expr
-			   | VBAR xor_expr
-;
-expr: xor_expr vbar_xor_kleene
-	| xor_expr
-;
-circumflex_and_expr_kleene: circumflex_and_expr_kleene CIRCUMFLEX and_expr
-                          | CIRCUMFLEX and_expr
-;
-xor_expr: and_expr circumflex_and_expr_kleene
-		| and_expr
-;
-amper_shift_kleene: amper_shift_kleene AMPER shift_expr
                   | %empty
 ;
-and_expr: shift_expr amper_shift_kleene
+or_test: and_test or_and_test_kleene
 ;
-shifts_arith_expr: shifts_arith_expr LEFTSHIFT arith_expr
-                 | shifts_arith_expr RIGHTSHIFT arith_expr
-                 | %empty
+and_not_test_kleene: and_not_test_kleene AND not_test
+                    | %empty
 ;
-shift_expr: arith_expr shifts_arith_expr
+and_test: not_test and_not_test_kleene
 ;
-plus_minus_term_kleene: plus_minus_term_kleene PLUS term
-                      | plus_minus_term_kleene MINUS term
-                      | %empty
+not_test: NOT not_test
+        | comparison
 ;
-arith_expr: term plus_minus_term_kleene
+comp_op_kleene: comp_op_kleene comp_op expr
+              | %empty
+;
+comparison: expr comp_op_kleene
+;
+// # <> isn't actually a valid comparison operator in Python. It's here for the
+// # sake of a __future__ import described in PEP 401 (which really works :-)
+comp_op: LESS
+        | GREATER
+        | EQEQUAL
+        | GREATEREQUAL
+        | LESSEQUAL
+        | NOTEQUAL
+        | IN
+        | NOT IN
+        | IS
+        | IS NOT
+;
+star_expr: STAR expr;
+vbar_xor_expr_kleene: vbar_xor_expr_kleene VBAR xor_expr
+                    | %empty
+;
+expr: xor_expr vbar_xor_expr_kleene
+;
+circumflex_and_expr_kleene: circumflex_and_expr_kleene CIRCUMFLEX and_expr
+                          | %empty
+;
+xor_expr: and_expr circumflex_and_expr_kleene
+;
+amper_shift_expr_kleene: amper_shift_expr_kleene AMPER shift_expr
+                       | %empty
+;
+and_expr: shift_expr amper_shift_expr_kleene
+;
+left_shift_or_right_shift: LEFTSHIFT | RIGHTSHIFT
+;
+left_shift_or_right_shift_arith_expr_kleene: left_shift_or_right_shift_arith_expr_kleene left_shift_or_right_shift arith_expr
+                                           | %empty
+;
+shift_expr: arith_expr left_shift_or_right_shift_arith_expr_kleene
+;
+plus_or_minus_term_kleene: plus_or_minus_term_kleene PLUS term
+                         | plus_or_minus_term_kleene MINUS term
+                         | %empty
+;
+arith_expr: term plus_or_minus_term_kleene
 ;
 varias_coisas_factor_kleene: varias_coisas_factor_kleene STAR factor
                            | varias_coisas_factor_kleene AT factor
@@ -633,173 +318,149 @@ term: factor varias_coisas_factor_kleene
 ;
 factor: PLUS factor
       | MINUS factor
-      | TILDE factor
+      | TILDE factor 
       | power
 ;
-power: atom_expr DOUBLESTAR factor
-     | atom_expr
+opt_double_star: DOUBLESTAR factor | %empty
 ;
-trailer_kleene: trailer_kleene trailer
-              | %empty
+power: atom_expr opt_double_star
 ;
-atom_expr: AWAIT atom trailer_kleene
-         | atom trailer_kleene
+opt_await: AWAIT | %empty
 ;
-string_kleene_plus: string_kleene_plus STRING
-                  | STRING
+trailer_kleene: trailer_kleene trailer | %empty
 ;
-atom: LPAR yield_expr RPAR
-    | LPAR testlist_comp RPAR
-    | LPAR RPAR
-    | LSQB testlist_comp RSQB
-    | LSQB RSQB
-    | LBRACE dictorsetmaker RBRACE
-    | LBRACE RBRACE
+atom_expr: opt_await atom trailer_kleene
+;
+opt_yieldex_or_testlist_comp: yield_expr | testlist_comp | %empty
+;
+opt_testlist_comp: testlist_comp | %empty
+;
+opt_dictorsetmaker:dictorsetmaker | %empty
+;
+string_plus: string_plus STRING | STRING
+;
+atom: LPAR opt_yieldex_or_testlist_comp RPAR
+    | LSQB opt_testlist_comp RSQB 
+    | LBRACE opt_dictorsetmaker RBRACE 
     | NAME 
     | NUMBER 
-    | string_kleene_plus
-    | ELLIPSIS 
+    | string_plus
+    | ELLIPSIS
     | NONE 
     | TRUE 
     | FALSE
 ;
-comma_e_o_de_cima_kleene: comma_e_o_de_cima_kleene COMMA namedexpr_test
-						| comma_e_o_de_cima_kleene COMMA star_expr
+or_namedaexpr_test_star_expr: namedexpr_test
+                             | star_expr
+;
+comma_opt_namedaexpr_test_star_expr_kleene: comma_opt_namedaexpr_test_star_expr_kleene COMMA or_namedaexpr_test_star_expr
+                                          | %empty
+;
+comma_subscript_kleene: comma_subscript_kleene COMMA subscript
                         | %empty
 ;
-testlist_comp: namedexpr_test comp_for
-             | star_expr comp_for
-             | namedexpr_test comma_e_o_de_cima_kleene COMMA
-             | star_expr comma_e_o_de_cima_kleene COMMA
-             | namedexpr_test comma_e_o_de_cima_kleene
-             | star_expr comma_e_o_de_cima_kleene
+testlist_comp: or_namedaexpr_test_star_expr comp_for
+                |  or_namedaexpr_test_star_expr comma_opt_namedaexpr_test_star_expr_kleene opt_comma
 ;
-
-trailer: LPAR arglist RPAR
-       | LPAR RPAR
+trailer: LPAR opt_arglist RPAR 
        | LSQB subscriptlist RSQB 
        | DOT NAME
 ;
-comma_subscript_kleene: comma_subscript_kleene COMMA subscript
-                      | %empty
+subscriptlist: subscript comma_subscript_kleene opt_comma
 ;
-subscriptlist: subscript comma_subscript_kleene COMMA
-             | subscript comma_subscript_kleene
+opt_sliceop: sliceop | %empty
 ;
-subscript: test 
-         | test COLON test sliceop 
-         | test COLON test 
-         | test COLON sliceop
-         | COLON test sliceop 
-         | test COLON 
-         | COLON test 
-         | COLON sliceop 
-         | COLON  
+subscript: test | opt_test COLON opt_test opt_sliceop
 ;
-sliceop: COLON test
-       | COLON
+sliceop: COLON opt_test
 ;
-comma_e_o_de_baixo_kleene: comma_e_o_de_baixo_kleene COMMA expr
-                         | comma_e_o_de_baixo_kleene COMMA star_expr
-                         | %empty
+expr_or_star_expr: expr | star_expr
 ;
-exprlist: expr comma_e_o_de_baixo_kleene COMMA
-        | star_expr comma_e_o_de_baixo_kleene COMMA
-        | expr comma_e_o_de_baixo_kleene
-        | star_expr comma_e_o_de_baixo_kleene
-;
-comma_test_kleene: comma_test_kleene COMMA test
-                 | %empty
-;
-testlist: test comma_test_kleene COMMA
-        | test comma_test_kleene
-;
-comma_test_colon_test_or_doublestar_expr_kleene: comma_test_colon_test_or_doublestar_expr_kleene COMMA test COLON test
-                                               | comma_test_colon_test_or_doublestar_expr_kleene COMMA DOUBLESTAR expr
-                                               | %empty
-;
-comma_test_or_star_expr_kleene: comma_test_or_star_expr_kleene COMMA test
-                              | comma_test_or_star_expr_kleene COMMA star_expr
+comma_expr_or_star_expr_kleene: comma_expr_or_star_expr_kleene COMMA expr_or_star_expr
                               | %empty
 ;
-dictorsetmaker: test COLON test comp_for
-			  | DOUBLESTAR expr comp_for
-              | test COLON test comma_test_colon_test_or_doublestar_expr_kleene COMMA
-              | DOUBLESTAR expr comma_test_colon_test_or_doublestar_expr_kleene COMMA
-              | test COLON test comma_test_colon_test_or_doublestar_expr_kleene
-              | DOUBLESTAR expr comma_test_colon_test_or_doublestar_expr_kleene
-              | test comp_for
-              | star_expr comp_for
-              | test comma_test_or_star_expr_kleene COMMA
-              | star_expr comma_test_or_star_expr_kleene COMMA
-              | test comma_test_or_star_expr_kleene
-              | star_expr comma_test_or_star_expr_kleene
+exprlist: expr_or_star_expr comma_expr_or_star_expr_kleene opt_comma
 ;
-classdef: CLASS NAME LPAR arglist RPAR COLON suite
-        | CLASS NAME LPAR RPAR COLON suite
-        | CLASS NAME COLON suite
+// testlist: test comma_test_fecho opt_comma
+// ;
+or_test_star_expr: test | star_expr
 ;
-comma_argument_kleene: comma_argument_kleene COMMA argument
-                     | %empty
+comma_e_o_de_cima2_kleene: comma_e_o_de_cima2_kleene COMMA or_test_star_expr | %empty
 ;
-arglist: argument comma_argument_kleene
-       | argument comma_argument_kleene COMMA
+opt_test_colon_test_doublestar_expr: test COLON test | DOUBLESTAR expr
+;
+comma_e_o_de_cima3_kleene: comma_e_o_de_cima3_kleene COMMA opt_test_colon_test_doublestar_expr | %empty
+;
+opt_primeiro_menor_dictorsetmaker: comp_for
+                                 | comma_e_o_de_cima3_kleene opt_comma
+;
+opt_segundo_menor_dictorsetmaker: comp_for
+                                 | comma_e_o_de_cima2_kleene opt_comma
+;
+dictorsetmaker: opt_test_colon_test_doublestar_expr opt_primeiro_menor_dictorsetmaker
+                | or_test_star_expr opt_segundo_menor_dictorsetmaker
 ;
 
-argument:  test comp_for
-         | test
-         | test COLONEQUAL test 
-         | test EQUAL test 
-         | DOUBLESTAR test 
-         | STAR test
+// classdef: 'class' NAME [LPAR [arglist] RPAR] ':' suite;
+opt_comma_argument_kleene: opt_comma_argument_kleene COMMA argument
+                         | %empty
+;
+arglist: argument opt_comma_argument_kleene opt_comma
+;
+opt_comp_for: comp_for | %empty
+;
+argument: test opt_comp_for 
+        | test COLONEQUAL test 
+        | test EQUAL test 
+        | DOUBLESTAR test 
+        | STAR test
 ;
 comp_iter: comp_for 
-        | comp_if
+         | comp_if
 ;
-sync_comp_for: FOR exprlist IN or_test
-             | FOR exprlist IN or_test comp_iter
+opt_comp_iter: comp_iter | %empty
+;
+sync_comp_for: FOR exprlist IN or_test opt_comp_iter
 ;
 comp_for: ASYNC sync_comp_for
         | sync_comp_for
 ;
-comp_if: IF or_test 
-        | IF or_test  comp_iter
-        | IF lambdef_nocond
-        | IF lambdef_nocond comp_iter
+comp_if: IF test_nocond opt_comp_iter
 ;
+
+// encoding_decl: NAME;
+
 yield_expr: YIELD yield_arg
-          | YIELD 
+          | YIELD
 ;
-yield_arg: FROM test 
+yield_arg: FROM test
          | testlist_star_expr
 ;
 
-func_body_suite: simple_stmt 
-                |NEWLINE TYPE_COMMENT NEWLINE INDENT stmt_kleene_plus DEDENT
-                |NEWLINE INDENT stmt_kleene_plus DEDENT
-;
+// # the TYPE_COMMENT in suites is only parsed for funcdefs,
+// # but can't go elsewhere due to ambiguity
+// func_body_suite: simple_stmt | NEWLINE [TYPE_COMMENT NEWLINE] INDENT stmt+ DEDENT
 
-func_type_input: func_type newline_kleene
+func_type_input: func_type newline_fecho
 ;
-
-func_type: LPAR typelist RPAR ARROW test
-        |LPAR RPAR ARROW test
+opt_typelist: typelist | %empty
 ;
-
-typelist:test comma_test_kleene
-        |test comma_test_kleene COMMA
-        |test comma_test_kleene COMMA STAR test comma_test_kleene COMMA DOUBLESTAR test
-        |test comma_test_kleene COMMA DOUBLESTAR test
-        |test comma_test_kleene COMMA STAR comma_test_kleene
-        |test comma_test_kleene COMMA STAR test comma_test_kleene
-        |test comma_test_kleene COMMA STAR comma_test_kleene COMMA DOUBLESTAR test
-        |test comma_test_kleene DOUBLESTAR test
-        |test comma_test_kleene STAR test comma_test_kleene COMMA DOUBLESTAR test
-        |test comma_test_kleene STAR comma_test_kleene COMMA DOUBLESTAR test
-        |test comma_test_kleene STAR test comma_test_kleene
-        |test comma_test_kleene STAR comma_test_kleene      
-        |STAR test comma_test_kleene COMMA DOUBLESTAR test 
-        |STAR comma_test_kleene COMMA DOUBLESTAR test
-        |STAR test comma_test_kleene 
-        |DOUBLESTAR test
+func_type: LPAR opt_typelist RPAR ARROW test
 ;
+comma_test_fecho: comma_test_fecho COMMA test
+                | %empty
+                ;
+// # typelist is a modified typedargslist (see above)
+opt_comma_doublestar_test: COMMA DOUBLESTAR test | %empty
+;
+opt_test: test | %empty
+;
+opt_maluco: STAR opt_test comma_test_fecho opt_comma_doublestar_test
+          | DOUBLESTAR test
+          | %empty
+;
+opt_comma_maluco: COMMA opt_maluco | %empty
+;
+typelist: test comma_test_fecho opt_comma_maluco
+        | STAR opt_test comma_test_fecho opt_comma_doublestar_test
+        | DOUBLESTAR test
