@@ -9,22 +9,25 @@ void yyerror(char const *s);
 
 %}
 
-%token FALSE AWAIT ELSE IMPORT PASS NONE BREAK EXCEPT IN RAISE TRUE CLASS FINALLY IS RETURN AND 
-CONTINUE FOR LAMBDA TRY AS DEF FROM NONLOCAL WHILE ASSERT DEL GLOBAL NOT WITH ASYNC ELIF IF YIELD 
-EQEQUAL NOTEQUAL LEFTSHIFT RIGHTSHIFT LESSEQUAL GREATEREQUAL LESS GREATER TILDE PERCENT VBAR AMPER 
-DOUBLESLASH  SLASH DOUBLESTAR STAR MINUS PLUS CIRCUMFLEX EQUAL COMMA COLON LPAR RPAR LSQB RSQB 
-LBRACE RBRACE AT DOT ELLIPSIS PLUSEQUAL MINEQUAL COLONEQUAL DOUBLESTAREQUAL STAREQUAL DOUBLESLASHEQUAL 
+%token FALSE AWAIT ELSE IMPORT PASS NONE BREAK EXCEPT IN RAISE TRUE CLASS FINALLY IS RETURN AND
+CONTINUE FOR LAMBDA TRY AS DEF FROM NONLOCAL WHILE ASSERT DEL GLOBAL NOT WITH ASYNC ELIF IF YIELD
+EQEQUAL NOTEQUAL LEFTSHIFT RIGHTSHIFT LESSEQUAL GREATEREQUAL LESS GREATER TILDE PERCENT VBAR AMPER
+DOUBLESLASH  SLASH DOUBLESTAR STAR MINUS PLUS CIRCUMFLEX EQUAL COMMA COLON LPAR RPAR LSQB RSQB
+LBRACE RBRACE AT DOT ELLIPSIS PLUSEQUAL MINEQUAL COLONEQUAL DOUBLESTAREQUAL STAREQUAL DOUBLESLASHEQUAL
 SLASHEQUAL ATEQUAL PERCENTEQUAL AMPEREQUAL VBAREQUAL CIRCUMFLEXEQUAL RIGHTSHIFTEQUAL LEFTSHIFTEQUAL STRING NAME NUMBER INDENT DEDENT
 ARROW NEWLINE OR TYPE_COMMENT SEMICOLON
 
+// EZ: Criei dois níveis de prioridades distintos para poder usar nas regras mais para baixo.
+%precedence LOW // Acabei criando um 'token' para a prioridade baixa, mas poderia usar outro.
+%precedence LPAR // Aqui tem de ser '(' porque queremos que o parser seja guloso.
 
 %%
 
 start_program: start_program func_type_input
              | %empty
 ;
-// single_input: NEWLINE 
-//             | simple_stmt 
+// single_input: NEWLINE
+//             | simple_stmt
 //             | compound_stmt NEWLINE
 // ;
 // newline_or_stmt_fecho: newline_or_stmt_fecho NEWLINE
@@ -51,15 +54,15 @@ opt_arglist: arglist | %empty
 // ;
 // decorators: decorator_fecho_plus
 // ;
-// decorated: decorators classdef 
-//          | decorators funcdef 
+// decorated: decorators classdef
+//          | decorators funcdef
 //          | decorators async_funcdef
 // ;
 
 // async_funcdef: ASYNC funcdef;
 
 // opt_arrow_test: ARROW test| %empty
-// ; 
+// ;
 // opt_typecomment: TYPE_COMMENT | %empty
 // ;
 // funcdef: DEF NAME parameters opt_arrow_test COLON opt_typecomment func_body_suite
@@ -122,17 +125,17 @@ vfpdef: NAME
 // semicolon_smallstmt_fecho: semicolon_smallstmt_fecho  SEMICOLON small_stmt
 //                           |%empty
 // ;
-// opt_semicolon: SEMICOLON | %empty 
+// opt_semicolon: SEMICOLON | %empty
 // ;
 // simple_stmt: small_stmt semicolon_smallstmt_fecho opt_semicolon NEWLINE
 // ;
-// small_stmt: expr_stmt 
-//           | del_stmt 
-//           | pass_stmt 
-//           | flow_stmt 
-//           | import_stmt 
-//           | global_stmt 
-//           | nonlocal_stmt 
+// small_stmt: expr_stmt
+//           | del_stmt
+//           | pass_stmt
+//           | flow_stmt
+//           | import_stmt
+//           | global_stmt
+//           | nonlocal_stmt
 //           | assert_stmt
 // ;
 
@@ -235,10 +238,10 @@ namedexpr_test: test COLONEQUAL test
 opt_if_ortest_else_test: IF or_test ELSE test
                        | %empty
 ;
-test: or_test opt_if_ortest_else_test 
+test: or_test opt_if_ortest_else_test
     | lambdef
 ;
-test_nocond: or_test 
+test_nocond: or_test
            | lambdef_nocond
 ;
 opt_varargslist: varargslist | %empty
@@ -318,7 +321,7 @@ term: factor varias_coisas_factor_kleene
 ;
 factor: PLUS factor
       | MINUS factor
-      | TILDE factor 
+      | TILDE factor
       | power
 ;
 opt_double_star: DOUBLESTAR factor | %empty
@@ -327,10 +330,21 @@ power: atom_expr opt_double_star
 ;
 opt_await: AWAIT | %empty
 ;
-trailer_kleene: trailer_kleene trailer | %empty
+
+// EZ: Quero que essa regra seja usada o quanto for possível, por isso a prioridade.
+// Dessa forma, da para consumir coisas como 'f()()()', o que é possível porque
+// o Python permite funções anônimas.
+trailer_kleene:
+  %empty
+| trailer_kleene trailer %prec LPAR
 ;
-atom_expr: opt_await atom trailer_kleene
+
+// EZ: Já essa regra eu só quero que seja usada quando aos trailers acabarem,
+// por isso a baixa prioridade.
+atom_expr:
+  opt_await atom trailer_kleene %prec LOW
 ;
+
 opt_yieldex_or_testlist_comp: yield_expr | testlist_comp | %empty
 ;
 opt_testlist_comp: testlist_comp | %empty
@@ -340,14 +354,14 @@ opt_dictorsetmaker:dictorsetmaker | %empty
 string_plus: string_plus STRING | STRING
 ;
 atom: LPAR opt_yieldex_or_testlist_comp RPAR
-    | LSQB opt_testlist_comp RSQB 
-    | LBRACE opt_dictorsetmaker RBRACE 
-    | NAME 
-    | NUMBER 
+    | LSQB opt_testlist_comp RSQB
+    | LBRACE opt_dictorsetmaker RBRACE
+    | NAME
+    | NUMBER
     | string_plus
     | ELLIPSIS
-    | NONE 
-    | TRUE 
+    | NONE
+    | TRUE
     | FALSE
 ;
 or_namedaexpr_test_star_expr: namedexpr_test
@@ -362,8 +376,8 @@ comma_subscript_kleene: comma_subscript_kleene COMMA subscript
 testlist_comp: or_namedaexpr_test_star_expr comp_for
                 |  or_namedaexpr_test_star_expr comma_opt_namedaexpr_test_star_expr_kleene opt_comma
 ;
-trailer: LPAR opt_arglist RPAR 
-       | LSQB subscriptlist RSQB 
+trailer: LPAR opt_arglist RPAR
+       | LSQB subscriptlist RSQB
        | DOT NAME
 ;
 subscriptlist: subscript comma_subscript_kleene opt_comma
@@ -409,13 +423,13 @@ arglist: argument opt_comma_argument_kleene opt_comma
 ;
 opt_comp_for: comp_for | %empty
 ;
-argument: test opt_comp_for 
-        | test COLONEQUAL test 
-        | test EQUAL test 
-        | DOUBLESTAR test 
+argument: test opt_comp_for
+        | test COLONEQUAL test
+        | test EQUAL test
+        | DOUBLESTAR test
         | STAR test
 ;
-comp_iter: comp_for 
+comp_iter: comp_for
          | comp_if
 ;
 opt_comp_iter: comp_iter | %empty

@@ -38,9 +38,6 @@ Terminals unused in grammar
     SEMICOLON
 
 
-State 128 conflicts: 1 shift/reduce
-
-
 Grammar
 
     0 $accept: start_program $end
@@ -200,8 +197,8 @@ Grammar
   104 opt_await: AWAIT
   105          | %empty
 
-  106 trailer_kleene: trailer_kleene trailer
-  107               | %empty
+  106 trailer_kleene: %empty
+  107               | trailer_kleene trailer
 
   108 atom_expr: opt_await atom trailer_kleene
 
@@ -438,298 +435,299 @@ Terminals, with rules where they appear
     OR (344) 50
     TYPE_COMMENT (345)
     SEMICOLON (346)
+    LOW (347)
 
 
 Nonterminals, with rules where they appear
 
-    $accept (92)
+    $accept (93)
         on left: 0
-    start_program (93)
+    start_program (94)
         on left: 1 2
         on right: 0 1
-    newline_fecho (94)
+    newline_fecho (95)
         on left: 3 4
         on right: 3 186
-    opt_arglist (95)
+    opt_arglist (96)
         on left: 5 6
         on right: 136
-    opt_equal_test (96)
+    opt_equal_test (97)
         on left: 7 8
         on right: 17 24 29 30 31
-    opt_comma (97)
+    opt_comma (98)
         on left: 9 10
         on right: 13 20 26 33 37 135 139 149 159 161 166
-    opt_vfpdef (98)
+    opt_vfpdef (99)
         on left: 11 12
         on right: 19 25 32
-    opt_doublestar_vfpdef_comma (99)
+    opt_doublestar_vfpdef_comma (100)
         on left: 13 14
         on right: 15
-    opt_comma_e_o_de_cima (100)
+    opt_comma_e_o_de_cima (101)
         on left: 15 16
         on right: 19 25 32
-    comma_vfpdef_opt_equal_test_kleene (101)
+    comma_vfpdef_opt_equal_test_kleene (102)
         on left: 17 18
         on right: 17 19 24 25 29 30 31 32
-    opt_menor_varargslist (102)
+    opt_menor_varargslist (103)
         on left: 19 20 21
         on right: 22
-    opt_segundo_menor_varargslist (103)
+    opt_segundo_menor_varargslist (104)
         on left: 22 23
         on right: 24 31
-    opt_terceiro_menor_varargslist (104)
+    opt_terceiro_menor_varargslist (105)
         on left: 24 25 26 27
         on right: 29
-    comma_slash (105)
+    comma_slash (106)
         on left: 28
         on right: 29 30
-    varargslist (106)
+    varargslist (107)
         on left: 29 30 31 32 33
         on right: 46
-    vfpdef (107)
+    vfpdef (108)
         on left: 34
         on right: 11 13 17 20 24 26 29 30 31 33
-    comma_or_test_star_expr_kleene (108)
+    comma_or_test_star_expr_kleene (109)
         on left: 35 36
         on right: 35 37
-    testlist_star_expr (109)
+    testlist_star_expr (110)
         on left: 37
         on right: 185
-    namedexpr_test (110)
+    namedexpr_test (111)
         on left: 38 39
         on right: 128
-    opt_if_ortest_else_test (111)
+    opt_if_ortest_else_test (112)
         on left: 40 41
         on right: 42
-    test (112)
+    test (113)
         on left: 42 43
         on right: 7 38 39 40 48 142 150 154 169 170 171 172 173 184 189 190 192 194 197 201 203
-    test_nocond (113)
+    test_nocond (114)
         on left: 44 45
         on right: 49 181
-    opt_varargslist (114)
+    opt_varargslist (115)
         on left: 46 47
         on right: 48 49
-    lambdef (115)
+    lambdef (116)
         on left: 48
         on right: 43
-    lambdef_nocond (116)
+    lambdef_nocond (117)
         on left: 49
         on right: 45
-    or_and_test_kleene (117)
+    or_and_test_kleene (118)
         on left: 50 51
         on right: 50 52
-    or_test (118)
+    or_test (119)
         on left: 52
         on right: 40 42 44 178
-    and_not_test_kleene (119)
+    and_not_test_kleene (120)
         on left: 53 54
         on right: 53 55
-    and_test (120)
+    and_test (121)
         on left: 55
         on right: 50 52
-    not_test (121)
+    not_test (122)
         on left: 56 57
         on right: 53 55 56
-    comp_op_kleene (122)
+    comp_op_kleene (123)
         on left: 58 59
         on right: 58 60
-    comparison (123)
+    comparison (124)
         on left: 60
         on right: 57
-    comp_op (124)
+    comp_op (125)
         on left: 61 62 63 64 65 66 67 68 69 70
         on right: 58
-    star_expr (125)
+    star_expr (126)
         on left: 71
         on right: 129 146 151
-    vbar_xor_expr_kleene (126)
+    vbar_xor_expr_kleene (127)
         on left: 72 73
         on right: 72 74
-    expr (127)
+    expr (128)
         on left: 74
         on right: 58 60 71 145 155
-    circumflex_and_expr_kleene (128)
+    circumflex_and_expr_kleene (129)
         on left: 75 76
         on right: 75 77
-    xor_expr (129)
+    xor_expr (130)
         on left: 77
         on right: 72 74
-    amper_shift_expr_kleene (130)
+    amper_shift_expr_kleene (131)
         on left: 78 79
         on right: 78 80
-    and_expr (131)
+    and_expr (132)
         on left: 80
         on right: 75 77
-    left_shift_or_right_shift (132)
+    left_shift_or_right_shift (133)
         on left: 81 82
         on right: 83
-    left_shift_or_right_shift_arith_expr_kleene (133)
+    left_shift_or_right_shift_arith_expr_kleene (134)
         on left: 83 84
         on right: 83 85
-    shift_expr (134)
+    shift_expr (135)
         on left: 85
         on right: 78 80
-    plus_or_minus_term_kleene (135)
+    plus_or_minus_term_kleene (136)
         on left: 86 87 88
         on right: 86 87 89
-    arith_expr (136)
+    arith_expr (137)
         on left: 89
         on right: 83 85
-    varias_coisas_factor_kleene (137)
+    varias_coisas_factor_kleene (138)
         on left: 90 91 92 93 94 95
         on right: 90 91 92 93 94 96
-    term (138)
+    term (139)
         on left: 96
         on right: 86 87 89
-    factor (139)
+    factor (140)
         on left: 97 98 99 100
         on right: 90 91 92 93 94 96 97 98 99 101
-    opt_double_star (140)
+    opt_double_star (141)
         on left: 101 102
         on right: 103
-    power (141)
+    power (142)
         on left: 103
         on right: 100
-    opt_await (142)
+    opt_await (143)
         on left: 104 105
         on right: 108
-    trailer_kleene (143)
+    trailer_kleene (144)
         on left: 106 107
-        on right: 106 108
-    atom_expr (144)
+        on right: 107 108
+    atom_expr (145)
         on left: 108
         on right: 103
-    opt_yieldex_or_testlist_comp (145)
+    opt_yieldex_or_testlist_comp (146)
         on left: 109 110 111
         on right: 118
-    opt_testlist_comp (146)
+    opt_testlist_comp (147)
         on left: 112 113
         on right: 119
-    opt_dictorsetmaker (147)
+    opt_dictorsetmaker (148)
         on left: 114 115
         on right: 120
-    string_plus (148)
+    string_plus (149)
         on left: 116 117
         on right: 116 123
-    atom (149)
+    atom (150)
         on left: 118 119 120 121 122 123 124 125 126 127
         on right: 108
-    or_namedaexpr_test_star_expr (150)
+    or_namedaexpr_test_star_expr (151)
         on left: 128 129
         on right: 130 134 135
-    comma_opt_namedaexpr_test_star_expr_kleene (151)
+    comma_opt_namedaexpr_test_star_expr_kleene (152)
         on left: 130 131
         on right: 130 135
-    comma_subscript_kleene (152)
+    comma_subscript_kleene (153)
         on left: 132 133
         on right: 132 139
-    testlist_comp (153)
+    testlist_comp (154)
         on left: 134 135
         on right: 110 112
-    trailer (154)
+    trailer (155)
         on left: 136 137 138
-        on right: 106
-    subscriptlist (155)
+        on right: 107
+    subscriptlist (156)
         on left: 139
         on right: 137
-    opt_sliceop (156)
+    opt_sliceop (157)
         on left: 140 141
         on right: 143
-    subscript (157)
+    subscript (158)
         on left: 142 143
         on right: 132 139
-    sliceop (158)
+    sliceop (159)
         on left: 144
         on right: 140
-    expr_or_star_expr (159)
+    expr_or_star_expr (160)
         on left: 145 146
         on right: 147 149
-    comma_expr_or_star_expr_kleene (160)
+    comma_expr_or_star_expr_kleene (161)
         on left: 147 148
         on right: 147 149
-    exprlist (161)
+    exprlist (162)
         on left: 149
         on right: 178
-    or_test_star_expr (162)
+    or_test_star_expr (163)
         on left: 150 151
         on right: 35 37 152 163
-    comma_e_o_de_cima2_kleene (163)
+    comma_e_o_de_cima2_kleene (164)
         on left: 152 153
         on right: 152 161
-    opt_test_colon_test_doublestar_expr (164)
+    opt_test_colon_test_doublestar_expr (165)
         on left: 154 155
         on right: 156 162
-    comma_e_o_de_cima3_kleene (165)
+    comma_e_o_de_cima3_kleene (166)
         on left: 156 157
         on right: 156 159
-    opt_primeiro_menor_dictorsetmaker (166)
+    opt_primeiro_menor_dictorsetmaker (167)
         on left: 158 159
         on right: 162
-    opt_segundo_menor_dictorsetmaker (167)
+    opt_segundo_menor_dictorsetmaker (168)
         on left: 160 161
         on right: 163
-    dictorsetmaker (168)
+    dictorsetmaker (169)
         on left: 162 163
         on right: 114
-    opt_comma_argument_kleene (169)
+    opt_comma_argument_kleene (170)
         on left: 164 165
         on right: 164 166
-    arglist (170)
+    arglist (171)
         on left: 166
         on right: 5
-    opt_comp_for (171)
+    opt_comp_for (172)
         on left: 167 168
         on right: 169
-    argument (172)
+    argument (173)
         on left: 169 170 171 172 173
         on right: 164 166
-    comp_iter (173)
+    comp_iter (174)
         on left: 174 175
         on right: 176
-    opt_comp_iter (174)
+    opt_comp_iter (175)
         on left: 176 177
         on right: 178 181
-    sync_comp_for (175)
+    sync_comp_for (176)
         on left: 178
         on right: 179 180
-    comp_for (176)
+    comp_for (177)
         on left: 179 180
         on right: 134 158 160 167 174
-    comp_if (177)
+    comp_if (178)
         on left: 181
         on right: 175
-    yield_expr (178)
+    yield_expr (179)
         on left: 182 183
         on right: 109
-    yield_arg (179)
+    yield_arg (180)
         on left: 184 185
         on right: 182
-    func_type_input (180)
+    func_type_input (181)
         on left: 186
         on right: 1
-    opt_typelist (181)
+    opt_typelist (182)
         on left: 187 188
         on right: 189
-    func_type (182)
+    func_type (183)
         on left: 189
         on right: 186
-    comma_test_fecho (183)
+    comma_test_fecho (184)
         on left: 190 191
         on right: 190 196 201 202
-    opt_comma_doublestar_test (184)
+    opt_comma_doublestar_test (185)
         on left: 192 193
         on right: 196 202
-    opt_test (185)
+    opt_test (186)
         on left: 194 195
         on right: 143 144 196 202
-    opt_maluco (186)
+    opt_maluco (187)
         on left: 196 197 198
         on right: 199
-    opt_comma_maluco (187)
+    opt_comma_maluco (188)
         on left: 199 200
         on right: 201
-    typelist (188)
+    typelist (189)
         on left: 201 202 203
         on right: 187
 
@@ -737,8 +735,6 @@ Nonterminals, with rules where they appear
 State 0
 
     0 $accept: . start_program $end
-    1 start_program: . start_program func_type_input
-    2              | . %empty
 
     $default  reduce using rule 2 (start_program)
 
@@ -749,8 +745,6 @@ State 1
 
     0 $accept: start_program . $end
     1 start_program: start_program . func_type_input
-  186 func_type_input: . func_type newline_fecho
-  189 func_type: . LPAR opt_typelist RPAR ARROW test
 
     $end  shift, and go to state 2
     LPAR  shift, and go to state 3
@@ -768,34 +762,7 @@ State 2
 
 State 3
 
-   42 test: . or_test opt_if_ortest_else_test
-   43     | . lambdef
-   48 lambdef: . LAMBDA opt_varargslist COLON test
-   52 or_test: . and_test or_and_test_kleene
-   55 and_test: . not_test and_not_test_kleene
-   56 not_test: . NOT not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
-  187 opt_typelist: . typelist
-  188             | . %empty  [RPAR]
   189 func_type: LPAR . opt_typelist RPAR ARROW test
-  201 typelist: . test comma_test_fecho opt_comma_maluco
-  202         | . STAR opt_test comma_test_fecho opt_comma_doublestar_test
-  203         | . DOUBLESTAR test
 
     AWAIT       shift, and go to state 6
     LAMBDA      shift, and go to state 7
@@ -838,8 +805,6 @@ State 4
 
 State 5
 
-    3 newline_fecho: . newline_fecho NEWLINE
-    4              | . %empty
   186 func_type_input: func_type . newline_fecho
 
     $default  reduce using rule 4 (newline_fecho)
@@ -856,14 +821,6 @@ State 6
 
 State 7
 
-   29 varargslist: . vfpdef opt_equal_test comma_vfpdef_opt_equal_test_kleene comma_slash COMMA opt_terceiro_menor_varargslist
-   30            | . vfpdef opt_equal_test comma_vfpdef_opt_equal_test_kleene comma_slash
-   31            | . vfpdef opt_equal_test comma_vfpdef_opt_equal_test_kleene opt_segundo_menor_varargslist
-   32            | . STAR opt_vfpdef comma_vfpdef_opt_equal_test_kleene opt_comma_e_o_de_cima
-   33            | . DOUBLESTAR vfpdef opt_comma
-   34 vfpdef: . NAME
-   46 opt_varargslist: . varargslist
-   47                | . %empty  [COLON]
    48 lambdef: LAMBDA . opt_varargslist COLON test
 
     DOUBLESTAR  shift, and go to state 33
@@ -879,24 +836,7 @@ State 7
 
 State 8
 
-   56 not_test: . NOT not_test
-   56         | NOT . not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
+   56 not_test: NOT . not_test
 
     AWAIT  shift, and go to state 6
     NOT    shift, and go to state 8
@@ -922,15 +862,7 @@ State 8
 
 State 9
 
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-   99       | TILDE . factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
+   99 factor: TILDE . factor
 
     AWAIT  shift, and go to state 6
     TILDE  shift, and go to state 9
@@ -947,28 +879,6 @@ State 9
 
 State 10
 
-   42 test: . or_test opt_if_ortest_else_test
-   43     | . lambdef
-   48 lambdef: . LAMBDA opt_varargslist COLON test
-   52 or_test: . and_test or_and_test_kleene
-   55 and_test: . not_test and_not_test_kleene
-   56 not_test: . NOT not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
   203 typelist: DOUBLESTAR . test
 
     AWAIT   shift, and go to state 6
@@ -1000,30 +910,6 @@ State 10
 
 State 11
 
-   42 test: . or_test opt_if_ortest_else_test
-   43     | . lambdef
-   48 lambdef: . LAMBDA opt_varargslist COLON test
-   52 or_test: . and_test or_and_test_kleene
-   55 and_test: . not_test and_not_test_kleene
-   56 not_test: . NOT not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
-  194 opt_test: . test
-  195         | . %empty  [COMMA, RPAR]
   202 typelist: STAR . opt_test comma_test_fecho opt_comma_doublestar_test
 
     AWAIT   shift, and go to state 6
@@ -1058,15 +944,7 @@ State 11
 
 State 12
 
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   98       | MINUS . factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
+   98 factor: MINUS . factor
 
     AWAIT  shift, and go to state 6
     TILDE  shift, and go to state 9
@@ -1083,15 +961,7 @@ State 12
 
 State 13
 
-   97 factor: . PLUS factor
-   97       | PLUS . factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
+   97 factor: PLUS . factor
 
     AWAIT  shift, and go to state 6
     TILDE  shift, and go to state 9
@@ -1108,8 +978,6 @@ State 13
 
 State 14
 
-  190 comma_test_fecho: . comma_test_fecho COMMA test
-  191                 | . %empty
   201 typelist: test . comma_test_fecho opt_comma_maluco
 
     $default  reduce using rule 191 (comma_test_fecho)
@@ -1126,8 +994,6 @@ State 15
 
 State 16
 
-   40 opt_if_ortest_else_test: . IF or_test ELSE test
-   41                        | . %empty  [$end, FOR, ASYNC, EQUAL, COMMA, COLON, LPAR, RPAR, RSQB, RBRACE, COLONEQUAL, NEWLINE]
    42 test: or_test . opt_if_ortest_else_test
 
     IF  shift, and go to state 47
@@ -1139,8 +1005,6 @@ State 16
 
 State 17
 
-   50 or_and_test_kleene: . or_and_test_kleene OR and_test
-   51                   | . %empty
    52 or_test: and_test . or_and_test_kleene
 
     $default  reduce using rule 51 (or_and_test_kleene)
@@ -1150,8 +1014,6 @@ State 17
 
 State 18
 
-   53 and_not_test_kleene: . and_not_test_kleene AND not_test
-   54                    | . %empty
    55 and_test: not_test . and_not_test_kleene
 
     $default  reduce using rule 54 (and_not_test_kleene)
@@ -1168,8 +1030,6 @@ State 19
 
 State 20
 
-   58 comp_op_kleene: . comp_op_kleene comp_op expr
-   59               | . %empty
    60 comparison: expr . comp_op_kleene
 
     $default  reduce using rule 59 (comp_op_kleene)
@@ -1179,8 +1039,6 @@ State 20
 
 State 21
 
-   72 vbar_xor_expr_kleene: . vbar_xor_expr_kleene VBAR xor_expr
-   73                     | . %empty
    74 expr: xor_expr . vbar_xor_expr_kleene
 
     $default  reduce using rule 73 (vbar_xor_expr_kleene)
@@ -1190,8 +1048,6 @@ State 21
 
 State 22
 
-   75 circumflex_and_expr_kleene: . circumflex_and_expr_kleene CIRCUMFLEX and_expr
-   76                           | . %empty
    77 xor_expr: and_expr . circumflex_and_expr_kleene
 
     $default  reduce using rule 76 (circumflex_and_expr_kleene)
@@ -1201,8 +1057,6 @@ State 22
 
 State 23
 
-   78 amper_shift_expr_kleene: . amper_shift_expr_kleene AMPER shift_expr
-   79                        | . %empty
    80 and_expr: shift_expr . amper_shift_expr_kleene
 
     $default  reduce using rule 79 (amper_shift_expr_kleene)
@@ -1212,8 +1066,6 @@ State 23
 
 State 24
 
-   83 left_shift_or_right_shift_arith_expr_kleene: . left_shift_or_right_shift_arith_expr_kleene left_shift_or_right_shift arith_expr
-   84                                            | . %empty
    85 shift_expr: arith_expr . left_shift_or_right_shift_arith_expr_kleene
 
     $default  reduce using rule 84 (left_shift_or_right_shift_arith_expr_kleene)
@@ -1223,9 +1075,6 @@ State 24
 
 State 25
 
-   86 plus_or_minus_term_kleene: . plus_or_minus_term_kleene PLUS term
-   87                          | . plus_or_minus_term_kleene MINUS term
-   88                          | . %empty
    89 arith_expr: term . plus_or_minus_term_kleene
 
     $default  reduce using rule 88 (plus_or_minus_term_kleene)
@@ -1235,12 +1084,6 @@ State 25
 
 State 26
 
-   90 varias_coisas_factor_kleene: . varias_coisas_factor_kleene STAR factor
-   91                            | . varias_coisas_factor_kleene AT factor
-   92                            | . varias_coisas_factor_kleene SLASH factor
-   93                            | . varias_coisas_factor_kleene PERCENT factor
-   94                            | . varias_coisas_factor_kleene DOUBLESLASH factor
-   95                            | . %empty
    96 term: factor . varias_coisas_factor_kleene
 
     $default  reduce using rule 95 (varias_coisas_factor_kleene)
@@ -1258,18 +1101,6 @@ State 27
 State 28
 
   108 atom_expr: opt_await . atom trailer_kleene
-  116 string_plus: . string_plus STRING
-  117            | . STRING
-  118 atom: . LPAR opt_yieldex_or_testlist_comp RPAR
-  119     | . LSQB opt_testlist_comp RSQB
-  120     | . LBRACE opt_dictorsetmaker RBRACE
-  121     | . NAME
-  122     | . NUMBER
-  123     | . string_plus
-  124     | . ELLIPSIS
-  125     | . NONE
-  126     | . TRUE
-  127     | . FALSE
 
     FALSE     shift, and go to state 58
     NONE      shift, and go to state 59
@@ -1288,8 +1119,6 @@ State 28
 
 State 29
 
-  101 opt_double_star: . DOUBLESTAR factor
-  102                | . %empty  [$end, ELSE, IN, IS, AND, FOR, NOT, ASYNC, IF, EQEQUAL, NOTEQUAL, LEFTSHIFT, RIGHTSHIFT, LESSEQUAL, GREATEREQUAL, LESS, GREATER, PERCENT, VBAR, AMPER, DOUBLESLASH, SLASH, STAR, MINUS, PLUS, CIRCUMFLEX, EQUAL, COMMA, COLON, LPAR, RPAR, RSQB, RBRACE, AT, COLONEQUAL, NEWLINE, OR]
   103 power: atom_expr . opt_double_star
 
     DOUBLESTAR  shift, and go to state 70
@@ -1316,7 +1145,7 @@ State 31
 State 32
 
     3 newline_fecho: newline_fecho . NEWLINE
-  186 func_type_input: func_type newline_fecho .  [$end, LPAR]
+  186 func_type_input: func_type newline_fecho .
 
     NEWLINE  shift, and go to state 73
 
@@ -1326,7 +1155,6 @@ State 32
 State 33
 
    33 varargslist: DOUBLESTAR . vfpdef opt_comma
-   34 vfpdef: . NAME
 
     NAME  shift, and go to state 35
 
@@ -1335,10 +1163,7 @@ State 33
 
 State 34
 
-   11 opt_vfpdef: . vfpdef
-   12           | . %empty  [COMMA, COLON]
    32 varargslist: STAR . opt_vfpdef comma_vfpdef_opt_equal_test_kleene opt_comma_e_o_de_cima
-   34 vfpdef: . NAME
 
     NAME  shift, and go to state 35
 
@@ -1364,8 +1189,6 @@ State 36
 
 State 37
 
-    7 opt_equal_test: . EQUAL test
-    8               | . %empty  [COMMA, COLON]
    29 varargslist: vfpdef . opt_equal_test comma_vfpdef_opt_equal_test_kleene comma_slash COMMA opt_terceiro_menor_varargslist
    30            | vfpdef . opt_equal_test comma_vfpdef_opt_equal_test_kleene comma_slash
    31            | vfpdef . opt_equal_test comma_vfpdef_opt_equal_test_kleene opt_segundo_menor_varargslist
@@ -1414,8 +1237,6 @@ State 42
 
 State 43
 
-  190 comma_test_fecho: . comma_test_fecho COMMA test
-  191                 | . %empty
   202 typelist: STAR opt_test . comma_test_fecho opt_comma_doublestar_test
 
     $default  reduce using rule 191 (comma_test_fecho)
@@ -1440,8 +1261,6 @@ State 45
 State 46
 
   190 comma_test_fecho: comma_test_fecho . COMMA test
-  199 opt_comma_maluco: . COMMA opt_maluco
-  200                 | . %empty  [RPAR]
   201 typelist: test comma_test_fecho . opt_comma_maluco
 
     COMMA  shift, and go to state 81
@@ -1454,25 +1273,6 @@ State 46
 State 47
 
    40 opt_if_ortest_else_test: IF . or_test ELSE test
-   52 or_test: . and_test or_and_test_kleene
-   55 and_test: . not_test and_not_test_kleene
-   56 not_test: . NOT not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
 
     AWAIT  shift, and go to state 6
     NOT    shift, and go to state 8
@@ -1508,7 +1308,7 @@ State 48
 State 49
 
    50 or_and_test_kleene: or_and_test_kleene . OR and_test
-   52 or_test: and_test or_and_test_kleene .  [$end, ELSE, FOR, ASYNC, IF, EQUAL, COMMA, COLON, LPAR, RPAR, RSQB, RBRACE, COLONEQUAL, NEWLINE]
+   52 or_test: and_test or_and_test_kleene .
 
     OR  shift, and go to state 84
 
@@ -1518,7 +1318,7 @@ State 49
 State 50
 
    53 and_not_test_kleene: and_not_test_kleene . AND not_test
-   55 and_test: not_test and_not_test_kleene .  [$end, ELSE, FOR, ASYNC, IF, EQUAL, COMMA, COLON, LPAR, RPAR, RSQB, RBRACE, COLONEQUAL, NEWLINE, OR]
+   55 and_test: not_test and_not_test_kleene .
 
     AND  shift, and go to state 85
 
@@ -1528,17 +1328,7 @@ State 50
 State 51
 
    58 comp_op_kleene: comp_op_kleene . comp_op expr
-   60 comparison: expr comp_op_kleene .  [$end, ELSE, AND, FOR, ASYNC, IF, EQUAL, COMMA, COLON, LPAR, RPAR, RSQB, RBRACE, COLONEQUAL, NEWLINE, OR]
-   61 comp_op: . LESS
-   62        | . GREATER
-   63        | . EQEQUAL
-   64        | . GREATEREQUAL
-   65        | . LESSEQUAL
-   66        | . NOTEQUAL
-   67        | . IN
-   68        | . NOT IN
-   69        | . IS
-   70        | . IS NOT
+   60 comparison: expr comp_op_kleene .
 
     IN            shift, and go to state 86
     IS            shift, and go to state 87
@@ -1558,7 +1348,7 @@ State 51
 State 52
 
    72 vbar_xor_expr_kleene: vbar_xor_expr_kleene . VBAR xor_expr
-   74 expr: xor_expr vbar_xor_expr_kleene .  [$end, ELSE, IN, IS, AND, FOR, NOT, ASYNC, IF, EQEQUAL, NOTEQUAL, LESSEQUAL, GREATEREQUAL, LESS, GREATER, EQUAL, COMMA, COLON, LPAR, RPAR, RSQB, RBRACE, COLONEQUAL, NEWLINE, OR]
+   74 expr: xor_expr vbar_xor_expr_kleene .
 
     VBAR  shift, and go to state 96
 
@@ -1568,7 +1358,7 @@ State 52
 State 53
 
    75 circumflex_and_expr_kleene: circumflex_and_expr_kleene . CIRCUMFLEX and_expr
-   77 xor_expr: and_expr circumflex_and_expr_kleene .  [$end, ELSE, IN, IS, AND, FOR, NOT, ASYNC, IF, EQEQUAL, NOTEQUAL, LESSEQUAL, GREATEREQUAL, LESS, GREATER, VBAR, EQUAL, COMMA, COLON, LPAR, RPAR, RSQB, RBRACE, COLONEQUAL, NEWLINE, OR]
+   77 xor_expr: and_expr circumflex_and_expr_kleene .
 
     CIRCUMFLEX  shift, and go to state 97
 
@@ -1578,7 +1368,7 @@ State 53
 State 54
 
    78 amper_shift_expr_kleene: amper_shift_expr_kleene . AMPER shift_expr
-   80 and_expr: shift_expr amper_shift_expr_kleene .  [$end, ELSE, IN, IS, AND, FOR, NOT, ASYNC, IF, EQEQUAL, NOTEQUAL, LESSEQUAL, GREATEREQUAL, LESS, GREATER, VBAR, CIRCUMFLEX, EQUAL, COMMA, COLON, LPAR, RPAR, RSQB, RBRACE, COLONEQUAL, NEWLINE, OR]
+   80 and_expr: shift_expr amper_shift_expr_kleene .
 
     AMPER  shift, and go to state 98
 
@@ -1587,10 +1377,8 @@ State 54
 
 State 55
 
-   81 left_shift_or_right_shift: . LEFTSHIFT
-   82                          | . RIGHTSHIFT
    83 left_shift_or_right_shift_arith_expr_kleene: left_shift_or_right_shift_arith_expr_kleene . left_shift_or_right_shift arith_expr
-   85 shift_expr: arith_expr left_shift_or_right_shift_arith_expr_kleene .  [$end, ELSE, IN, IS, AND, FOR, NOT, ASYNC, IF, EQEQUAL, NOTEQUAL, LESSEQUAL, GREATEREQUAL, LESS, GREATER, VBAR, AMPER, CIRCUMFLEX, EQUAL, COMMA, COLON, LPAR, RPAR, RSQB, RBRACE, COLONEQUAL, NEWLINE, OR]
+   85 shift_expr: arith_expr left_shift_or_right_shift_arith_expr_kleene .
 
     LEFTSHIFT   shift, and go to state 99
     RIGHTSHIFT  shift, and go to state 100
@@ -1604,7 +1392,7 @@ State 56
 
    86 plus_or_minus_term_kleene: plus_or_minus_term_kleene . PLUS term
    87                          | plus_or_minus_term_kleene . MINUS term
-   89 arith_expr: term plus_or_minus_term_kleene .  [$end, ELSE, IN, IS, AND, FOR, NOT, ASYNC, IF, EQEQUAL, NOTEQUAL, LEFTSHIFT, RIGHTSHIFT, LESSEQUAL, GREATEREQUAL, LESS, GREATER, VBAR, AMPER, CIRCUMFLEX, EQUAL, COMMA, COLON, LPAR, RPAR, RSQB, RBRACE, COLONEQUAL, NEWLINE, OR]
+   89 arith_expr: term plus_or_minus_term_kleene .
 
     MINUS  shift, and go to state 102
     PLUS   shift, and go to state 103
@@ -1619,7 +1407,7 @@ State 57
    92                            | varias_coisas_factor_kleene . SLASH factor
    93                            | varias_coisas_factor_kleene . PERCENT factor
    94                            | varias_coisas_factor_kleene . DOUBLESLASH factor
-   96 term: factor varias_coisas_factor_kleene .  [$end, ELSE, IN, IS, AND, FOR, NOT, ASYNC, IF, EQEQUAL, NOTEQUAL, LEFTSHIFT, RIGHTSHIFT, LESSEQUAL, GREATEREQUAL, LESS, GREATER, VBAR, AMPER, MINUS, PLUS, CIRCUMFLEX, EQUAL, COMMA, COLON, LPAR, RPAR, RSQB, RBRACE, COLONEQUAL, NEWLINE, OR]
+   96 term: factor varias_coisas_factor_kleene .
 
     PERCENT      shift, and go to state 104
     DOUBLESLASH  shift, and go to state 105
@@ -1653,41 +1441,7 @@ State 60
 
 State 61
 
-   38 namedexpr_test: . test COLONEQUAL test
-   39               | . test
-   42 test: . or_test opt_if_ortest_else_test
-   43     | . lambdef
-   48 lambdef: . LAMBDA opt_varargslist COLON test
-   52 or_test: . and_test or_and_test_kleene
-   55 and_test: . not_test and_not_test_kleene
-   56 not_test: . NOT not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   71 star_expr: . STAR expr
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
-  109 opt_yieldex_or_testlist_comp: . yield_expr
-  110                             | . testlist_comp
-  111                             | . %empty  [RPAR]
   118 atom: LPAR . opt_yieldex_or_testlist_comp RPAR
-  128 or_namedaexpr_test_star_expr: . namedexpr_test
-  129                             | . star_expr
-  134 testlist_comp: . or_namedaexpr_test_star_expr comp_for
-  135              | . or_namedaexpr_test_star_expr comma_opt_namedaexpr_test_star_expr_kleene opt_comma
-  182 yield_expr: . YIELD yield_arg
-  183           | . YIELD
 
     AWAIT   shift, and go to state 6
     LAMBDA  shift, and go to state 7
@@ -1727,38 +1481,7 @@ State 61
 
 State 62
 
-   38 namedexpr_test: . test COLONEQUAL test
-   39               | . test
-   42 test: . or_test opt_if_ortest_else_test
-   43     | . lambdef
-   48 lambdef: . LAMBDA opt_varargslist COLON test
-   52 or_test: . and_test or_and_test_kleene
-   55 and_test: . not_test and_not_test_kleene
-   56 not_test: . NOT not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   71 star_expr: . STAR expr
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
-  112 opt_testlist_comp: . testlist_comp
-  113                  | . %empty  [RSQB]
   119 atom: LSQB . opt_testlist_comp RSQB
-  128 or_namedaexpr_test_star_expr: . namedexpr_test
-  129                             | . star_expr
-  134 testlist_comp: . or_namedaexpr_test_star_expr comp_for
-  135              | . or_namedaexpr_test_star_expr comma_opt_namedaexpr_test_star_expr_kleene opt_comma
 
     AWAIT   shift, and go to state 6
     LAMBDA  shift, and go to state 7
@@ -1796,38 +1519,7 @@ State 62
 
 State 63
 
-   42 test: . or_test opt_if_ortest_else_test
-   43     | . lambdef
-   48 lambdef: . LAMBDA opt_varargslist COLON test
-   52 or_test: . and_test or_and_test_kleene
-   55 and_test: . not_test and_not_test_kleene
-   56 not_test: . NOT not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   71 star_expr: . STAR expr
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
-  114 opt_dictorsetmaker: . dictorsetmaker
-  115                   | . %empty  [RBRACE]
   120 atom: LBRACE . opt_dictorsetmaker RBRACE
-  150 or_test_star_expr: . test
-  151                  | . star_expr
-  154 opt_test_colon_test_doublestar_expr: . test COLON test
-  155                                    | . DOUBLESTAR expr
-  162 dictorsetmaker: . opt_test_colon_test_doublestar_expr opt_primeiro_menor_dictorsetmaker
-  163               | . or_test_star_expr opt_segundo_menor_dictorsetmaker
 
     AWAIT       shift, and go to state 6
     LAMBDA      shift, and go to state 7
@@ -1895,7 +1587,7 @@ State 67
 State 68
 
   116 string_plus: string_plus . STRING
-  123 atom: string_plus .  [$end, ELSE, IN, IS, AND, FOR, NOT, ASYNC, IF, EQEQUAL, NOTEQUAL, LEFTSHIFT, RIGHTSHIFT, LESSEQUAL, GREATEREQUAL, LESS, GREATER, PERCENT, VBAR, AMPER, DOUBLESLASH, SLASH, DOUBLESTAR, STAR, MINUS, PLUS, CIRCUMFLEX, EQUAL, COMMA, COLON, LPAR, RPAR, LSQB, RSQB, RBRACE, AT, DOT, COLONEQUAL, NEWLINE, OR]
+  123 atom: string_plus .
 
     STRING  shift, and go to state 127
 
@@ -1904,26 +1596,16 @@ State 68
 
 State 69
 
-  106 trailer_kleene: . trailer_kleene trailer
-  107               | . %empty
   108 atom_expr: opt_await atom . trailer_kleene
 
-    $default  reduce using rule 107 (trailer_kleene)
+    $default  reduce using rule 106 (trailer_kleene)
 
     trailer_kleene  go to state 128
 
 
 State 70
 
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
   101 opt_double_star: DOUBLESTAR . factor
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
 
     AWAIT  shift, and go to state 6
     TILDE  shift, and go to state 9
@@ -1961,8 +1643,6 @@ State 73
 
 State 74
 
-    9 opt_comma: . COMMA
-   10          | . %empty  [COLON]
    33 varargslist: DOUBLESTAR vfpdef . opt_comma
 
     COMMA  shift, and go to state 131
@@ -1974,8 +1654,6 @@ State 74
 
 State 75
 
-   17 comma_vfpdef_opt_equal_test_kleene: . comma_vfpdef_opt_equal_test_kleene COMMA vfpdef opt_equal_test
-   18                                   | . %empty
    32 varargslist: STAR opt_vfpdef . comma_vfpdef_opt_equal_test_kleene opt_comma_e_o_de_cima
 
     $default  reduce using rule 18 (comma_vfpdef_opt_equal_test_kleene)
@@ -1993,28 +1671,6 @@ State 76
 State 77
 
     7 opt_equal_test: EQUAL . test
-   42 test: . or_test opt_if_ortest_else_test
-   43     | . lambdef
-   48 lambdef: . LAMBDA opt_varargslist COLON test
-   52 or_test: . and_test or_and_test_kleene
-   55 and_test: . not_test and_not_test_kleene
-   56 not_test: . NOT not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
 
     AWAIT   shift, and go to state 6
     LAMBDA  shift, and go to state 7
@@ -2045,8 +1701,6 @@ State 77
 
 State 78
 
-   17 comma_vfpdef_opt_equal_test_kleene: . comma_vfpdef_opt_equal_test_kleene COMMA vfpdef opt_equal_test
-   18                                   | . %empty
    29 varargslist: vfpdef opt_equal_test . comma_vfpdef_opt_equal_test_kleene comma_slash COMMA opt_terceiro_menor_varargslist
    30            | vfpdef opt_equal_test . comma_vfpdef_opt_equal_test_kleene comma_slash
    31            | vfpdef opt_equal_test . comma_vfpdef_opt_equal_test_kleene opt_segundo_menor_varargslist
@@ -2058,29 +1712,7 @@ State 78
 
 State 79
 
-   42 test: . or_test opt_if_ortest_else_test
-   43     | . lambdef
-   48 lambdef: . LAMBDA opt_varargslist COLON test
-   48        | LAMBDA opt_varargslist COLON . test
-   52 or_test: . and_test or_and_test_kleene
-   55 and_test: . not_test and_not_test_kleene
-   56 not_test: . NOT not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
+   48 lambdef: LAMBDA opt_varargslist COLON . test
 
     AWAIT   shift, and go to state 6
     LAMBDA  shift, and go to state 7
@@ -2112,8 +1744,6 @@ State 79
 State 80
 
   190 comma_test_fecho: comma_test_fecho . COMMA test
-  192 opt_comma_doublestar_test: . COMMA DOUBLESTAR test
-  193                          | . %empty  [RPAR]
   202 typelist: STAR opt_test comma_test_fecho . opt_comma_doublestar_test
 
     COMMA  shift, and go to state 137
@@ -2125,32 +1755,7 @@ State 80
 
 State 81
 
-   42 test: . or_test opt_if_ortest_else_test
-   43     | . lambdef
-   48 lambdef: . LAMBDA opt_varargslist COLON test
-   52 or_test: . and_test or_and_test_kleene
-   55 and_test: . not_test and_not_test_kleene
-   56 not_test: . NOT not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
   190 comma_test_fecho: comma_test_fecho COMMA . test
-  196 opt_maluco: . STAR opt_test comma_test_fecho opt_comma_doublestar_test
-  197           | . DOUBLESTAR test
-  198           | . %empty  [RPAR]
   199 opt_comma_maluco: COMMA . opt_maluco
 
     AWAIT       shift, and go to state 6
@@ -2201,24 +1806,6 @@ State 83
 State 84
 
    50 or_and_test_kleene: or_and_test_kleene OR . and_test
-   55 and_test: . not_test and_not_test_kleene
-   56 not_test: . NOT not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
 
     AWAIT  shift, and go to state 6
     NOT    shift, and go to state 8
@@ -2246,23 +1833,6 @@ State 84
 State 85
 
    53 and_not_test_kleene: and_not_test_kleene AND . not_test
-   56 not_test: . NOT not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
 
     AWAIT  shift, and go to state 6
     NOT    shift, and go to state 8
@@ -2295,7 +1865,7 @@ State 86
 
 State 87
 
-   69 comp_op: IS .  [FALSE, AWAIT, NONE, TRUE, TILDE, MINUS, PLUS, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
+   69 comp_op: IS .
    70        | IS . NOT
 
     NOT  shift, and go to state 146
@@ -2355,20 +1925,6 @@ State 94
 State 95
 
    58 comp_op_kleene: comp_op_kleene comp_op . expr
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
 
     AWAIT  shift, and go to state 6
     TILDE  shift, and go to state 9
@@ -2392,19 +1948,6 @@ State 95
 State 96
 
    72 vbar_xor_expr_kleene: vbar_xor_expr_kleene VBAR . xor_expr
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
 
     AWAIT  shift, and go to state 6
     TILDE  shift, and go to state 9
@@ -2427,18 +1970,6 @@ State 96
 State 97
 
    75 circumflex_and_expr_kleene: circumflex_and_expr_kleene CIRCUMFLEX . and_expr
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
 
     AWAIT  shift, and go to state 6
     TILDE  shift, and go to state 9
@@ -2460,17 +1991,6 @@ State 97
 State 98
 
    78 amper_shift_expr_kleene: amper_shift_expr_kleene AMPER . shift_expr
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
 
     AWAIT  shift, and go to state 6
     TILDE  shift, and go to state 9
@@ -2505,16 +2025,6 @@ State 100
 State 101
 
    83 left_shift_or_right_shift_arith_expr_kleene: left_shift_or_right_shift_arith_expr_kleene left_shift_or_right_shift . arith_expr
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
 
     AWAIT  shift, and go to state 6
     TILDE  shift, and go to state 9
@@ -2534,15 +2044,6 @@ State 101
 State 102
 
    87 plus_or_minus_term_kleene: plus_or_minus_term_kleene MINUS . term
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
 
     AWAIT  shift, and go to state 6
     TILDE  shift, and go to state 9
@@ -2561,15 +2062,6 @@ State 102
 State 103
 
    86 plus_or_minus_term_kleene: plus_or_minus_term_kleene PLUS . term
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
 
     AWAIT  shift, and go to state 6
     TILDE  shift, and go to state 9
@@ -2588,14 +2080,6 @@ State 103
 State 104
 
    93 varias_coisas_factor_kleene: varias_coisas_factor_kleene PERCENT . factor
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
 
     AWAIT  shift, and go to state 6
     TILDE  shift, and go to state 9
@@ -2613,14 +2097,6 @@ State 104
 State 105
 
    94 varias_coisas_factor_kleene: varias_coisas_factor_kleene DOUBLESLASH . factor
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
 
     AWAIT  shift, and go to state 6
     TILDE  shift, and go to state 9
@@ -2638,14 +2114,6 @@ State 105
 State 106
 
    92 varias_coisas_factor_kleene: varias_coisas_factor_kleene SLASH . factor
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
 
     AWAIT  shift, and go to state 6
     TILDE  shift, and go to state 9
@@ -2663,14 +2131,6 @@ State 106
 State 107
 
    90 varias_coisas_factor_kleene: varias_coisas_factor_kleene STAR . factor
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
 
     AWAIT  shift, and go to state 6
     TILDE  shift, and go to state 9
@@ -2688,14 +2148,6 @@ State 107
 State 108
 
    91 varias_coisas_factor_kleene: varias_coisas_factor_kleene AT . factor
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
 
     AWAIT  shift, and go to state 6
     TILDE  shift, and go to state 9
@@ -2712,36 +2164,8 @@ State 108
 
 State 109
 
-   37 testlist_star_expr: . or_test_star_expr comma_or_test_star_expr_kleene opt_comma
-   42 test: . or_test opt_if_ortest_else_test
-   43     | . lambdef
-   48 lambdef: . LAMBDA opt_varargslist COLON test
-   52 or_test: . and_test or_and_test_kleene
-   55 and_test: . not_test and_not_test_kleene
-   56 not_test: . NOT not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   71 star_expr: . STAR expr
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
-  150 or_test_star_expr: . test
-  151                  | . star_expr
   182 yield_expr: YIELD . yield_arg
-  183           | YIELD .  [RPAR]
-  184 yield_arg: . FROM test
-  185          | . testlist_star_expr
+  183           | YIELD .
 
     AWAIT   shift, and go to state 6
     LAMBDA  shift, and go to state 7
@@ -2780,20 +2204,6 @@ State 109
 State 110
 
    71 star_expr: STAR . expr
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
 
     AWAIT  shift, and go to state 6
     TILDE  shift, and go to state 9
@@ -2824,7 +2234,7 @@ State 111
 State 112
 
    38 namedexpr_test: test . COLONEQUAL test
-   39               | test .  [FOR, ASYNC, COMMA, RPAR, RSQB]
+   39               | test .
 
     COLONEQUAL  shift, and go to state 166
 
@@ -2847,13 +2257,8 @@ State 114
 
 State 115
 
-  130 comma_opt_namedaexpr_test_star_expr_kleene: . comma_opt_namedaexpr_test_star_expr_kleene COMMA or_namedaexpr_test_star_expr
-  131                                           | . %empty  [COMMA, RPAR, RSQB]
   134 testlist_comp: or_namedaexpr_test_star_expr . comp_for
   135              | or_namedaexpr_test_star_expr . comma_opt_namedaexpr_test_star_expr_kleene opt_comma
-  178 sync_comp_for: . FOR exprlist IN or_test opt_comp_iter
-  179 comp_for: . ASYNC sync_comp_for
-  180         | . sync_comp_for
 
     FOR    shift, and go to state 168
     ASYNC  shift, and go to state 169
@@ -2895,20 +2300,6 @@ State 119
 
 State 120
 
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
   155 opt_test_colon_test_doublestar_expr: DOUBLESTAR . expr
 
     AWAIT  shift, and go to state 6
@@ -2932,7 +2323,7 @@ State 120
 
 State 121
 
-  150 or_test_star_expr: test .  [FOR, ASYNC, COMMA, RBRACE]
+  150 or_test_star_expr: test .
   154 opt_test_colon_test_doublestar_expr: test . COLON test
 
     COLON  shift, and go to state 175
@@ -2956,14 +2347,7 @@ State 123
 
 State 124
 
-  152 comma_e_o_de_cima2_kleene: . comma_e_o_de_cima2_kleene COMMA or_test_star_expr
-  153                          | . %empty  [COMMA, RBRACE]
-  160 opt_segundo_menor_dictorsetmaker: . comp_for
-  161                                 | . comma_e_o_de_cima2_kleene opt_comma
   163 dictorsetmaker: or_test_star_expr . opt_segundo_menor_dictorsetmaker
-  178 sync_comp_for: . FOR exprlist IN or_test opt_comp_iter
-  179 comp_for: . ASYNC sync_comp_for
-  180         | . sync_comp_for
 
     FOR    shift, and go to state 168
     ASYNC  shift, and go to state 169
@@ -2978,14 +2362,7 @@ State 124
 
 State 125
 
-  156 comma_e_o_de_cima3_kleene: . comma_e_o_de_cima3_kleene COMMA opt_test_colon_test_doublestar_expr
-  157                          | . %empty  [COMMA, RBRACE]
-  158 opt_primeiro_menor_dictorsetmaker: . comp_for
-  159                                  | . comma_e_o_de_cima3_kleene opt_comma
   162 dictorsetmaker: opt_test_colon_test_doublestar_expr . opt_primeiro_menor_dictorsetmaker
-  178 sync_comp_for: . FOR exprlist IN or_test opt_comp_iter
-  179 comp_for: . ASYNC sync_comp_for
-  180         | . sync_comp_for
 
     FOR    shift, and go to state 168
     ASYNC  shift, and go to state 169
@@ -3014,17 +2391,13 @@ State 127
 
 State 128
 
-  106 trailer_kleene: trailer_kleene . trailer
-  108 atom_expr: opt_await atom trailer_kleene .  [$end, ELSE, IN, IS, AND, FOR, NOT, ASYNC, IF, EQEQUAL, NOTEQUAL, LEFTSHIFT, RIGHTSHIFT, LESSEQUAL, GREATEREQUAL, LESS, GREATER, PERCENT, VBAR, AMPER, DOUBLESLASH, SLASH, DOUBLESTAR, STAR, MINUS, PLUS, CIRCUMFLEX, EQUAL, COMMA, COLON, LPAR, RPAR, RSQB, RBRACE, AT, COLONEQUAL, NEWLINE, OR]
-  136 trailer: . LPAR opt_arglist RPAR
-  137        | . LSQB subscriptlist RSQB
-  138        | . DOT NAME
+  107 trailer_kleene: trailer_kleene . trailer
+  108 atom_expr: opt_await atom trailer_kleene .
 
     LPAR  shift, and go to state 183
     LSQB  shift, and go to state 184
     DOT   shift, and go to state 185
 
-    LPAR      [reduce using rule 108 (atom_expr)]
     $default  reduce using rule 108 (atom_expr)
 
     trailer  go to state 186
@@ -3039,28 +2412,6 @@ State 129
 
 State 130
 
-   42 test: . or_test opt_if_ortest_else_test
-   43     | . lambdef
-   48 lambdef: . LAMBDA opt_varargslist COLON test
-   52 or_test: . and_test or_and_test_kleene
-   55 and_test: . not_test and_not_test_kleene
-   56 not_test: . NOT not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
   189 func_type: LPAR opt_typelist RPAR ARROW . test
 
     AWAIT   shift, and go to state 6
@@ -3106,8 +2457,6 @@ State 132
 
 State 133
 
-   15 opt_comma_e_o_de_cima: . COMMA opt_doublestar_vfpdef_comma
-   16                      | . %empty  [COLON]
    17 comma_vfpdef_opt_equal_test_kleene: comma_vfpdef_opt_equal_test_kleene . COMMA vfpdef opt_equal_test
    32 varargslist: STAR opt_vfpdef comma_vfpdef_opt_equal_test_kleene . opt_comma_e_o_de_cima
 
@@ -3128,9 +2477,6 @@ State 134
 State 135
 
    17 comma_vfpdef_opt_equal_test_kleene: comma_vfpdef_opt_equal_test_kleene . COMMA vfpdef opt_equal_test
-   22 opt_segundo_menor_varargslist: . COMMA opt_menor_varargslist
-   23                              | . %empty  [COLON]
-   28 comma_slash: . COMMA SLASH
    29 varargslist: vfpdef opt_equal_test comma_vfpdef_opt_equal_test_kleene . comma_slash COMMA opt_terceiro_menor_varargslist
    30            | vfpdef opt_equal_test comma_vfpdef_opt_equal_test_kleene . comma_slash
    31            | vfpdef opt_equal_test comma_vfpdef_opt_equal_test_kleene . opt_segundo_menor_varargslist
@@ -3152,28 +2498,6 @@ State 136
 
 State 137
 
-   42 test: . or_test opt_if_ortest_else_test
-   43     | . lambdef
-   48 lambdef: . LAMBDA opt_varargslist COLON test
-   52 or_test: . and_test or_and_test_kleene
-   55 and_test: . not_test and_not_test_kleene
-   56 not_test: . NOT not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
   190 comma_test_fecho: comma_test_fecho COMMA . test
   192 opt_comma_doublestar_test: COMMA . DOUBLESTAR test
 
@@ -3214,28 +2538,6 @@ State 138
 
 State 139
 
-   42 test: . or_test opt_if_ortest_else_test
-   43     | . lambdef
-   48 lambdef: . LAMBDA opt_varargslist COLON test
-   52 or_test: . and_test or_and_test_kleene
-   55 and_test: . not_test and_not_test_kleene
-   56 not_test: . NOT not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
   197 opt_maluco: DOUBLESTAR . test
 
     AWAIT   shift, and go to state 6
@@ -3267,30 +2569,6 @@ State 139
 
 State 140
 
-   42 test: . or_test opt_if_ortest_else_test
-   43     | . lambdef
-   48 lambdef: . LAMBDA opt_varargslist COLON test
-   52 or_test: . and_test or_and_test_kleene
-   55 and_test: . not_test and_not_test_kleene
-   56 not_test: . NOT not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
-  194 opt_test: . test
-  195         | . %empty  [COMMA, RPAR]
   196 opt_maluco: STAR . opt_test comma_test_fecho opt_comma_doublestar_test
 
     AWAIT   shift, and go to state 6
@@ -3340,28 +2618,6 @@ State 142
 State 143
 
    40 opt_if_ortest_else_test: IF or_test ELSE . test
-   42 test: . or_test opt_if_ortest_else_test
-   43     | . lambdef
-   48 lambdef: . LAMBDA opt_varargslist COLON test
-   52 or_test: . and_test or_and_test_kleene
-   55 and_test: . not_test and_not_test_kleene
-   56 not_test: . NOT not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
 
     AWAIT   shift, and go to state 6
     LAMBDA  shift, and go to state 7
@@ -3504,28 +2760,6 @@ State 159
 
 State 160
 
-   42 test: . or_test opt_if_ortest_else_test
-   43     | . lambdef
-   48 lambdef: . LAMBDA opt_varargslist COLON test
-   52 or_test: . and_test or_and_test_kleene
-   55 and_test: . not_test and_not_test_kleene
-   56 not_test: . NOT not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
   184 yield_arg: FROM . test
 
     AWAIT   shift, and go to state 6
@@ -3571,8 +2805,6 @@ State 162
 
 State 163
 
-   35 comma_or_test_star_expr_kleene: . comma_or_test_star_expr_kleene COMMA or_test_star_expr
-   36                               | . %empty
    37 testlist_star_expr: or_test_star_expr . comma_or_test_star_expr_kleene opt_comma
 
     $default  reduce using rule 36 (comma_or_test_star_expr_kleene)
@@ -3597,28 +2829,6 @@ State 165
 State 166
 
    38 namedexpr_test: test COLONEQUAL . test
-   42 test: . or_test opt_if_ortest_else_test
-   43     | . lambdef
-   48 lambdef: . LAMBDA opt_varargslist COLON test
-   52 or_test: . and_test or_and_test_kleene
-   55 and_test: . not_test and_not_test_kleene
-   56 not_test: . NOT not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
 
     AWAIT   shift, and go to state 6
     LAMBDA  shift, and go to state 7
@@ -3656,24 +2866,6 @@ State 167
 
 State 168
 
-   71 star_expr: . STAR expr
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
-  145 expr_or_star_expr: . expr
-  146                  | . star_expr
-  149 exprlist: . expr_or_star_expr comma_expr_or_star_expr_kleene opt_comma
   178 sync_comp_for: FOR . exprlist IN or_test opt_comp_iter
 
     AWAIT  shift, and go to state 6
@@ -3701,7 +2893,6 @@ State 168
 
 State 169
 
-  178 sync_comp_for: . FOR exprlist IN or_test opt_comp_iter
   179 comp_for: ASYNC . sync_comp_for
 
     FOR  shift, and go to state 168
@@ -3711,8 +2902,6 @@ State 169
 
 State 170
 
-    9 opt_comma: . COMMA
-   10          | . %empty  [RPAR, RSQB]
   130 comma_opt_namedaexpr_test_star_expr_kleene: comma_opt_namedaexpr_test_star_expr_kleene . COMMA or_namedaexpr_test_star_expr
   135 testlist_comp: or_namedaexpr_test_star_expr comma_opt_namedaexpr_test_star_expr_kleene . opt_comma
 
@@ -3753,28 +2942,6 @@ State 174
 
 State 175
 
-   42 test: . or_test opt_if_ortest_else_test
-   43     | . lambdef
-   48 lambdef: . LAMBDA opt_varargslist COLON test
-   52 or_test: . and_test or_and_test_kleene
-   55 and_test: . not_test and_not_test_kleene
-   56 not_test: . NOT not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
   154 opt_test_colon_test_doublestar_expr: test COLON . test
 
     AWAIT   shift, and go to state 6
@@ -3813,8 +2980,6 @@ State 176
 
 State 177
 
-    9 opt_comma: . COMMA
-   10          | . %empty  [RBRACE]
   152 comma_e_o_de_cima2_kleene: comma_e_o_de_cima2_kleene . COMMA or_test_star_expr
   161 opt_segundo_menor_dictorsetmaker: comma_e_o_de_cima2_kleene . opt_comma
 
@@ -3841,8 +3006,6 @@ State 179
 
 State 180
 
-    9 opt_comma: . COMMA
-   10          | . %empty  [RBRACE]
   156 comma_e_o_de_cima3_kleene: comma_e_o_de_cima3_kleene . COMMA opt_test_colon_test_doublestar_expr
   159 opt_primeiro_menor_dictorsetmaker: comma_e_o_de_cima3_kleene . opt_comma
 
@@ -3869,37 +3032,7 @@ State 182
 
 State 183
 
-    5 opt_arglist: . arglist
-    6            | . %empty  [RPAR]
-   42 test: . or_test opt_if_ortest_else_test
-   43     | . lambdef
-   48 lambdef: . LAMBDA opt_varargslist COLON test
-   52 or_test: . and_test or_and_test_kleene
-   55 and_test: . not_test and_not_test_kleene
-   56 not_test: . NOT not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
   136 trailer: LPAR . opt_arglist RPAR
-  166 arglist: . argument opt_comma_argument_kleene opt_comma
-  169 argument: . test opt_comp_for
-  170         | . test COLONEQUAL test
-  171         | . test EQUAL test
-  172         | . DOUBLESTAR test
-  173         | . STAR test
 
     AWAIT       shift, and go to state 6
     LAMBDA      shift, and go to state 7
@@ -3936,34 +3069,7 @@ State 183
 
 State 184
 
-   42 test: . or_test opt_if_ortest_else_test
-   43     | . lambdef
-   48 lambdef: . LAMBDA opt_varargslist COLON test
-   52 or_test: . and_test or_and_test_kleene
-   55 and_test: . not_test and_not_test_kleene
-   56 not_test: . NOT not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
   137 trailer: LSQB . subscriptlist RSQB
-  139 subscriptlist: . subscript comma_subscript_kleene opt_comma
-  142 subscript: . test
-  143          | . opt_test COLON opt_test opt_sliceop
-  194 opt_test: . test
-  195         | . %empty  [COLON]
 
     AWAIT   shift, and go to state 6
     LAMBDA  shift, and go to state 7
@@ -4005,9 +3111,9 @@ State 185
 
 State 186
 
-  106 trailer_kleene: trailer_kleene trailer .
+  107 trailer_kleene: trailer_kleene trailer .
 
-    $default  reduce using rule 106 (trailer_kleene)
+    $default  reduce using rule 107 (trailer_kleene)
 
 
 State 187
@@ -4019,11 +3125,8 @@ State 187
 
 State 188
 
-   13 opt_doublestar_vfpdef_comma: . DOUBLESTAR vfpdef opt_comma
-   14                            | . %empty  [COLON]
    15 opt_comma_e_o_de_cima: COMMA . opt_doublestar_vfpdef_comma
    17 comma_vfpdef_opt_equal_test_kleene: comma_vfpdef_opt_equal_test_kleene COMMA . vfpdef opt_equal_test
-   34 vfpdef: . NAME
 
     DOUBLESTAR  shift, and go to state 223
     NAME        shift, and go to state 35
@@ -4044,12 +3147,8 @@ State 189
 State 190
 
    17 comma_vfpdef_opt_equal_test_kleene: comma_vfpdef_opt_equal_test_kleene COMMA . vfpdef opt_equal_test
-   19 opt_menor_varargslist: . STAR opt_vfpdef comma_vfpdef_opt_equal_test_kleene opt_comma_e_o_de_cima
-   20                      | . DOUBLESTAR vfpdef opt_comma
-   21                      | . %empty  [COLON]
    22 opt_segundo_menor_varargslist: COMMA . opt_menor_varargslist
    28 comma_slash: COMMA . SLASH
-   34 vfpdef: . NAME
 
     SLASH       shift, and go to state 226
     DOUBLESTAR  shift, and go to state 227
@@ -4072,7 +3171,7 @@ State 191
 State 192
 
    29 varargslist: vfpdef opt_equal_test comma_vfpdef_opt_equal_test_kleene comma_slash . COMMA opt_terceiro_menor_varargslist
-   30            | vfpdef opt_equal_test comma_vfpdef_opt_equal_test_kleene comma_slash .  [COLON]
+   30            | vfpdef opt_equal_test comma_vfpdef_opt_equal_test_kleene comma_slash .
 
     COMMA  shift, and go to state 230
 
@@ -4081,28 +3180,6 @@ State 192
 
 State 193
 
-   42 test: . or_test opt_if_ortest_else_test
-   43     | . lambdef
-   48 lambdef: . LAMBDA opt_varargslist COLON test
-   52 or_test: . and_test or_and_test_kleene
-   55 and_test: . not_test and_not_test_kleene
-   56 not_test: . NOT not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
   192 opt_comma_doublestar_test: COMMA DOUBLESTAR . test
 
     AWAIT   shift, and go to state 6
@@ -4141,8 +3218,6 @@ State 194
 
 State 195
 
-  190 comma_test_fecho: . comma_test_fecho COMMA test
-  191                 | . %empty
   196 opt_maluco: STAR opt_test . comma_test_fecho opt_comma_doublestar_test
 
     $default  reduce using rule 191 (comma_test_fecho)
@@ -4166,8 +3241,6 @@ State 197
 
 State 198
 
-    9 opt_comma: . COMMA
-   10          | . %empty  [RPAR]
    35 comma_or_test_star_expr_kleene: comma_or_test_star_expr_kleene . COMMA or_test_star_expr
    37 testlist_star_expr: or_test_star_expr comma_or_test_star_expr_kleene . opt_comma
 
@@ -4201,8 +3274,6 @@ State 201
 
 State 202
 
-  147 comma_expr_or_star_expr_kleene: . comma_expr_or_star_expr_kleene COMMA expr_or_star_expr
-  148                               | . %empty
   149 exprlist: expr_or_star_expr . comma_expr_or_star_expr_kleene opt_comma
 
     $default  reduce using rule 148 (comma_expr_or_star_expr_kleene)
@@ -4226,34 +3297,7 @@ State 204
 
 State 205
 
-    9 opt_comma: COMMA .  [RPAR, RSQB]
-   38 namedexpr_test: . test COLONEQUAL test
-   39               | . test
-   42 test: . or_test opt_if_ortest_else_test
-   43     | . lambdef
-   48 lambdef: . LAMBDA opt_varargslist COLON test
-   52 or_test: . and_test or_and_test_kleene
-   55 and_test: . not_test and_not_test_kleene
-   56 not_test: . NOT not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   71 star_expr: . STAR expr
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
-  128 or_namedaexpr_test_star_expr: . namedexpr_test
-  129                             | . star_expr
+    9 opt_comma: COMMA .
   130 comma_opt_namedaexpr_test_star_expr_kleene: comma_opt_namedaexpr_test_star_expr_kleene COMMA . or_namedaexpr_test_star_expr
 
     AWAIT   shift, and go to state 6
@@ -4305,32 +3349,7 @@ State 207
 
 State 208
 
-    9 opt_comma: COMMA .  [RBRACE]
-   42 test: . or_test opt_if_ortest_else_test
-   43     | . lambdef
-   48 lambdef: . LAMBDA opt_varargslist COLON test
-   52 or_test: . and_test or_and_test_kleene
-   55 and_test: . not_test and_not_test_kleene
-   56 not_test: . NOT not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   71 star_expr: . STAR expr
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
-  150 or_test_star_expr: . test
-  151                  | . star_expr
+    9 opt_comma: COMMA .
   152 comma_e_o_de_cima2_kleene: comma_e_o_de_cima2_kleene COMMA . or_test_star_expr
 
     AWAIT   shift, and go to state 6
@@ -4373,31 +3392,7 @@ State 209
 
 State 210
 
-    9 opt_comma: COMMA .  [RBRACE]
-   42 test: . or_test opt_if_ortest_else_test
-   43     | . lambdef
-   48 lambdef: . LAMBDA opt_varargslist COLON test
-   52 or_test: . and_test or_and_test_kleene
-   55 and_test: . not_test and_not_test_kleene
-   56 not_test: . NOT not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
-  154 opt_test_colon_test_doublestar_expr: . test COLON test
-  155                                    | . DOUBLESTAR expr
+    9 opt_comma: COMMA .
   156 comma_e_o_de_cima3_kleene: comma_e_o_de_cima3_kleene COMMA . opt_test_colon_test_doublestar_expr
 
     AWAIT       shift, and go to state 6
@@ -4439,28 +3434,6 @@ State 211
 
 State 212
 
-   42 test: . or_test opt_if_ortest_else_test
-   43     | . lambdef
-   48 lambdef: . LAMBDA opt_varargslist COLON test
-   52 or_test: . and_test or_and_test_kleene
-   55 and_test: . not_test and_not_test_kleene
-   56 not_test: . NOT not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
   172 argument: DOUBLESTAR . test
 
     AWAIT   shift, and go to state 6
@@ -4492,28 +3465,6 @@ State 212
 
 State 213
 
-   42 test: . or_test opt_if_ortest_else_test
-   43     | . lambdef
-   48 lambdef: . LAMBDA opt_varargslist COLON test
-   52 or_test: . and_test or_and_test_kleene
-   55 and_test: . not_test and_not_test_kleene
-   56 not_test: . NOT not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
   173 argument: STAR . test
 
     AWAIT   shift, and go to state 6
@@ -4552,14 +3503,9 @@ State 214
 
 State 215
 
-  167 opt_comp_for: . comp_for
-  168             | . %empty  [COMMA, RPAR]
   169 argument: test . opt_comp_for
   170         | test . COLONEQUAL test
   171         | test . EQUAL test
-  178 sync_comp_for: . FOR exprlist IN or_test opt_comp_iter
-  179 comp_for: . ASYNC sync_comp_for
-  180         | . sync_comp_for
 
     FOR         shift, and go to state 168
     ASYNC       shift, and go to state 169
@@ -4582,8 +3528,6 @@ State 216
 
 State 217
 
-  164 opt_comma_argument_kleene: . opt_comma_argument_kleene COMMA argument
-  165                          | . %empty
   166 arglist: argument . opt_comma_argument_kleene opt_comma
 
     $default  reduce using rule 165 (opt_comma_argument_kleene)
@@ -4593,8 +3537,8 @@ State 217
 
 State 218
 
-  142 subscript: test .  [COMMA, RSQB]
-  194 opt_test: test .  [COLON]
+  142 subscript: test .
+  194 opt_test: test .
 
     COLON     reduce using rule 194 (opt_test)
     $default  reduce using rule 142 (subscript)
@@ -4609,8 +3553,6 @@ State 219
 
 State 220
 
-  132 comma_subscript_kleene: . comma_subscript_kleene COMMA subscript
-  133                       | . %empty
   139 subscriptlist: subscript . comma_subscript_kleene opt_comma
 
     $default  reduce using rule 133 (comma_subscript_kleene)
@@ -4635,7 +3577,6 @@ State 222
 State 223
 
    13 opt_doublestar_vfpdef_comma: DOUBLESTAR . vfpdef opt_comma
-   34 vfpdef: . NAME
 
     NAME  shift, and go to state 35
 
@@ -4651,8 +3592,6 @@ State 224
 
 State 225
 
-    7 opt_equal_test: . EQUAL test
-    8               | . %empty  [COMMA, COLON]
    17 comma_vfpdef_opt_equal_test_kleene: comma_vfpdef_opt_equal_test_kleene COMMA vfpdef . opt_equal_test
 
     EQUAL  shift, and go to state 77
@@ -4672,7 +3611,6 @@ State 226
 State 227
 
    20 opt_menor_varargslist: DOUBLESTAR . vfpdef opt_comma
-   34 vfpdef: . NAME
 
     NAME  shift, and go to state 35
 
@@ -4681,10 +3619,7 @@ State 227
 
 State 228
 
-   11 opt_vfpdef: . vfpdef
-   12           | . %empty  [COMMA, COLON]
    19 opt_menor_varargslist: STAR . opt_vfpdef comma_vfpdef_opt_equal_test_kleene opt_comma_e_o_de_cima
-   34 vfpdef: . NAME
 
     NAME  shift, and go to state 35
 
@@ -4703,12 +3638,7 @@ State 229
 
 State 230
 
-   24 opt_terceiro_menor_varargslist: . vfpdef opt_equal_test comma_vfpdef_opt_equal_test_kleene opt_segundo_menor_varargslist
-   25                               | . STAR opt_vfpdef comma_vfpdef_opt_equal_test_kleene opt_comma_e_o_de_cima
-   26                               | . DOUBLESTAR vfpdef opt_comma
-   27                               | . %empty  [COLON]
    29 varargslist: vfpdef opt_equal_test comma_vfpdef_opt_equal_test_kleene comma_slash COMMA . opt_terceiro_menor_varargslist
-   34 vfpdef: . NAME
 
     DOUBLESTAR  shift, and go to state 256
     STAR        shift, and go to state 257
@@ -4730,8 +3660,6 @@ State 231
 State 232
 
   190 comma_test_fecho: comma_test_fecho . COMMA test
-  192 opt_comma_doublestar_test: . COMMA DOUBLESTAR test
-  193                          | . %empty  [RPAR]
   196 opt_maluco: STAR opt_test comma_test_fecho . opt_comma_doublestar_test
 
     COMMA  shift, and go to state 137
@@ -4743,33 +3671,8 @@ State 232
 
 State 233
 
-    9 opt_comma: COMMA .  [RPAR]
+    9 opt_comma: COMMA .
    35 comma_or_test_star_expr_kleene: comma_or_test_star_expr_kleene COMMA . or_test_star_expr
-   42 test: . or_test opt_if_ortest_else_test
-   43     | . lambdef
-   48 lambdef: . LAMBDA opt_varargslist COLON test
-   52 or_test: . and_test or_and_test_kleene
-   55 and_test: . not_test and_not_test_kleene
-   56 not_test: . NOT not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   71 star_expr: . STAR expr
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
-  150 or_test_star_expr: . test
-  151                  | . star_expr
 
     AWAIT   shift, and go to state 6
     LAMBDA  shift, and go to state 7
@@ -4811,8 +3714,6 @@ State 234
 
 State 235
 
-    9 opt_comma: . COMMA
-   10          | . %empty  [IN]
   147 comma_expr_or_star_expr_kleene: comma_expr_or_star_expr_kleene . COMMA expr_or_star_expr
   149 exprlist: expr_or_star_expr comma_expr_or_star_expr_kleene . opt_comma
 
@@ -4825,25 +3726,6 @@ State 235
 
 State 236
 
-   52 or_test: . and_test or_and_test_kleene
-   55 and_test: . not_test and_not_test_kleene
-   56 not_test: . NOT not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
   178 sync_comp_for: FOR exprlist IN . or_test opt_comp_iter
 
     AWAIT  shift, and go to state 6
@@ -4921,28 +3803,6 @@ State 243
 
 State 244
 
-   42 test: . or_test opt_if_ortest_else_test
-   43     | . lambdef
-   48 lambdef: . LAMBDA opt_varargslist COLON test
-   52 or_test: . and_test or_and_test_kleene
-   55 and_test: . not_test and_not_test_kleene
-   56 not_test: . NOT not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
   171 argument: test EQUAL . test
 
     AWAIT   shift, and go to state 6
@@ -4974,28 +3834,6 @@ State 244
 
 State 245
 
-   42 test: . or_test opt_if_ortest_else_test
-   43     | . lambdef
-   48 lambdef: . LAMBDA opt_varargslist COLON test
-   52 or_test: . and_test or_and_test_kleene
-   55 and_test: . not_test and_not_test_kleene
-   56 not_test: . NOT not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
   170 argument: test COLONEQUAL . test
 
     AWAIT   shift, and go to state 6
@@ -5041,8 +3879,6 @@ State 247
 
 State 248
 
-    9 opt_comma: . COMMA
-   10          | . %empty  [RPAR]
   164 opt_comma_argument_kleene: opt_comma_argument_kleene . COMMA argument
   166 arglist: argument opt_comma_argument_kleene . opt_comma
 
@@ -5062,8 +3898,6 @@ State 249
 
 State 250
 
-    9 opt_comma: . COMMA
-   10          | . %empty  [RSQB]
   132 comma_subscript_kleene: comma_subscript_kleene . COMMA subscript
   139 subscriptlist: subscript comma_subscript_kleene . opt_comma
 
@@ -5076,31 +3910,7 @@ State 250
 
 State 251
 
-   42 test: . or_test opt_if_ortest_else_test
-   43     | . lambdef
-   48 lambdef: . LAMBDA opt_varargslist COLON test
-   52 or_test: . and_test or_and_test_kleene
-   55 and_test: . not_test and_not_test_kleene
-   56 not_test: . NOT not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
   143 subscript: opt_test COLON . opt_test opt_sliceop
-  194 opt_test: . test
-  195         | . %empty  [COMMA, COLON, RSQB]
 
     AWAIT   shift, and go to state 6
     LAMBDA  shift, and go to state 7
@@ -5135,8 +3945,6 @@ State 251
 
 State 252
 
-    9 opt_comma: . COMMA
-   10          | . %empty  [COLON]
    13 opt_doublestar_vfpdef_comma: DOUBLESTAR vfpdef . opt_comma
 
     COMMA  shift, and go to state 131
@@ -5155,8 +3963,6 @@ State 253
 
 State 254
 
-    9 opt_comma: . COMMA
-   10          | . %empty  [COLON]
    20 opt_menor_varargslist: DOUBLESTAR vfpdef . opt_comma
 
     COMMA  shift, and go to state 131
@@ -5168,8 +3974,6 @@ State 254
 
 State 255
 
-   17 comma_vfpdef_opt_equal_test_kleene: . comma_vfpdef_opt_equal_test_kleene COMMA vfpdef opt_equal_test
-   18                                   | . %empty
    19 opt_menor_varargslist: STAR opt_vfpdef . comma_vfpdef_opt_equal_test_kleene opt_comma_e_o_de_cima
 
     $default  reduce using rule 18 (comma_vfpdef_opt_equal_test_kleene)
@@ -5180,7 +3984,6 @@ State 255
 State 256
 
    26 opt_terceiro_menor_varargslist: DOUBLESTAR . vfpdef opt_comma
-   34 vfpdef: . NAME
 
     NAME  shift, and go to state 35
 
@@ -5189,10 +3992,7 @@ State 256
 
 State 257
 
-   11 opt_vfpdef: . vfpdef
-   12           | . %empty  [COMMA, COLON]
    25 opt_terceiro_menor_varargslist: STAR . opt_vfpdef comma_vfpdef_opt_equal_test_kleene opt_comma_e_o_de_cima
-   34 vfpdef: . NAME
 
     NAME  shift, and go to state 35
 
@@ -5211,8 +4011,6 @@ State 258
 
 State 259
 
-    7 opt_equal_test: . EQUAL test
-    8               | . %empty  [COMMA, COLON]
    24 opt_terceiro_menor_varargslist: vfpdef . opt_equal_test comma_vfpdef_opt_equal_test_kleene opt_segundo_menor_varargslist
 
     EQUAL  shift, and go to state 77
@@ -5238,24 +4036,7 @@ State 261
 
 State 262
 
-    9 opt_comma: COMMA .  [IN]
-   71 star_expr: . STAR expr
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
-  145 expr_or_star_expr: . expr
-  146                  | . star_expr
+    9 opt_comma: COMMA .
   147 comma_expr_or_star_expr_kleene: comma_expr_or_star_expr_kleene COMMA . expr_or_star_expr
 
     AWAIT  shift, and go to state 6
@@ -5290,15 +4071,7 @@ State 263
 
 State 264
 
-  174 comp_iter: . comp_for
-  175          | . comp_if
-  176 opt_comp_iter: . comp_iter
-  177              | . %empty  [COMMA, RPAR, RSQB, RBRACE]
-  178 sync_comp_for: . FOR exprlist IN or_test opt_comp_iter
-  178              | FOR exprlist IN or_test . opt_comp_iter
-  179 comp_for: . ASYNC sync_comp_for
-  180         | . sync_comp_for
-  181 comp_if: . IF test_nocond opt_comp_iter
+  178 sync_comp_for: FOR exprlist IN or_test . opt_comp_iter
 
     FOR    shift, and go to state 168
     ASYNC  shift, and go to state 169
@@ -5329,35 +4102,8 @@ State 266
 
 State 267
 
-    9 opt_comma: COMMA .  [RPAR]
-   42 test: . or_test opt_if_ortest_else_test
-   43     | . lambdef
-   48 lambdef: . LAMBDA opt_varargslist COLON test
-   52 or_test: . and_test or_and_test_kleene
-   55 and_test: . not_test and_not_test_kleene
-   56 not_test: . NOT not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
+    9 opt_comma: COMMA .
   164 opt_comma_argument_kleene: opt_comma_argument_kleene COMMA . argument
-  169 argument: . test opt_comp_for
-  170         | . test COLONEQUAL test
-  171         | . test EQUAL test
-  172         | . DOUBLESTAR test
-  173         | . STAR test
 
     AWAIT       shift, and go to state 6
     LAMBDA      shift, and go to state 7
@@ -5399,34 +4145,8 @@ State 268
 
 State 269
 
-    9 opt_comma: COMMA .  [RSQB]
-   42 test: . or_test opt_if_ortest_else_test
-   43     | . lambdef
-   48 lambdef: . LAMBDA opt_varargslist COLON test
-   52 or_test: . and_test or_and_test_kleene
-   55 and_test: . not_test and_not_test_kleene
-   56 not_test: . NOT not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
+    9 opt_comma: COMMA .
   132 comma_subscript_kleene: comma_subscript_kleene COMMA . subscript
-  142 subscript: . test
-  143          | . opt_test COLON opt_test opt_sliceop
-  194 opt_test: . test
-  195         | . %empty  [COLON]
 
     AWAIT   shift, and go to state 6
     LAMBDA  shift, and go to state 7
@@ -5468,10 +4188,7 @@ State 270
 
 State 271
 
-  140 opt_sliceop: . sliceop
-  141            | . %empty  [COMMA, RSQB]
   143 subscript: opt_test COLON opt_test . opt_sliceop
-  144 sliceop: . COLON opt_test
 
     COLON  shift, and go to state 286
 
@@ -5497,8 +4214,6 @@ State 273
 
 State 274
 
-   15 opt_comma_e_o_de_cima: . COMMA opt_doublestar_vfpdef_comma
-   16                      | . %empty  [COLON]
    17 comma_vfpdef_opt_equal_test_kleene: comma_vfpdef_opt_equal_test_kleene . COMMA vfpdef opt_equal_test
    19 opt_menor_varargslist: STAR opt_vfpdef comma_vfpdef_opt_equal_test_kleene . opt_comma_e_o_de_cima
 
@@ -5511,8 +4226,6 @@ State 274
 
 State 275
 
-    9 opt_comma: . COMMA
-   10          | . %empty  [COLON]
    26 opt_terceiro_menor_varargslist: DOUBLESTAR vfpdef . opt_comma
 
     COMMA  shift, and go to state 131
@@ -5524,8 +4237,6 @@ State 275
 
 State 276
 
-   17 comma_vfpdef_opt_equal_test_kleene: . comma_vfpdef_opt_equal_test_kleene COMMA vfpdef opt_equal_test
-   18                                   | . %empty
    25 opt_terceiro_menor_varargslist: STAR opt_vfpdef . comma_vfpdef_opt_equal_test_kleene opt_comma_e_o_de_cima
 
     $default  reduce using rule 18 (comma_vfpdef_opt_equal_test_kleene)
@@ -5535,8 +4246,6 @@ State 276
 
 State 277
 
-   17 comma_vfpdef_opt_equal_test_kleene: . comma_vfpdef_opt_equal_test_kleene COMMA vfpdef opt_equal_test
-   18                                   | . %empty
    24 opt_terceiro_menor_varargslist: vfpdef opt_equal_test . comma_vfpdef_opt_equal_test_kleene opt_segundo_menor_varargslist
 
     $default  reduce using rule 18 (comma_vfpdef_opt_equal_test_kleene)
@@ -5553,28 +4262,6 @@ State 278
 
 State 279
 
-   44 test_nocond: . or_test
-   45            | . lambdef_nocond
-   49 lambdef_nocond: . LAMBDA opt_varargslist COLON test_nocond
-   52 or_test: . and_test or_and_test_kleene
-   55 and_test: . not_test and_not_test_kleene
-   56 not_test: . NOT not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
   181 comp_if: IF . test_nocond opt_comp_iter
 
     AWAIT   shift, and go to state 6
@@ -5648,31 +4335,7 @@ State 285
 
 State 286
 
-   42 test: . or_test opt_if_ortest_else_test
-   43     | . lambdef
-   48 lambdef: . LAMBDA opt_varargslist COLON test
-   52 or_test: . and_test or_and_test_kleene
-   55 and_test: . not_test and_not_test_kleene
-   56 not_test: . NOT not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
   144 sliceop: COLON . opt_test
-  194 opt_test: . test
-  195         | . %empty  [COMMA, RSQB]
 
     AWAIT   shift, and go to state 6
     LAMBDA  shift, and go to state 7
@@ -5734,8 +4397,6 @@ State 290
 
 State 291
 
-   15 opt_comma_e_o_de_cima: . COMMA opt_doublestar_vfpdef_comma
-   16                      | . %empty  [COLON]
    17 comma_vfpdef_opt_equal_test_kleene: comma_vfpdef_opt_equal_test_kleene . COMMA vfpdef opt_equal_test
    25 opt_terceiro_menor_varargslist: STAR opt_vfpdef comma_vfpdef_opt_equal_test_kleene . opt_comma_e_o_de_cima
 
@@ -5749,8 +4410,6 @@ State 291
 State 292
 
    17 comma_vfpdef_opt_equal_test_kleene: comma_vfpdef_opt_equal_test_kleene . COMMA vfpdef opt_equal_test
-   22 opt_segundo_menor_varargslist: . COMMA opt_menor_varargslist
-   23                              | . %empty  [COLON]
    24 opt_terceiro_menor_varargslist: vfpdef opt_equal_test comma_vfpdef_opt_equal_test_kleene . opt_segundo_menor_varargslist
 
     COMMA  shift, and go to state 299
@@ -5762,14 +4421,6 @@ State 292
 
 State 293
 
-   29 varargslist: . vfpdef opt_equal_test comma_vfpdef_opt_equal_test_kleene comma_slash COMMA opt_terceiro_menor_varargslist
-   30            | . vfpdef opt_equal_test comma_vfpdef_opt_equal_test_kleene comma_slash
-   31            | . vfpdef opt_equal_test comma_vfpdef_opt_equal_test_kleene opt_segundo_menor_varargslist
-   32            | . STAR opt_vfpdef comma_vfpdef_opt_equal_test_kleene opt_comma_e_o_de_cima
-   33            | . DOUBLESTAR vfpdef opt_comma
-   34 vfpdef: . NAME
-   46 opt_varargslist: . varargslist
-   47                | . %empty  [COLON]
    49 lambdef_nocond: LAMBDA . opt_varargslist COLON test_nocond
 
     DOUBLESTAR  shift, and go to state 33
@@ -5785,15 +4436,7 @@ State 293
 
 State 294
 
-  174 comp_iter: . comp_for
-  175          | . comp_if
-  176 opt_comp_iter: . comp_iter
-  177              | . %empty  [COMMA, RPAR, RSQB, RBRACE]
-  178 sync_comp_for: . FOR exprlist IN or_test opt_comp_iter
-  179 comp_for: . ASYNC sync_comp_for
-  180         | . sync_comp_for
-  181 comp_if: . IF test_nocond opt_comp_iter
-  181        | IF test_nocond . opt_comp_iter
+  181 comp_if: IF test_nocond . opt_comp_iter
 
     FOR    shift, and go to state 168
     ASYNC  shift, and go to state 169
@@ -5839,11 +4482,7 @@ State 298
 State 299
 
    17 comma_vfpdef_opt_equal_test_kleene: comma_vfpdef_opt_equal_test_kleene COMMA . vfpdef opt_equal_test
-   19 opt_menor_varargslist: . STAR opt_vfpdef comma_vfpdef_opt_equal_test_kleene opt_comma_e_o_de_cima
-   20                      | . DOUBLESTAR vfpdef opt_comma
-   21                      | . %empty  [COLON]
    22 opt_segundo_menor_varargslist: COMMA . opt_menor_varargslist
-   34 vfpdef: . NAME
 
     DOUBLESTAR  shift, and go to state 227
     STAR        shift, and go to state 228
@@ -5878,29 +4517,7 @@ State 302
 
 State 303
 
-   44 test_nocond: . or_test
-   45            | . lambdef_nocond
-   49 lambdef_nocond: . LAMBDA opt_varargslist COLON test_nocond
-   49               | LAMBDA opt_varargslist COLON . test_nocond
-   52 or_test: . and_test or_and_test_kleene
-   55 and_test: . not_test and_not_test_kleene
-   56 not_test: . NOT not_test
-   57         | . comparison
-   60 comparison: . expr comp_op_kleene
-   74 expr: . xor_expr vbar_xor_expr_kleene
-   77 xor_expr: . and_expr circumflex_and_expr_kleene
-   80 and_expr: . shift_expr amper_shift_expr_kleene
-   85 shift_expr: . arith_expr left_shift_or_right_shift_arith_expr_kleene
-   89 arith_expr: . term plus_or_minus_term_kleene
-   96 term: . factor varias_coisas_factor_kleene
-   97 factor: . PLUS factor
-   98       | . MINUS factor
-   99       | . TILDE factor
-  100       | . power
-  103 power: . atom_expr opt_double_star
-  104 opt_await: . AWAIT
-  105          | . %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  108 atom_expr: . opt_await atom trailer_kleene
+   49 lambdef_nocond: LAMBDA opt_varargslist COLON . test_nocond
 
     AWAIT   shift, and go to state 6
     LAMBDA  shift, and go to state 293
