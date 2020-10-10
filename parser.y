@@ -19,17 +19,25 @@ ARROW NEWLINE OR TYPE_COMMENT SEMICOLON
 
 // EZ: Criei dois níveis de prioridades distintos para poder usar nas regras mais para baixo.
 %precedence LOW // Acabei criando um 'token' para a prioridade baixa, mas poderia usar outro.
-%precedence LPAR // Aqui tem de ser '(' porque queremos que o parser seja guloso.
-%precedence PLUS
+%precedence COMMA
+%precedence NOT
+%precedence LPAR LSQB// Aqui tem de ser '(' porque queremos que o parser seja guloso.
+%precedence PLUS MINUS
+%precedence STAR AT
 %%
 
-start_program: start_program func_type_input
-             | start_program single_input
+
+// single_input: NEWLINE | simple_stmt | compound_stmt NEWLINE
+// file_input: (NEWLINE | stmt)* ENDMARKER
+// eval_input: testlist NEWLINE* ENDMARKER
+
+start_program: start_program single_input %prec LOW
+             | start_program func_type_input %prec NEWLINE
              | %empty
 ;
-single_input: NEWLINE
-            | simple_stmt
+single_input: simple_stmt
             | compound_stmt NEWLINE
+            | NEWLINE
 ;
 // newline_or_stmt_fecho: newline_or_stmt_fecho NEWLINE
 //                     | newline_or_stmt_fecho stmt
@@ -85,7 +93,7 @@ opt_maiorzin: COMMA opt_typecomment opt_mediano | %empty
 typecomment_or_maiorzin: TYPE_COMMENT | opt_maiorzin
 ;
 star_e_outros_or_doublestar_e_outros: STAR opt_tfpdef kleene_gigante typecomment_or_maiorzin
-									| DOUBLESTAR tfpdef opt_comma opt_typecomment
+				    | DOUBLESTAR tfpdef opt_comma opt_typecomment
 ;
 opt_das_estrelas: star_e_outros_or_doublestar_e_outros | %empty
 ;
@@ -102,7 +110,7 @@ opt_enorme: or_enorme | %empty
 opt_comma_enorme: COMMA opt_enorme | %empty
 ;
 typedargslist: tfpdef opt_equal_test kleene_gigante COMMA opt_typecomment SLASH opt_comma_enorme
-			 | tfpdef opt_equal_test kleene_gigante type_comment_or_opt_comma_opts star_e_outros_or_doublestar_e_outros
+	     | tfpdef opt_equal_test kleene_gigante type_comment_or_opt_comma_opts star_e_outros_or_doublestar_e_outros
 ;
 opt_colon_test: COLON test
 ;
@@ -178,13 +186,13 @@ expr_stmt: testlist_star_expr annassign
 ;
 
 annassign: COLON test EQUAL yield_expr_or_testlist_star_expr
-        | COLON test
+         | COLON test
 ;
 
 comma_or_test_star_expr_kleene: comma_or_test_star_expr_kleene COMMA or_test_star_expr
-                                | %empty
+                              | %empty
 ;
-testlist_star_expr: or_test_star_expr comma_or_test_star_expr_kleene opt_comma
+testlist_star_expr: or_test_star_expr comma_or_test_star_expr_kleene opt_comma %prec LOW
 ;
 
 augassign: PLUSEQUAL | MINEQUAL | STAREQUAL | ATEQUAL | SLASHEQUAL | PERCENTEQUAL | AMPEREQUAL | VBAREQUAL | CIRCUMFLEXEQUAL | LEFTSHIFTEQUAL | RIGHTSHIFTEQUAL | DOUBLESTAREQUAL | DOUBLESLASHEQUAL
@@ -343,9 +351,11 @@ test_nocond: or_test
 ;
 opt_varargslist: varargslist | %empty
 ;
-lambdef: LAMBDA opt_varargslist COLON test
+prefix_lambdef: LAMBDA opt_varargslist COLON
 ;
-lambdef_nocond: LAMBDA opt_varargslist COLON test_nocond
+lambdef: prefix_lambdef test
+;
+lambdef_nocond: prefix_lambdef test_nocond
 ;
 or_and_test_kleene: or_and_test_kleene OR and_test
                   | %empty
@@ -357,10 +367,10 @@ and_not_test_kleene: and_not_test_kleene AND not_test
 ;
 and_test: not_test and_not_test_kleene
 ;
-not_test: NOT not_test
+not_test: NOT not_test %prec LOW
         | comparison
 ;
-comp_op_kleene: comp_op_kleene comp_op expr
+comp_op_kleene: comp_op_kleene comp_op expr %prec NOT
               | %empty
 ;
 comparison: expr comp_op_kleene
@@ -406,7 +416,7 @@ plus_or_minus_term_kleene: plus_or_minus_term_kleene PLUS term
                          | %empty
 ;
 // arith_expr: term (('+'|'-') term)*;
-arith_expr: term plus_or_minus_term_kleene %prec LPAR
+arith_expr: term plus_or_minus_term_kleene %prec LOW
 ;
 varias_coisas_factor_kleene: varias_coisas_factor_kleene STAR factor
                            | varias_coisas_factor_kleene AT factor
@@ -415,16 +425,16 @@ varias_coisas_factor_kleene: varias_coisas_factor_kleene STAR factor
                            | varias_coisas_factor_kleene DOUBLESLASH factor
                            | %empty
 ;
-term: factor varias_coisas_factor_kleene
+term: factor varias_coisas_factor_kleene %prec LPAR
 ;
-factor: PLUS factor
-	  | MINUS factor
+factor: PLUS factor 
+      | MINUS factor
       | TILDE factor
       | power
 ;
 opt_double_star_factor: DOUBLESTAR factor | %empty
 ;
-power: atom_expr opt_double_star_factor
+power: atom_expr opt_double_star_factor 
 ;
 opt_await: AWAIT | %empty
 ;
@@ -434,7 +444,7 @@ opt_await: AWAIT | %empty
 // o Python permite funções anônimas.;
 trailer_kleene:
   %empty
-| trailer_kleene trailer %prec LPAR
+| trailer_kleene trailer %prec LPAR LSQB
 ;
 
 // EZ: Já essa regra eu só quero que seja usada quando aos trailers acabarem,
@@ -449,7 +459,8 @@ opt_testlist_comp: testlist_comp | %empty
 ;
 opt_dictorsetmaker:dictorsetmaker | %empty
 ;
-string_plus: string_plus STRING | STRING
+string_plus: STRING string_plus
+           | STRING
 ;
 atom: LPAR opt_yieldex_or_testlist_comp RPAR
     | LSQB opt_testlist_comp RSQB
@@ -463,7 +474,7 @@ atom: LPAR opt_yieldex_or_testlist_comp RPAR
     | FALSE
 ;
 or_namedaexpr_test_star_expr: namedexpr_test
-                             | star_expr
+                            | star_expr
 ;
 comma_opt_namedaexpr_test_star_expr_kleene: comma_opt_namedaexpr_test_star_expr_kleene COMMA or_namedaexpr_test_star_expr
                                           | %empty
@@ -472,7 +483,7 @@ comma_subscript_kleene: comma_subscript_kleene COMMA subscript
                         | %empty
 ;
 testlist_comp: or_namedaexpr_test_star_expr comp_for
-                |  or_namedaexpr_test_star_expr comma_opt_namedaexpr_test_star_expr_kleene opt_comma
+            |  or_namedaexpr_test_star_expr comma_opt_namedaexpr_test_star_expr_kleene opt_comma
 ;
 trailer: LPAR opt_arglist RPAR
        | LSQB subscriptlist RSQB
@@ -495,7 +506,7 @@ exprlist: expr_or_star_expr comma_expr_or_star_expr_kleene opt_comma
 ;
 testlist: test comma_test_fecho opt_comma
 ;
-or_test_star_expr: test | star_expr
+or_test_star_expr: test | star_expr %prec LPAR
 ;
 comma_e_o_de_cima2_kleene: comma_e_o_de_cima2_kleene COMMA or_test_star_expr | %empty
 ;

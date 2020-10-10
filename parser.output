@@ -1,30 +1,27 @@
 State 1 conflicts: 1 shift/reduce
 State 25 conflicts: 7 shift/reduce, 10 reduce/reduce
-State 68 conflicts: 1 shift/reduce
-State 82 conflicts: 1 shift/reduce
-State 160 conflicts: 1 shift/reduce
-State 165 conflicts: 1 shift/reduce
-State 166 conflicts: 2 shift/reduce
-State 177 conflicts: 1 shift/reduce
-State 182 conflicts: 1 shift/reduce
-State 281 conflicts: 1 shift/reduce
-State 283 conflicts: 7 shift/reduce, 10 reduce/reduce
-State 470 conflicts: 6 shift/reduce, 10 reduce/reduce
-State 535 conflicts: 2 shift/reduce
-State 596 conflicts: 1 shift/reduce
+State 69 conflicts: 1 shift/reduce
+State 83 conflicts: 1 shift/reduce
+State 162 conflicts: 1 shift/reduce
+State 176 conflicts: 1 shift/reduce
+State 184 conflicts: 1 shift/reduce
+State 285 conflicts: 3 shift/reduce, 10 reduce/reduce
+State 472 conflicts: 3 shift/reduce, 10 reduce/reduce
+State 537 conflicts: 2 shift/reduce
+State 597 conflicts: 1 shift/reduce
 
 
 Grammar
 
     0 $accept: start_program $end
 
-    1 start_program: start_program func_type_input
-    2              | start_program single_input
+    1 start_program: start_program single_input
+    2              | start_program func_type_input
     3              | %empty
 
-    4 single_input: NEWLINE
-    5             | simple_stmt
-    6             | compound_stmt NEWLINE
+    4 single_input: simple_stmt
+    5             | compound_stmt NEWLINE
+    6             | NEWLINE
 
     7 newline_fecho: newline_fecho NEWLINE
     8              | %empty
@@ -352,326 +349,328 @@ Grammar
   222 opt_varargslist: varargslist
   223                | %empty
 
-  224 lambdef: LAMBDA opt_varargslist COLON test
+  224 prefix_lambdef: LAMBDA opt_varargslist COLON
 
-  225 lambdef_nocond: LAMBDA opt_varargslist COLON test_nocond
+  225 lambdef: prefix_lambdef test
 
-  226 or_and_test_kleene: or_and_test_kleene OR and_test
-  227                   | %empty
+  226 lambdef_nocond: prefix_lambdef test_nocond
 
-  228 or_test: and_test or_and_test_kleene
+  227 or_and_test_kleene: or_and_test_kleene OR and_test
+  228                   | %empty
 
-  229 and_not_test_kleene: and_not_test_kleene AND not_test
-  230                    | %empty
+  229 or_test: and_test or_and_test_kleene
 
-  231 and_test: not_test and_not_test_kleene
+  230 and_not_test_kleene: and_not_test_kleene AND not_test
+  231                    | %empty
 
-  232 not_test: NOT not_test
-  233         | comparison
+  232 and_test: not_test and_not_test_kleene
 
-  234 comp_op_kleene: comp_op_kleene comp_op expr
-  235               | %empty
+  233 not_test: NOT not_test
+  234         | comparison
 
-  236 comparison: expr comp_op_kleene
+  235 comp_op_kleene: comp_op_kleene comp_op expr
+  236               | %empty
 
-  237 comp_op: LESS
-  238        | GREATER
-  239        | EQEQUAL
-  240        | GREATEREQUAL
-  241        | LESSEQUAL
-  242        | NOTEQUAL
-  243        | IN
-  244        | NOT IN
-  245        | IS
-  246        | IS NOT
+  237 comparison: expr comp_op_kleene
 
-  247 star_expr: STAR expr
+  238 comp_op: LESS
+  239        | GREATER
+  240        | EQEQUAL
+  241        | GREATEREQUAL
+  242        | LESSEQUAL
+  243        | NOTEQUAL
+  244        | IN
+  245        | NOT IN
+  246        | IS
+  247        | IS NOT
 
-  248 vbar_xor_expr_kleene: vbar_xor_expr_kleene VBAR xor_expr
-  249                     | %empty
+  248 star_expr: STAR expr
 
-  250 expr: xor_expr vbar_xor_expr_kleene
+  249 vbar_xor_expr_kleene: vbar_xor_expr_kleene VBAR xor_expr
+  250                     | %empty
 
-  251 circumflex_and_expr_kleene: circumflex_and_expr_kleene CIRCUMFLEX and_expr
-  252                           | %empty
+  251 expr: xor_expr vbar_xor_expr_kleene
 
-  253 xor_expr: and_expr circumflex_and_expr_kleene
+  252 circumflex_and_expr_kleene: circumflex_and_expr_kleene CIRCUMFLEX and_expr
+  253                           | %empty
 
-  254 amper_shift_expr_kleene: amper_shift_expr_kleene AMPER shift_expr
-  255                        | %empty
+  254 xor_expr: and_expr circumflex_and_expr_kleene
 
-  256 and_expr: shift_expr amper_shift_expr_kleene
+  255 amper_shift_expr_kleene: amper_shift_expr_kleene AMPER shift_expr
+  256                        | %empty
 
-  257 left_shift_or_right_shift: LEFTSHIFT
-  258                          | RIGHTSHIFT
+  257 and_expr: shift_expr amper_shift_expr_kleene
 
-  259 left_shift_or_right_shift_arith_expr_kleene: left_shift_or_right_shift_arith_expr_kleene left_shift_or_right_shift arith_expr
-  260                                            | %empty
+  258 left_shift_or_right_shift: LEFTSHIFT
+  259                          | RIGHTSHIFT
 
-  261 shift_expr: arith_expr left_shift_or_right_shift_arith_expr_kleene
+  260 left_shift_or_right_shift_arith_expr_kleene: left_shift_or_right_shift_arith_expr_kleene left_shift_or_right_shift arith_expr
+  261                                            | %empty
 
-  262 plus_or_minus_term_kleene: plus_or_minus_term_kleene PLUS term
-  263                          | plus_or_minus_term_kleene MINUS term
-  264                          | %empty
+  262 shift_expr: arith_expr left_shift_or_right_shift_arith_expr_kleene
 
-  265 arith_expr: term plus_or_minus_term_kleene
+  263 plus_or_minus_term_kleene: plus_or_minus_term_kleene PLUS term
+  264                          | plus_or_minus_term_kleene MINUS term
+  265                          | %empty
 
-  266 varias_coisas_factor_kleene: varias_coisas_factor_kleene STAR factor
-  267                            | varias_coisas_factor_kleene AT factor
-  268                            | varias_coisas_factor_kleene SLASH factor
-  269                            | varias_coisas_factor_kleene PERCENT factor
-  270                            | varias_coisas_factor_kleene DOUBLESLASH factor
-  271                            | %empty
+  266 arith_expr: term plus_or_minus_term_kleene
 
-  272 term: factor varias_coisas_factor_kleene
+  267 varias_coisas_factor_kleene: varias_coisas_factor_kleene STAR factor
+  268                            | varias_coisas_factor_kleene AT factor
+  269                            | varias_coisas_factor_kleene SLASH factor
+  270                            | varias_coisas_factor_kleene PERCENT factor
+  271                            | varias_coisas_factor_kleene DOUBLESLASH factor
+  272                            | %empty
 
-  273 factor: PLUS factor
-  274       | MINUS factor
-  275       | TILDE factor
-  276       | power
+  273 term: factor varias_coisas_factor_kleene
 
-  277 opt_double_star_factor: DOUBLESTAR factor
-  278                       | %empty
+  274 factor: PLUS factor
+  275       | MINUS factor
+  276       | TILDE factor
+  277       | power
 
-  279 power: atom_expr opt_double_star_factor
+  278 opt_double_star_factor: DOUBLESTAR factor
+  279                       | %empty
 
-  280 opt_await: AWAIT
-  281          | %empty
+  280 power: atom_expr opt_double_star_factor
 
-  282 trailer_kleene: %empty
-  283               | trailer_kleene trailer
+  281 opt_await: AWAIT
+  282          | %empty
 
-  284 atom_expr: opt_await atom trailer_kleene
+  283 trailer_kleene: %empty
+  284               | trailer_kleene trailer LSQB
 
-  285 opt_yieldex_or_testlist_comp: yield_expr
-  286                             | opt_testlist_comp
+  285 atom_expr: opt_await atom trailer_kleene
 
-  287 opt_testlist_comp: testlist_comp
-  288                  | %empty
+  286 opt_yieldex_or_testlist_comp: yield_expr
+  287                             | opt_testlist_comp
 
-  289 opt_dictorsetmaker: dictorsetmaker
-  290                   | %empty
+  288 opt_testlist_comp: testlist_comp
+  289                  | %empty
 
-  291 string_plus: string_plus STRING
-  292            | STRING
+  290 opt_dictorsetmaker: dictorsetmaker
+  291                   | %empty
 
-  293 atom: LPAR opt_yieldex_or_testlist_comp RPAR
-  294     | LSQB opt_testlist_comp RSQB
-  295     | LBRACE opt_dictorsetmaker RBRACE
-  296     | NAME
-  297     | NUMBER
-  298     | string_plus
-  299     | ELLIPSIS
-  300     | NONE
-  301     | TRUE
-  302     | FALSE
+  292 string_plus: STRING string_plus
+  293            | STRING
 
-  303 or_namedaexpr_test_star_expr: namedexpr_test
-  304                             | star_expr
+  294 atom: LPAR opt_yieldex_or_testlist_comp RPAR
+  295     | LSQB opt_testlist_comp RSQB
+  296     | LBRACE opt_dictorsetmaker RBRACE
+  297     | NAME
+  298     | NUMBER
+  299     | string_plus
+  300     | ELLIPSIS
+  301     | NONE
+  302     | TRUE
+  303     | FALSE
 
-  305 comma_opt_namedaexpr_test_star_expr_kleene: comma_opt_namedaexpr_test_star_expr_kleene COMMA or_namedaexpr_test_star_expr
-  306                                           | %empty
+  304 or_namedaexpr_test_star_expr: namedexpr_test
+  305                             | star_expr
 
-  307 comma_subscript_kleene: comma_subscript_kleene COMMA subscript
-  308                       | %empty
+  306 comma_opt_namedaexpr_test_star_expr_kleene: comma_opt_namedaexpr_test_star_expr_kleene COMMA or_namedaexpr_test_star_expr
+  307                                           | %empty
 
-  309 testlist_comp: or_namedaexpr_test_star_expr comp_for
-  310              | or_namedaexpr_test_star_expr comma_opt_namedaexpr_test_star_expr_kleene opt_comma
+  308 comma_subscript_kleene: comma_subscript_kleene COMMA subscript
+  309                       | %empty
 
-  311 trailer: LPAR opt_arglist RPAR
-  312        | LSQB subscriptlist RSQB
-  313        | DOT NAME
+  310 testlist_comp: or_namedaexpr_test_star_expr comp_for
+  311              | or_namedaexpr_test_star_expr comma_opt_namedaexpr_test_star_expr_kleene opt_comma
 
-  314 subscriptlist: subscript comma_subscript_kleene opt_comma
+  312 trailer: LPAR opt_arglist RPAR
+  313        | LSQB subscriptlist RSQB
+  314        | DOT NAME
 
-  315 opt_sliceop: sliceop
-  316            | %empty
+  315 subscriptlist: subscript comma_subscript_kleene opt_comma
 
-  317 subscript: test
-  318          | opt_test COLON opt_test opt_sliceop
+  316 opt_sliceop: sliceop
+  317            | %empty
 
-  319 sliceop: COLON opt_test
+  318 subscript: test
+  319          | opt_test COLON opt_test opt_sliceop
 
-  320 expr_or_star_expr: expr
-  321                  | star_expr
+  320 sliceop: COLON opt_test
 
-  322 comma_expr_or_star_expr_kleene: comma_expr_or_star_expr_kleene COMMA expr_or_star_expr
-  323                               | %empty
+  321 expr_or_star_expr: expr
+  322                  | star_expr
 
-  324 exprlist: expr_or_star_expr comma_expr_or_star_expr_kleene opt_comma
+  323 comma_expr_or_star_expr_kleene: comma_expr_or_star_expr_kleene COMMA expr_or_star_expr
+  324                               | %empty
 
-  325 testlist: test comma_test_fecho opt_comma
+  325 exprlist: expr_or_star_expr comma_expr_or_star_expr_kleene opt_comma
 
-  326 or_test_star_expr: test
-  327                  | star_expr
+  326 testlist: test comma_test_fecho opt_comma
 
-  328 comma_e_o_de_cima2_kleene: comma_e_o_de_cima2_kleene COMMA or_test_star_expr
-  329                          | %empty
+  327 or_test_star_expr: test
+  328                  | star_expr
 
-  330 opt_test_colon_test_doublestar_expr: test COLON test
-  331                                    | DOUBLESTAR expr
+  329 comma_e_o_de_cima2_kleene: comma_e_o_de_cima2_kleene COMMA or_test_star_expr
+  330                          | %empty
 
-  332 comma_e_o_de_cima3_kleene: comma_e_o_de_cima3_kleene COMMA opt_test_colon_test_doublestar_expr
-  333                          | %empty
+  331 opt_test_colon_test_doublestar_expr: test COLON test
+  332                                    | DOUBLESTAR expr
 
-  334 opt_primeiro_menor_dictorsetmaker: comp_for
-  335                                  | comma_e_o_de_cima3_kleene opt_comma
+  333 comma_e_o_de_cima3_kleene: comma_e_o_de_cima3_kleene COMMA opt_test_colon_test_doublestar_expr
+  334                          | %empty
 
-  336 opt_segundo_menor_dictorsetmaker: comp_for
-  337                                 | comma_e_o_de_cima2_kleene opt_comma
+  335 opt_primeiro_menor_dictorsetmaker: comp_for
+  336                                  | comma_e_o_de_cima3_kleene opt_comma
 
-  338 dictorsetmaker: opt_test_colon_test_doublestar_expr opt_primeiro_menor_dictorsetmaker
-  339               | or_test_star_expr opt_segundo_menor_dictorsetmaker
+  337 opt_segundo_menor_dictorsetmaker: comp_for
+  338                                 | comma_e_o_de_cima2_kleene opt_comma
 
-  340 opt_lpar_opt_arglist_rpar: LPAR opt_arglist RPAR
-  341                          | %empty
+  339 dictorsetmaker: opt_test_colon_test_doublestar_expr opt_primeiro_menor_dictorsetmaker
+  340               | or_test_star_expr opt_segundo_menor_dictorsetmaker
 
-  342 classdef: CLASS NAME opt_lpar_opt_arglist_rpar COLON suite
+  341 opt_lpar_opt_arglist_rpar: LPAR opt_arglist RPAR
+  342                          | %empty
 
-  343 opt_comma_argument_kleene: opt_comma_argument_kleene COMMA argument
-  344                          | %empty
+  343 classdef: CLASS NAME opt_lpar_opt_arglist_rpar COLON suite
 
-  345 arglist: argument opt_comma_argument_kleene opt_comma
+  344 opt_comma_argument_kleene: opt_comma_argument_kleene COMMA argument
+  345                          | %empty
 
-  346 opt_comp_for: comp_for
-  347             | %empty
+  346 arglist: argument opt_comma_argument_kleene opt_comma
 
-  348 argument: test opt_comp_for
-  349         | test COLONEQUAL test
-  350         | test EQUAL test
-  351         | DOUBLESTAR test
-  352         | STAR test
+  347 opt_comp_for: comp_for
+  348             | %empty
 
-  353 comp_iter: comp_for
-  354          | comp_if
+  349 argument: test opt_comp_for
+  350         | test COLONEQUAL test
+  351         | test EQUAL test
+  352         | DOUBLESTAR test
+  353         | STAR test
 
-  355 opt_comp_iter: comp_iter
-  356              | %empty
+  354 comp_iter: comp_for
+  355          | comp_if
 
-  357 sync_comp_for: FOR exprlist IN or_test opt_comp_iter
+  356 opt_comp_iter: comp_iter
+  357              | %empty
 
-  358 comp_for: ASYNC sync_comp_for
-  359         | sync_comp_for
+  358 sync_comp_for: FOR exprlist IN or_test opt_comp_iter
 
-  360 comp_if: IF test_nocond opt_comp_iter
+  359 comp_for: ASYNC sync_comp_for
+  360         | sync_comp_for
 
-  361 opt_yield_arg: yield_arg
-  362              | %empty
+  361 comp_if: IF test_nocond opt_comp_iter
 
-  363 yield_expr: YIELD opt_yield_arg
+  362 opt_yield_arg: yield_arg
+  363              | %empty
 
-  364 yield_arg: FROM test
-  365          | testlist_star_expr
+  364 yield_expr: YIELD opt_yield_arg
 
-  366 opt_type_comment_newline: TYPE_COMMENT NEWLINE
-  367                         | %empty
+  365 yield_arg: FROM test
+  366          | testlist_star_expr
 
-  368 stmt_kleene_plus: stmt_kleene_plus stmt
-  369                 | stmt
+  367 opt_type_comment_newline: TYPE_COMMENT NEWLINE
+  368                         | %empty
 
-  370 func_body_suite: simple_stmt
-  371                | NEWLINE opt_type_comment_newline INDENT stmt_kleene_plus DEDENT
+  369 stmt_kleene_plus: stmt_kleene_plus stmt
+  370                 | stmt
 
-  372 func_type_input: func_type newline_fecho
+  371 func_body_suite: simple_stmt
+  372                | NEWLINE opt_type_comment_newline INDENT stmt_kleene_plus DEDENT
 
-  373 opt_typelist: typelist
-  374             | %empty
+  373 func_type_input: func_type newline_fecho
 
-  375 func_type: LPAR opt_typelist RPAR ARROW test
+  374 opt_typelist: typelist
+  375             | %empty
 
-  376 comma_test_fecho: comma_test_fecho COMMA test
-  377                 | %empty
+  376 func_type: LPAR opt_typelist RPAR ARROW test
 
-  378 opt_comma_doublestar_test: COMMA DOUBLESTAR test
-  379                          | %empty
+  377 comma_test_fecho: comma_test_fecho COMMA test
+  378                 | %empty
 
-  380 opt_test: test
-  381         | %empty
+  379 opt_comma_doublestar_test: COMMA DOUBLESTAR test
+  380                          | %empty
 
-  382 opt_maluco: STAR opt_test comma_test_fecho opt_comma_doublestar_test
-  383           | DOUBLESTAR test
-  384           | %empty
+  381 opt_test: test
+  382         | %empty
 
-  385 opt_comma_maluco: COMMA opt_maluco
-  386                 | %empty
+  383 opt_maluco: STAR opt_test comma_test_fecho opt_comma_doublestar_test
+  384           | DOUBLESTAR test
+  385           | %empty
 
-  387 typelist: test comma_test_fecho opt_comma_maluco
-  388         | STAR opt_test comma_test_fecho opt_comma_doublestar_test
-  389         | DOUBLESTAR test
+  386 opt_comma_maluco: COMMA opt_maluco
+  387                 | %empty
+
+  388 typelist: test comma_test_fecho opt_comma_maluco
+  389         | STAR opt_test comma_test_fecho opt_comma_doublestar_test
+  390         | DOUBLESTAR test
 
 
 Terminals, with rules where they appear
 
     $end (0) 0
     error (256)
-    FALSE (258) 302
-    AWAIT (259) 280
+    FALSE (258) 303
+    AWAIT (259) 281
     ELSE (260) 193 216
     IMPORT (261) 142 154
     PASS (262) 123
-    NONE (263) 300
+    NONE (263) 301
     BREAK (264) 129
     EXCEPT (265) 210
-    IN (266) 191 243 244 357
+    IN (266) 191 244 245 358
     RAISE (267) 139
-    TRUE (268) 301
-    CLASS (269) 342
+    TRUE (268) 302
+    CLASS (269) 343
     FINALLY (270) 195 201
-    IS (271) 245 246
+    IS (271) 246 247
     RETURN (272) 133
-    AND (273) 229
+    AND (273) 230
     CONTINUE (274) 130
-    FOR (275) 191 357
-    LAMBDA (276) 224 225
+    FOR (275) 191 358
+    LAMBDA (276) 224
     TRY (277) 199
     AS (278) 155 205
     DEF (279) 24
-    FROM (280) 135 154 364
+    FROM (280) 135 154 365
     NONLOCAL (281) 171
     WHILE (282) 190
     ASSERT (283) 174
     DEL (284) 122
     GLOBAL (285) 170
-    NOT (286) 232 244 246
+    NOT (286) 233 245 247
     WITH (287) 204
-    ASYNC (288) 19 184 185 186 358
+    ASYNC (288) 19 184 185 186 359
     ELIF (289) 188
-    IF (290) 187 216 360
-    YIELD (291) 363
-    EQEQUAL (292) 239
-    NOTEQUAL (293) 242
-    LEFTSHIFT (294) 257
-    RIGHTSHIFT (295) 258
-    LESSEQUAL (296) 241
-    GREATEREQUAL (297) 240
-    LESS (298) 237
-    GREATER (299) 238
-    TILDE (300) 275
-    PERCENT (301) 269
-    VBAR (302) 248
-    AMPER (303) 254
-    DOUBLESLASH (304) 270
-    SLASH (305) 52 75 268
-    DOUBLESTAR (306) 32 39 62 69 80 277 331 351 378 383 389
-    STAR (307) 38 68 79 151 247 266 352 382 388
-    MINUS (308) 263 274
-    PLUS (309) 262 273
-    CIRCUMFLEX (310) 251
-    EQUAL (311) 56 101 102 104 350
-    COMMA (312) 30 34 42 50 52 58 64 66 71 75 76 106 159 162 168 172 202 305 307 322 328 332 343 376 378 385
-    COLON (313) 24 54 104 105 187 188 190 191 193 195 197 198 199 201 204 224 225 318 319 330 342
-    LPAR (314) 12 27 152 293 311 340 375
-    RPAR (315) 12 27 152 293 311 340 375
-    LSQB (316) 294 312
-    RSQB (317) 294 312
-    LBRACE (318) 295
-    RBRACE (319) 295
-    AT (320) 11 12 267
-    DOT (321) 145 147 165 313
-    ELLIPSIS (322) 146 148 299
+    IF (290) 187 216 361
+    YIELD (291) 364
+    EQEQUAL (292) 240
+    NOTEQUAL (293) 243
+    LEFTSHIFT (294) 258
+    RIGHTSHIFT (295) 259
+    LESSEQUAL (296) 242
+    GREATEREQUAL (297) 241
+    LESS (298) 238
+    GREATER (299) 239
+    TILDE (300) 276
+    PERCENT (301) 270
+    VBAR (302) 249
+    AMPER (303) 255
+    DOUBLESLASH (304) 271
+    SLASH (305) 52 75 269
+    DOUBLESTAR (306) 32 39 62 69 80 278 332 352 379 384 390
+    STAR (307) 38 68 79 151 248 267 353 383 389
+    MINUS (308) 264 275
+    PLUS (309) 263 274
+    CIRCUMFLEX (310) 252
+    EQUAL (311) 56 101 102 104 351
+    COMMA (312) 30 34 42 50 52 58 64 66 71 75 76 106 159 162 168 172 202 306 308 323 329 333 344 377 379 386
+    COLON (313) 24 54 104 105 187 188 190 191 193 195 197 198 199 201 204 224 319 320 331 343
+    LPAR (314) 12 27 152 294 312 341 376
+    RPAR (315) 12 27 152 294 312 341 376
+    LSQB (316) 284 295 313
+    RSQB (317) 295 313
+    LBRACE (318) 296
+    RBRACE (319) 296
+    AT (320) 11 12 268
+    DOT (321) 145 147 165 314
+    ELLIPSIS (322) 146 148 300
     PLUSEQUAL (323) 109
     MINEQUAL (324) 110
-    COLONEQUAL (325) 213 349
+    COLONEQUAL (325) 213 350
     DOUBLESTAREQUAL (326) 120
     STAREQUAL (327) 111
     DOUBLESLASHEQUAL (328) 121
@@ -683,15 +682,15 @@ Terminals, with rules where they appear
     CIRCUMFLEXEQUAL (334) 117
     RIGHTSHIFTEQUAL (335) 119
     LEFTSHIFTEQUAL (336) 118
-    STRING (337) 291 292
-    NAME (338) 24 55 81 155 157 165 167 168 170 171 296 313 342
-    NUMBER (339) 297
-    INDENT (340) 212 371
-    DEDENT (341) 212 371
-    ARROW (342) 20 375
-    NEWLINE (343) 4 6 7 11 12 88 212 366 371
-    OR (344) 226
-    TYPE_COMMENT (345) 22 36 44 366
+    STRING (337) 292 293
+    NAME (338) 24 55 81 155 157 165 167 168 170 171 297 314 343
+    NUMBER (339) 298
+    INDENT (340) 212 372
+    DEDENT (341) 212 372
+    ARROW (342) 20 376
+    NEWLINE (343) 5 6 7 11 12 88 212 367 372
+    OR (344) 227
+    TYPE_COMMENT (345) 22 36 44 367
     SEMICOLON (346) 84 86
     LOW (347)
 
@@ -705,13 +704,13 @@ Nonterminals, with rules where they appear
         on right: 0 1 2
     single_input (95)
         on left: 4 5 6
-        on right: 2
+        on right: 1
     newline_fecho (96)
         on left: 7 8
-        on right: 7 372
+        on right: 7 373
     opt_arglist (97)
         on left: 9 10
-        on right: 12 311 340
+        on right: 12 312 341
     decorator (98)
         on left: 11 12
         on right: 13 14
@@ -792,7 +791,7 @@ Nonterminals, with rules where they appear
         on right: 30 46 52 53 66 73 76 77 78
     opt_comma (124)
         on left: 58 59
-        on right: 32 39 62 69 80 108 161 310 314 324 325 335 337 345
+        on right: 32 39 62 69 80 108 161 311 315 325 326 336 338 346
     opt_vfpdef (125)
         on left: 60 61
         on right: 68 79
@@ -825,7 +824,7 @@ Nonterminals, with rules where they appear
         on right: 60 62 66 69 73 76 77 78 80
     stmt (135)
         on left: 82 83
-        on right: 368 369
+        on right: 369 370
     semicolon_smallstmt_fecho (136)
         on left: 84 85
         on right: 84 88
@@ -834,7 +833,7 @@ Nonterminals, with rules where they appear
         on right: 88
     simple_stmt (138)
         on left: 88
-        on right: 5 82 211 370
+        on right: 4 82 211 371
     small_stmt (139)
         on left: 89 90 91 92 93 94 95 96
         on right: 84 88
@@ -858,7 +857,7 @@ Nonterminals, with rules where they appear
         on right: 106 108
     testlist_star_expr (146)
         on left: 108
-        on right: 100 103 131 365
+        on right: 100 103 131 366
     augassign (147)
         on left: 109 110 111 112 113 114 115 116 117 118 119 120 121
         on right: 103
@@ -960,7 +959,7 @@ Nonterminals, with rules where they appear
         on right: 96
     compound_stmt (180)
         on left: 175 176 177 178 179 180 181 182 183
-        on right: 6 83
+        on right: 5 83
     async_stmt (181)
         on left: 184 185 186
         on right: 183
@@ -1014,275 +1013,278 @@ Nonterminals, with rules where they appear
         on right: 197 198
     suite (198)
         on left: 211 212
-        on right: 187 188 190 192 193 195 197 198 199 201 204 342
+        on right: 187 188 190 192 193 195 197 198 199 201 204 343
     opt_colonequal_test (199)
         on left: 213 214
         on right: 215
     namedexpr_test (200)
         on left: 215
-        on right: 187 188 190 303
+        on right: 187 188 190 304
     opt_if_ortest_else_test (201)
         on left: 216 217
         on right: 218
     test (202)
         on left: 218 219
-        on right: 20 54 56 104 105 135 137 172 174 207 208 213 215 216 224 317 325 326 330 348 349 350 351 352 364 375 376 378 380 383 387 389
+        on right: 20 54 56 104 105 135 137 172 174 207 208 213 215 216 225 318 326 327 331 349 350 351 352 353 365 376 377 379 381 384 388 390
     test_nocond (203)
         on left: 220 221
-        on right: 225 360
+        on right: 226 361
     opt_varargslist (204)
         on left: 222 223
-        on right: 224 225
-    lambdef (205)
+        on right: 224
+    prefix_lambdef (205)
         on left: 224
-        on right: 219
-    lambdef_nocond (206)
+        on right: 225 226
+    lambdef (206)
         on left: 225
+        on right: 219
+    lambdef_nocond (207)
+        on left: 226
         on right: 221
-    or_and_test_kleene (207)
-        on left: 226 227
-        on right: 226 228
-    or_test (208)
-        on left: 228
-        on right: 216 218 220 357
-    and_not_test_kleene (209)
-        on left: 229 230
-        on right: 229 231
-    and_test (210)
-        on left: 231
-        on right: 226 228
-    not_test (211)
-        on left: 232 233
-        on right: 229 231 232
-    comp_op_kleene (212)
-        on left: 234 235
-        on right: 234 236
-    comparison (213)
-        on left: 236
-        on right: 233
-    comp_op (214)
-        on left: 237 238 239 240 241 242 243 244 245 246
+    or_and_test_kleene (208)
+        on left: 227 228
+        on right: 227 229
+    or_test (209)
+        on left: 229
+        on right: 216 218 220 358
+    and_not_test_kleene (210)
+        on left: 230 231
+        on right: 230 232
+    and_test (211)
+        on left: 232
+        on right: 227 229
+    not_test (212)
+        on left: 233 234
+        on right: 230 232 233
+    comp_op_kleene (213)
+        on left: 235 236
+        on right: 235 237
+    comparison (214)
+        on left: 237
         on right: 234
-    star_expr (215)
-        on left: 247
-        on right: 304 321 327
-    vbar_xor_expr_kleene (216)
-        on left: 248 249
-        on right: 248 250
-    expr (217)
-        on left: 250
-        on right: 205 234 236 247 320 331
-    circumflex_and_expr_kleene (218)
-        on left: 251 252
-        on right: 251 253
-    xor_expr (219)
-        on left: 253
-        on right: 248 250
-    amper_shift_expr_kleene (220)
-        on left: 254 255
-        on right: 254 256
-    and_expr (221)
-        on left: 256
-        on right: 251 253
-    left_shift_or_right_shift (222)
-        on left: 257 258
-        on right: 259
-    left_shift_or_right_shift_arith_expr_kleene (223)
-        on left: 259 260
-        on right: 259 261
-    shift_expr (224)
-        on left: 261
-        on right: 254 256
-    plus_or_minus_term_kleene (225)
-        on left: 262 263 264
-        on right: 262 263 265
-    arith_expr (226)
-        on left: 265
-        on right: 259 261
-    varias_coisas_factor_kleene (227)
-        on left: 266 267 268 269 270 271
-        on right: 266 267 268 269 270 272
-    term (228)
-        on left: 272
-        on right: 262 263 265
-    factor (229)
-        on left: 273 274 275 276
-        on right: 266 267 268 269 270 272 273 274 275 277
-    opt_double_star_factor (230)
-        on left: 277 278
-        on right: 279
-    power (231)
-        on left: 279
-        on right: 276
-    opt_await (232)
-        on left: 280 281
+    comp_op (215)
+        on left: 238 239 240 241 242 243 244 245 246 247
+        on right: 235
+    star_expr (216)
+        on left: 248
+        on right: 305 322 328
+    vbar_xor_expr_kleene (217)
+        on left: 249 250
+        on right: 249 251
+    expr (218)
+        on left: 251
+        on right: 205 235 237 248 321 332
+    circumflex_and_expr_kleene (219)
+        on left: 252 253
+        on right: 252 254
+    xor_expr (220)
+        on left: 254
+        on right: 249 251
+    amper_shift_expr_kleene (221)
+        on left: 255 256
+        on right: 255 257
+    and_expr (222)
+        on left: 257
+        on right: 252 254
+    left_shift_or_right_shift (223)
+        on left: 258 259
+        on right: 260
+    left_shift_or_right_shift_arith_expr_kleene (224)
+        on left: 260 261
+        on right: 260 262
+    shift_expr (225)
+        on left: 262
+        on right: 255 257
+    plus_or_minus_term_kleene (226)
+        on left: 263 264 265
+        on right: 263 264 266
+    arith_expr (227)
+        on left: 266
+        on right: 260 262
+    varias_coisas_factor_kleene (228)
+        on left: 267 268 269 270 271 272
+        on right: 267 268 269 270 271 273
+    term (229)
+        on left: 273
+        on right: 263 264 266
+    factor (230)
+        on left: 274 275 276 277
+        on right: 267 268 269 270 271 273 274 275 276 278
+    opt_double_star_factor (231)
+        on left: 278 279
+        on right: 280
+    power (232)
+        on left: 280
+        on right: 277
+    opt_await (233)
+        on left: 281 282
+        on right: 285
+    trailer_kleene (234)
+        on left: 283 284
+        on right: 284 285
+    atom_expr (235)
+        on left: 285
+        on right: 280
+    opt_yieldex_or_testlist_comp (236)
+        on left: 286 287
+        on right: 294
+    opt_testlist_comp (237)
+        on left: 288 289
+        on right: 287 295
+    opt_dictorsetmaker (238)
+        on left: 290 291
+        on right: 296
+    string_plus (239)
+        on left: 292 293
+        on right: 292 299
+    atom (240)
+        on left: 294 295 296 297 298 299 300 301 302 303
+        on right: 285
+    or_namedaexpr_test_star_expr (241)
+        on left: 304 305
+        on right: 306 310 311
+    comma_opt_namedaexpr_test_star_expr_kleene (242)
+        on left: 306 307
+        on right: 306 311
+    comma_subscript_kleene (243)
+        on left: 308 309
+        on right: 308 315
+    testlist_comp (244)
+        on left: 310 311
+        on right: 288
+    trailer (245)
+        on left: 312 313 314
         on right: 284
-    trailer_kleene (233)
-        on left: 282 283
-        on right: 283 284
-    atom_expr (234)
-        on left: 284
-        on right: 279
-    opt_yieldex_or_testlist_comp (235)
-        on left: 285 286
-        on right: 293
-    opt_testlist_comp (236)
-        on left: 287 288
-        on right: 286 294
-    opt_dictorsetmaker (237)
-        on left: 289 290
-        on right: 295
-    string_plus (238)
-        on left: 291 292
-        on right: 291 298
-    atom (239)
-        on left: 293 294 295 296 297 298 299 300 301 302
-        on right: 284
-    or_namedaexpr_test_star_expr (240)
-        on left: 303 304
-        on right: 305 309 310
-    comma_opt_namedaexpr_test_star_expr_kleene (241)
-        on left: 305 306
-        on right: 305 310
-    comma_subscript_kleene (242)
-        on left: 307 308
-        on right: 307 314
-    testlist_comp (243)
-        on left: 309 310
-        on right: 287
-    trailer (244)
-        on left: 311 312 313
-        on right: 283
-    subscriptlist (245)
-        on left: 314
-        on right: 312
-    opt_sliceop (246)
-        on left: 315 316
-        on right: 318
-    subscript (247)
-        on left: 317 318
-        on right: 307 314
-    sliceop (248)
-        on left: 319
-        on right: 315
-    expr_or_star_expr (249)
-        on left: 320 321
-        on right: 322 324
-    comma_expr_or_star_expr_kleene (250)
-        on left: 322 323
-        on right: 322 324
-    exprlist (251)
-        on left: 324
-        on right: 122 191 357
-    testlist (252)
+    subscriptlist (246)
+        on left: 315
+        on right: 313
+    opt_sliceop (247)
+        on left: 316 317
+        on right: 319
+    subscript (248)
+        on left: 318 319
+        on right: 308 315
+    sliceop (249)
+        on left: 320
+        on right: 316
+    expr_or_star_expr (250)
+        on left: 321 322
+        on right: 323 325
+    comma_expr_or_star_expr_kleene (251)
+        on left: 323 324
+        on right: 323 325
+    exprlist (252)
         on left: 325
+        on right: 122 191 358
+    testlist (253)
+        on left: 326
         on right: 98 191
-    or_test_star_expr (253)
-        on left: 326 327
-        on right: 106 108 328 339
-    comma_e_o_de_cima2_kleene (254)
-        on left: 328 329
-        on right: 328 337
-    opt_test_colon_test_doublestar_expr (255)
-        on left: 330 331
-        on right: 332 338
-    comma_e_o_de_cima3_kleene (256)
-        on left: 332 333
-        on right: 332 335
-    opt_primeiro_menor_dictorsetmaker (257)
-        on left: 334 335
-        on right: 338
-    opt_segundo_menor_dictorsetmaker (258)
-        on left: 336 337
+    or_test_star_expr (254)
+        on left: 327 328
+        on right: 106 108 329 340
+    comma_e_o_de_cima2_kleene (255)
+        on left: 329 330
+        on right: 329 338
+    opt_test_colon_test_doublestar_expr (256)
+        on left: 331 332
+        on right: 333 339
+    comma_e_o_de_cima3_kleene (257)
+        on left: 333 334
+        on right: 333 336
+    opt_primeiro_menor_dictorsetmaker (258)
+        on left: 335 336
         on right: 339
-    dictorsetmaker (259)
-        on left: 338 339
-        on right: 289
-    opt_lpar_opt_arglist_rpar (260)
-        on left: 340 341
-        on right: 342
-    classdef (261)
-        on left: 342
+    opt_segundo_menor_dictorsetmaker (259)
+        on left: 337 338
+        on right: 340
+    dictorsetmaker (260)
+        on left: 339 340
+        on right: 290
+    opt_lpar_opt_arglist_rpar (261)
+        on left: 341 342
+        on right: 343
+    classdef (262)
+        on left: 343
         on right: 16 181
-    opt_comma_argument_kleene (262)
-        on left: 343 344
-        on right: 343 345
-    arglist (263)
-        on left: 345
+    opt_comma_argument_kleene (263)
+        on left: 344 345
+        on right: 344 346
+    arglist (264)
+        on left: 346
         on right: 9
-    opt_comp_for (264)
-        on left: 346 347
-        on right: 348
-    argument (265)
-        on left: 348 349 350 351 352
-        on right: 343 345
-    comp_iter (266)
-        on left: 353 354
+    opt_comp_for (265)
+        on left: 347 348
+        on right: 349
+    argument (266)
+        on left: 349 350 351 352 353
+        on right: 344 346
+    comp_iter (267)
+        on left: 354 355
+        on right: 356
+    opt_comp_iter (268)
+        on left: 356 357
+        on right: 358 361
+    sync_comp_for (269)
+        on left: 358
+        on right: 359 360
+    comp_for (270)
+        on left: 359 360
+        on right: 310 335 337 347 354
+    comp_if (271)
+        on left: 361
         on right: 355
-    opt_comp_iter (267)
-        on left: 355 356
-        on right: 357 360
-    sync_comp_for (268)
-        on left: 357
-        on right: 358 359
-    comp_for (269)
-        on left: 358 359
-        on right: 309 334 336 346 353
-    comp_if (270)
-        on left: 360
-        on right: 354
-    opt_yield_arg (271)
-        on left: 361 362
-        on right: 363
-    yield_expr (272)
-        on left: 363
-        on right: 97 99 134 285
-    yield_arg (273)
-        on left: 364 365
-        on right: 361
-    opt_type_comment_newline (274)
-        on left: 366 367
-        on right: 371
-    stmt_kleene_plus (275)
-        on left: 368 369
-        on right: 212 368 371
-    func_body_suite (276)
-        on left: 370 371
-        on right: 24
-    func_type_input (277)
-        on left: 372
-        on right: 1
-    opt_typelist (278)
-        on left: 373 374
-        on right: 375
-    func_type (279)
-        on left: 375
+    opt_yield_arg (272)
+        on left: 362 363
+        on right: 364
+    yield_expr (273)
+        on left: 364
+        on right: 97 99 134 286
+    yield_arg (274)
+        on left: 365 366
+        on right: 362
+    opt_type_comment_newline (275)
+        on left: 367 368
         on right: 372
-    comma_test_fecho (280)
-        on left: 376 377
-        on right: 325 376 382 387 388
-    opt_comma_doublestar_test (281)
-        on left: 378 379
-        on right: 382 388
-    opt_test (282)
-        on left: 380 381
-        on right: 318 319 382 388
-    opt_maluco (283)
-        on left: 382 383 384
-        on right: 385
-    opt_comma_maluco (284)
-        on left: 385 386
-        on right: 387
-    typelist (285)
-        on left: 387 388 389
+    stmt_kleene_plus (276)
+        on left: 369 370
+        on right: 212 369 372
+    func_body_suite (277)
+        on left: 371 372
+        on right: 24
+    func_type_input (278)
+        on left: 373
+        on right: 2
+    opt_typelist (279)
+        on left: 374 375
+        on right: 376
+    func_type (280)
+        on left: 376
         on right: 373
+    comma_test_fecho (281)
+        on left: 377 378
+        on right: 326 377 383 388 389
+    opt_comma_doublestar_test (282)
+        on left: 379 380
+        on right: 383 389
+    opt_test (283)
+        on left: 381 382
+        on right: 319 320 383 389
+    opt_maluco (284)
+        on left: 383 384 385
+        on right: 386
+    opt_comma_maluco (285)
+        on left: 386 387
+        on right: 388
+    typelist (286)
+        on left: 388 389 390
+        on right: 374
 
 
 State 0
 
     0 $accept: • start_program $end
-    1 start_program: • start_program func_type_input
-    2              | • start_program single_input
+    1 start_program: • start_program single_input
+    2              | • start_program func_type_input
     3              | • %empty
 
     $default  reduce using rule 3 (start_program)
@@ -1293,11 +1295,11 @@ State 0
 State 1
 
     0 $accept: start_program • $end
-    1 start_program: start_program • func_type_input
-    2              | start_program • single_input
-    4 single_input: • NEWLINE
-    5             | • simple_stmt
-    6             | • compound_stmt NEWLINE
+    1 start_program: start_program • single_input
+    2              | start_program • func_type_input
+    4 single_input: • simple_stmt
+    5             | • compound_stmt NEWLINE
+    6             | • NEWLINE
    11 decorator: • AT dotted_name NEWLINE
    12          | • AT dotted_name LPAR opt_arglist RPAR NEWLINE
    13 decorator_fecho_plus: • decorator_fecho_plus decorator
@@ -1359,28 +1361,28 @@ State 1
   204 with_stmt: • WITH with_item comma_with_item_kleene COLON opt_typecomment suite
   218 test: • or_test opt_if_ortest_else_test
   219     | • lambdef
-  224 lambdef: • LAMBDA opt_varargslist COLON test
-  228 or_test: • and_test or_and_test_kleene
-  231 and_test: • not_test and_not_test_kleene
-  232 not_test: • NOT not_test
-  233         | • comparison
-  236 comparison: • expr comp_op_kleene
-  247 star_expr: • STAR expr
-  250 expr: • xor_expr vbar_xor_expr_kleene
-  253 xor_expr: • and_expr circumflex_and_expr_kleene
-  256 and_expr: • shift_expr amper_shift_expr_kleene
-  261 shift_expr: • arith_expr left_shift_or_right_shift_arith_expr_kleene
-  265 arith_expr: • term plus_or_minus_term_kleene
-  272 term: • factor varias_coisas_factor_kleene
-  273 factor: • PLUS factor
-  274       | • MINUS factor
-  275       | • TILDE factor
-  276       | • power
-  279 power: • atom_expr opt_double_star_factor
-  280 opt_await: • AWAIT
-  281          | • %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
-  284 atom_expr: • opt_await atom trailer_kleene
-  326 or_test_star_expr: • test
-  327                  | • star_expr
-  342 classdef: • CLASS NAME opt_lpar_opt_arglist_rpar COLON suite
-  363 yield_
+  224 prefix_lambdef: • LAMBDA opt_varargslist COLON
+  225 lambdef: • prefix_lambdef test
+  229 or_test: • and_test or_and_test_kleene
+  232 and_test: • not_test and_not_test_kleene
+  233 not_test: • NOT not_test
+  234         | • comparison
+  237 comparison: • expr comp_op_kleene
+  248 star_expr: • STAR expr
+  251 expr: • xor_expr vbar_xor_expr_kleene
+  254 xor_expr: • and_expr circumflex_and_expr_kleene
+  257 and_expr: • shift_expr amper_shift_expr_kleene
+  262 shift_expr: • arith_expr left_shift_or_right_shift_arith_expr_kleene
+  266 arith_expr: • term plus_or_minus_term_kleene
+  273 term: • factor varias_coisas_factor_kleene
+  274 factor: • PLUS factor
+  275       | • MINUS factor
+  276       | • TILDE factor
+  277       | • power
+  280 power: • atom_expr opt_double_star_factor
+  281 opt_await: • AWAIT
+  282          | • %empty  [FALSE, NONE, TRUE, LPAR, LSQB, LBRACE, ELLIPSIS, STRING, NAME, NUMBER]
+  285 atom_expr: • opt_await atom trailer_kleene
+  327 or_test_star_expr: • test
+  328                  | • star_expr
+  343 classdef: • CLASS NAME opt_lpar_opt_arglist_rpa
