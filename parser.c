@@ -77,7 +77,7 @@ int yylex(void);
 void yyerror(char const *s);
 
 
-#line 81 "y.tab.c"
+#line 81 "parser.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -108,7 +108,10 @@ void yyerror(char const *s);
 # define YYERROR_VERBOSE 0
 #endif
 
-
+/* Use api.header.include to #include this header
+   instead of duplicating it here.  */
+#ifndef YY_YY_PARSER_H_INCLUDED
+# define YY_YY_PARSER_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -214,97 +217,6 @@ extern int yydebug;
     LOW = 347
   };
 #endif
-/* Tokens.  */
-#define FALSE 258
-#define AWAIT 259
-#define ELSE 260
-#define IMPORT 261
-#define PASS 262
-#define NONE 263
-#define BREAK 264
-#define EXCEPT 265
-#define IN 266
-#define RAISE 267
-#define TRUE 268
-#define CLASS 269
-#define FINALLY 270
-#define IS 271
-#define RETURN 272
-#define AND 273
-#define CONTINUE 274
-#define FOR 275
-#define LAMBDA 276
-#define TRY 277
-#define AS 278
-#define DEF 279
-#define FROM 280
-#define NONLOCAL 281
-#define WHILE 282
-#define ASSERT 283
-#define DEL 284
-#define GLOBAL 285
-#define NOT 286
-#define WITH 287
-#define ASYNC 288
-#define ELIF 289
-#define IF 290
-#define YIELD 291
-#define EQEQUAL 292
-#define NOTEQUAL 293
-#define LEFTSHIFT 294
-#define RIGHTSHIFT 295
-#define LESSEQUAL 296
-#define GREATEREQUAL 297
-#define LESS 298
-#define GREATER 299
-#define TILDE 300
-#define PERCENT 301
-#define VBAR 302
-#define AMPER 303
-#define DOUBLESLASH 304
-#define SLASH 305
-#define DOUBLESTAR 306
-#define STAR 307
-#define MINUS 308
-#define PLUS 309
-#define CIRCUMFLEX 310
-#define EQUAL 311
-#define COMMA 312
-#define COLON 313
-#define LPAR 314
-#define RPAR 315
-#define LSQB 316
-#define RSQB 317
-#define LBRACE 318
-#define RBRACE 319
-#define AT 320
-#define DOT 321
-#define ELLIPSIS 322
-#define PLUSEQUAL 323
-#define MINEQUAL 324
-#define COLONEQUAL 325
-#define DOUBLESTAREQUAL 326
-#define STAREQUAL 327
-#define DOUBLESLASHEQUAL 328
-#define SLASHEQUAL 329
-#define ATEQUAL 330
-#define PERCENTEQUAL 331
-#define AMPEREQUAL 332
-#define VBAREQUAL 333
-#define CIRCUMFLEXEQUAL 334
-#define RIGHTSHIFTEQUAL 335
-#define LEFTSHIFTEQUAL 336
-#define STRING 337
-#define NAME 338
-#define NUMBER 339
-#define INDENT 340
-#define DEDENT 341
-#define ARROW 342
-#define NEWLINE 343
-#define OR 344
-#define TYPE_COMMENT 345
-#define SEMICOLON 346
-#define LOW 347
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -318,7 +230,7 @@ extern YYSTYPE yylval;
 
 int yyparse (void);
 
-
+#endif /* !YY_YY_PARSER_H_INCLUDED  */
 
 
 
@@ -2092,7 +2004,7 @@ yyreduce:
   switch (yyn)
     {
 
-#line 2096 "y.tab.c"
+#line 2008 "parser.c"
 
       default: break;
     }
