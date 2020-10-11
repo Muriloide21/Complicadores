@@ -35,7 +35,7 @@ float2 {inteiro}\.[0-9]*
 
 %%
 
-^[ ]*#.*\n { return(TYPE_COMMENT) }
+^[ ]*#.*\n { return(TYPE_COMMENT); }
 ^[ ]*\n    { /* Ignore blank lines. */ }
 [#]            
 ^[ ]       { process_indent(); }
@@ -84,7 +84,7 @@ yield        { return (YIELD);}
 ">="      	 { return (GREATEREQUAL);}
 "<"      	 { return (LESS);}
 ">"        	 { return (GREATER);}
-"->"         {return (ARROW)}
+"->"         {return (ARROW);}
 ~         	 { return (TILDE);}
 %         	 { return (PERCENT);}
 "|"      	 { return (VBAR);}
@@ -112,7 +112,7 @@ yield        { return (YIELD);}
 ;         	 { return(SEMICOLON);}
 "+="      	 { return(PLUSEQUAL);}
 -=      	 { return(MINEQUAL);}
-":="         { return(COLONEQUAL)}
+":="         { return(COLONEQUAL);}
 "**="      	 { return(DOUBLESTAREQUAL);}
 "*="      	 { return(STAREQUAL);}
 "//="      	 { return(DOUBLESLASHEQUAL);}
