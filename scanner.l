@@ -7,7 +7,8 @@ void imprime(const char* token) {
     printf("%d| %15.15s -> %-15.15s |%d\n", yylineno, yytext, token, yylineno); 
 }
 
-int stack[100];
+int stack[100]={0};
+
 int sp = -1;
 
 void push(int x) {
@@ -111,7 +112,7 @@ yield        { return (YIELD);}
 "..."        { return(ELLIPSIS);}
 ;         	 { return(SEMICOLON);}
 "+="      	 { return(PLUSEQUAL);}
--=      	 { return(MINEQUAL);}
+-=      	 { return(MINUSEQUAL);}
 ":="         { return(COLONEQUAL);}
 "**="      	 { return(DOUBLESTAREQUAL);}
 "*="      	 { return(STAREQUAL);}
@@ -136,7 +137,7 @@ yield        { return (YIELD);}
 0b[10]+                             { return(NUMBER); }
 0x[abcdef]+                         { return(NUMBER); }
 
-<<EOF>>    { while (sp > 0) { pop(); printf("DEDENT{\}n"); } return 0; }
+<<EOF>>    { while (sp > 0) { pop(); printf("DEDENT\n"); } return 0; }
 
 .          { ECHO; }
 
@@ -153,18 +154,20 @@ void process_indent() {
     if (ws > peek()) {
         // New indentation level.
         push(ws);
-        return (INDENT);
+        // return (INDENT);
+        return;
     } else if (ws < peek()) {
         // Going back...
         do {
             pop();
-            return (DEDENT);
+            // return (DEDENT);
+            return;
         } while (ws < peek());
     }
 }
 
-int main() {
-  push(0);
-  yylex();
-  return 0;
-}
+// int main() {
+//   push(0);
+//   yylex();
+//   return 0;
+// }

@@ -68,7 +68,7 @@ extern int yydebug;
     BREAK = 269,                   /* BREAK  */
     CLASS = 270,                   /* CLASS  */
     COLON = 271,                   /* COLON  */
-    COLONENQUAL = 272,             /* COLONENQUAL  */
+    COLONEQUAL = 272,              /* COLONEQUAL  */
     COMMA = 273,                   /* COMMA  */
     CONTINUE = 274,                /* CONTINUE  */
     DEDENT = 275,                  /* DEDENT  */
