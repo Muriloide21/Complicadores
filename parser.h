@@ -1,9 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.7.2.  */
+/* A Bison parser, made by GNU Bison 3.0.4.  */
 
 /* Bison interface for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2020 Free Software Foundation,
-   Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -31,10 +30,6 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
-/* DO NOT RELY ON FEATURES THAT ARE NOT DOCUMENTED in the manual,
-   especially those whose name start with YY_ or yy_.  They are
-   private implementation details that can be changed or removed.  */
-
 #ifndef YY_YY_PARSER_H_INCLUDED
 # define YY_YY_PARSER_H_INCLUDED
 /* Debug traces.  */
@@ -45,107 +40,102 @@
 extern int yydebug;
 #endif
 
-/* Token kinds.  */
+/* Token type.  */
 #ifndef YYTOKENTYPE
 # define YYTOKENTYPE
   enum yytokentype
   {
-    YYEMPTY = -2,
-    YYEOF = 0,                     /* "end of file"  */
-    YYerror = 256,                 /* error  */
-    YYUNDEF = 257,                 /* "invalid token"  */
-    AND = 258,                     /* AND  */
-    AMPER = 259,                   /* AMPER  */
-    AMPEREQUAL = 260,              /* AMPEREQUAL  */
-    ARROW = 261,                   /* ARROW  */
-    AS = 262,                      /* AS  */
-    ASSERT = 263,                  /* ASSERT  */
-    EQUAL = 264,                   /* EQUAL  */
-    ASYNC = 265,                   /* ASYNC  */
-    AT = 266,                      /* AT  */
-    ATEQUAL = 267,                 /* ATEQUAL  */
-    AWAIT = 268,                   /* AWAIT  */
-    BREAK = 269,                   /* BREAK  */
-    CLASS = 270,                   /* CLASS  */
-    COLON = 271,                   /* COLON  */
-    COLONEQUAL = 272,              /* COLONEQUAL  */
-    COMMA = 273,                   /* COMMA  */
-    CONTINUE = 274,                /* CONTINUE  */
-    DEDENT = 275,                  /* DEDENT  */
-    DEF = 276,                     /* DEF  */
-    DEL = 277,                     /* DEL  */
-    DOT = 278,                     /* DOT  */
-    DOUBLESLASH = 279,             /* DOUBLESLASH  */
-    DOUBLESLASHEQUAL = 280,        /* DOUBLESLASHEQUAL  */
-    DOUBLESTAR = 281,              /* DOUBLESTAR  */
-    DOUBLESTAREQUAL = 282,         /* DOUBLESTAREQUAL  */
-    EQEQUAL = 283,                 /* EQEQUAL  */
-    ELIF = 284,                    /* ELIF  */
-    ELLIPSIS = 285,                /* ELLIPSIS  */
-    ELSE = 286,                    /* ELSE  */
-    ENDMARKER = 287,               /* ENDMARKER  */
-    EXCEPT = 288,                  /* EXCEPT  */
-    FALSE = 289,                   /* FALSE  */
-    FOR = 290,                     /* FOR  */
-    FINALLY = 291,                 /* FINALLY  */
-    FROM = 292,                    /* FROM  */
-    GREATEREQUAL = 293,            /* GREATEREQUAL  */
-    GLOBAL = 294,                  /* GLOBAL  */
-    GREATER = 295,                 /* GREATER  */
-    IF = 296,                      /* IF  */
-    IMPORT = 297,                  /* IMPORT  */
-    IN = 298,                      /* IN  */
-    INDENT = 299,                  /* INDENT  */
-    IS = 300,                      /* IS  */
-    LAMBDA = 301,                  /* LAMBDA  */
-    LSQB = 302,                    /* LSQB  */
-    LBRACE = 303,                  /* LBRACE  */
-    LESSEQUAL = 304,               /* LESSEQUAL  */
-    LPAR = 305,                    /* LPAR  */
-    LEFTSHIFT = 306,               /* LEFTSHIFT  */
-    LEFTSHIFTEQUAL = 307,          /* LEFTSHIFTEQUAL  */
-    LESS = 308,                    /* LESS  */
-    MINUS = 309,                   /* MINUS  */
-    MINUSEQUAL = 310,              /* MINUSEQUAL  */
-    NAME = 311,                    /* NAME  */
-    NOTEQUAL = 312,                /* NOTEQUAL  */
-    NEWLINE = 313,                 /* NEWLINE  */
-    NONE = 314,                    /* NONE  */
-    NONLOCAL = 315,                /* NONLOCAL  */
-    NOT = 316,                     /* NOT  */
-    NUMBER = 317,                  /* NUMBER  */
-    OR = 318,                      /* OR  */
-    VBAR = 319,                    /* VBAR  */
-    VBAREQUAL = 320,               /* VBAREQUAL  */
-    PASS = 321,                    /* PASS  */
-    PERCENT = 322,                 /* PERCENT  */
-    PERCENTEQUAL = 323,            /* PERCENTEQUAL  */
-    PLUS = 324,                    /* PLUS  */
-    PLUSEQUAL = 325,               /* PLUSEQUAL  */
-    RAISE = 326,                   /* RAISE  */
-    RSQB = 327,                    /* RSQB  */
-    RBRACE = 328,                  /* RBRACE  */
-    RETURN = 329,                  /* RETURN  */
-    RPAR = 330,                    /* RPAR  */
-    RIGHTSHIFT = 331,              /* RIGHTSHIFT  */
-    RIGHTSHIFTEQUAL = 332,         /* RIGHTSHIFTEQUAL  */
-    SEMICOLON = 333,               /* SEMICOLON  */
-    SLASH = 334,                   /* SLASH  */
-    SLASHEQUAL = 335,              /* SLASHEQUAL  */
-    STAR = 336,                    /* STAR  */
-    STAREQUAL = 337,               /* STAREQUAL  */
-    STRING = 338,                  /* STRING  */
-    TILDE = 339,                   /* TILDE  */
-    TRUE = 340,                    /* TRUE  */
-    TRY = 341,                     /* TRY  */
-    TYPE_COMMENT = 342,            /* TYPE_COMMENT  */
-    WITH = 343,                    /* WITH  */
-    WHILE = 344,                   /* WHILE  */
-    CIRCUMFLEX = 345,              /* CIRCUMFLEX  */
-    CIRCUMFLEXEQUAL = 346,         /* CIRCUMFLEXEQUAL  */
-    YIELD = 347                    /* YIELD  */
+    ENDMARKER = 0,
+    AND = 258,
+    AMPER = 259,
+    AMPEREQUAL = 260,
+    ARROW = 261,
+    AS = 262,
+    ASSERT = 263,
+    EQUAL = 264,
+    ASYNC = 265,
+    AT = 266,
+    ATEQUAL = 267,
+    AWAIT = 268,
+    BREAK = 269,
+    CLASS = 270,
+    COLON = 271,
+    COLONEQUAL = 272,
+    COMMA = 273,
+    CONTINUE = 274,
+    DEDENT = 275,
+    DEF = 276,
+    DEL = 277,
+    DOT = 278,
+    DOUBLESLASH = 279,
+    DOUBLESLASHEQUAL = 280,
+    DOUBLESTAR = 281,
+    DOUBLESTAREQUAL = 282,
+    EQEQUAL = 283,
+    ELIF = 284,
+    ELLIPSIS = 285,
+    ELSE = 286,
+    EXCEPT = 287,
+    FALSE = 288,
+    FOR = 289,
+    FINALLY = 290,
+    FROM = 291,
+    GREATEREQUAL = 292,
+    GLOBAL = 293,
+    GREATER = 294,
+    IF = 295,
+    IMPORT = 296,
+    IN = 297,
+    INDENT = 298,
+    IS = 299,
+    LAMBDA = 300,
+    LSQB = 301,
+    LBRACE = 302,
+    LESSEQUAL = 303,
+    LPAR = 304,
+    LEFTSHIFT = 305,
+    LEFTSHIFTEQUAL = 306,
+    LESS = 307,
+    MINUS = 308,
+    MINUSEQUAL = 309,
+    NAME = 310,
+    NOTEQUAL = 311,
+    NEWLINE = 312,
+    NONE = 313,
+    NONLOCAL = 314,
+    NOT = 315,
+    NUMBER = 316,
+    OR = 317,
+    VBAR = 318,
+    VBAREQUAL = 319,
+    PASS = 320,
+    PERCENT = 321,
+    PERCENTEQUAL = 322,
+    PLUS = 323,
+    PLUSEQUAL = 324,
+    RAISE = 325,
+    RSQB = 326,
+    RBRACE = 327,
+    RETURN = 328,
+    RPAR = 329,
+    RIGHTSHIFT = 330,
+    RIGHTSHIFTEQUAL = 331,
+    SEMICOLON = 332,
+    SLASH = 333,
+    SLASHEQUAL = 334,
+    STAR = 335,
+    STAREQUAL = 336,
+    STRING = 337,
+    TILDE = 338,
+    TRUE = 339,
+    TRY = 340,
+    TYPE_COMMENT = 341,
+    WITH = 342,
+    WHILE = 343,
+    CIRCUMFLEX = 344,
+    CIRCUMFLEXEQUAL = 345,
+    YIELD = 346
   };
-  typedef enum yytokentype yytoken_kind_t;
 #endif
 
 /* Value type.  */

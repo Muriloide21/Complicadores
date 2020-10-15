@@ -11,7 +11,8 @@ extern char *yytext;
 extern int yylineno;
 %}
 
-%token AND AMPER AMPEREQUAL ARROW AS ASSERT EQUAL ASYNC AT ATEQUAL AWAIT BREAK CLASS COLON COLONEQUAL COMMA CONTINUE DEDENT DEF DEL DOT DOUBLESLASH DOUBLESLASHEQUAL DOUBLESTAR DOUBLESTAREQUAL EQEQUAL ELIF ELLIPSIS ELSE ENDMARKER EXCEPT FALSE FOR FINALLY FROM GREATEREQUAL GLOBAL GREATER IF IMPORT IN INDENT IS LAMBDA LSQB LBRACE LESSEQUAL LPAR LEFTSHIFT LEFTSHIFTEQUAL LESS MINUS MINUSEQUAL NAME NOTEQUAL NEWLINE NONE NONLOCAL NOT NUMBER OR VBAR VBAREQUAL PASS PERCENT PERCENTEQUAL PLUS PLUSEQUAL RAISE RSQB RBRACE RETURN RPAR RIGHTSHIFT RIGHTSHIFTEQUAL SEMICOLON SLASH SLASHEQUAL STAR STAREQUAL STRING TILDE TRUE TRY TYPE_COMMENT WITH WHILE CIRCUMFLEX CIRCUMFLEXEQUAL YIELD
+%token ENDMARKER 0
+%token AND AMPER AMPEREQUAL ARROW AS ASSERT EQUAL ASYNC AT ATEQUAL AWAIT BREAK CLASS COLON COLONEQUAL COMMA CONTINUE DEDENT DEF DEL DOT DOUBLESLASH DOUBLESLASHEQUAL DOUBLESTAR DOUBLESTAREQUAL EQEQUAL ELIF ELLIPSIS ELSE EXCEPT FALSE FOR FINALLY FROM GREATEREQUAL GLOBAL GREATER IF IMPORT IN INDENT IS LAMBDA LSQB LBRACE LESSEQUAL LPAR LEFTSHIFT LEFTSHIFTEQUAL LESS MINUS MINUSEQUAL NAME NOTEQUAL NEWLINE NONE NONLOCAL NOT NUMBER OR VBAR VBAREQUAL PASS PERCENT PERCENTEQUAL PLUS PLUSEQUAL RAISE RSQB RBRACE RETURN RPAR RIGHTSHIFT RIGHTSHIFTEQUAL SEMICOLON SLASH SLASHEQUAL STAR STAREQUAL STRING TILDE TRUE TRY TYPE_COMMENT WITH WHILE CIRCUMFLEX CIRCUMFLEXEQUAL YIELD
 
 %start program
 
@@ -26,7 +27,7 @@ newline_or_stmt_star: %empty
 
 opt_par_arglist: %empty
                | LPAR RPAR
-			         | LPAR arglist RPAR
+			   | LPAR arglist RPAR
 ;
 
 decorator_plus: decorator
@@ -43,6 +44,7 @@ opt_type_comment: %empty
 
 comma_argument_star: %empty
 				           | comma_argument_star COMMA opt_type_comment argument
+;
 
 opt_assign_test: %empty
 			   | EQUAL test
@@ -250,50 +252,37 @@ decorated: decorators classdef
          | decorators async_funcdef
 ;
 
-// async_funcdef: ASYNC funcdef
 async_funcdef: ASYNC funcdef
 ;
 
-// funcdef: 'def' NAME parameters ['->' test] ':' [TYPE_COMMENT] func_body_suite
 funcdef: DEF NAME parameters opt_arrow_test COLON opt_type_comment func_body_suite
 ;
 
-// ---
-// EZ: Simplified version of function parameters and arguments.
-
-// parameters: '(' [typedargslist] ')'
 parameters: LPAR RPAR
 		  | LPAR typedargslist RPAR
 ;
 
-// arguments: argument (',' [TYPE_COMMENT] argument)*
 arguments: argument comma_argument_star
 ;
 
-// argument: tfpdef ['=' test]
 argument: tfpdef opt_assign_test
 ;
 
 typedargslist: arguments
 ;
 
-// tfpdef: NAME [':' test]
 tfpdef: NAME opt_colon_test
 ;
 
 // ---
 
-// stmt: simple_stmt | compound_stmt
 stmt: simple_stmt
 	| compound_stmt
 ;
 
-// simple_stmt: small_stmt (';' small_stmt)* [';'] NEWLINE
 simple_stmt: small_stmt semi_small_stmt_star opt_semi NEWLINE
 ;
 
-// small_stmt: (expr_stmt | del_stmt | pass_stmt | flow_stmt |
-//              import_stmt | global_stmt | nonlocal_stmt | assert_stmt)
 small_stmt: expr_stmt
 		  | del_stmt
 		  | pass_stmt
@@ -304,8 +293,6 @@ small_stmt: expr_stmt
 		  | assert_stmt
 ;
 
-// expr_stmt: testlist_star_expr (annassign | augassign (yield_expr|testlist) |
-//                      [('=' (yield_expr|testlist_star_expr))+ [TYPE_COMMENT]] )
 expr_stmt: testlist_star_expr annassign
 		 | testlist_star_expr augassign yield_expr
 		 | testlist_star_expr augassign testlist
@@ -313,17 +300,13 @@ expr_stmt: testlist_star_expr annassign
 		 | testlist_star_expr assing_yield_or_test_plus opt_type_comment
 ;
 
-// annassign: ':' test ['=' (yield_expr|testlist_star_expr)]
 annassign: COLON test opt_assing_yield_or_test
 ;
 
-// testlist_star_expr: (test|star_expr) (',' (test|star_expr))* [',']
 testlist_star_expr: test comma_test_star_expr_star opt_comma
 				  | star_expr comma_test_star_expr_star opt_comma
 ;
 
-// augassign: ('+=' | '-=' | '*=' | '@=' | '/=' | '%=' | '&=' | '|=' | '^=' |
-//             '<<=' | '>>=' | '**=' | '//=')
 augassign: PLUSEQUAL
 		 | MINUSEQUAL
 		 | STAREQUAL
@@ -339,15 +322,12 @@ augassign: PLUSEQUAL
 		 | DOUBLESLASHEQUAL
 ;
 
-// del_stmt: 'del' exprlist
 del_stmt: DEL exprlist
 ;
 
-// pass_stmt: 'pass'
 pass_stmt: PASS
 ;
 
-// flow_stmt: break_stmt | continue_stmt | return_stmt | raise_stmt | yield_stmt
 flow_stmt: break_stmt
 		 | continue_stmt
 		 | return_stmt
@@ -355,39 +335,30 @@ flow_stmt: break_stmt
 		 | yield_stmt
 ;
 
-// break_stmt: 'break'
 break_stmt: BREAK
 ;
 
-// continue_stmt: 'continue'
 continue_stmt: CONTINUE
 ;
 
-// return_stmt: 'return' [testlist_star_expr]
 return_stmt: RETURN opt_testlist_star_expr
 ;
 
-// yield_stmt: yield_expr
 yield_stmt: yield_expr
 ;
 
-// raise_stmt: 'raise' [test ['from' test]]
 raise_stmt: RAISE
 		  | RAISE test
 		  | RAISE test FROM test
 ;
 
-// import_stmt: import_name | import_from
 import_stmt: import_name
 		   | import_from
 ;
 
-// import_name: 'import' dotted_as_names
 import_name: IMPORT dotted_as_names
 ;
 
-// import_from: ('from' (('.' | '...')* dotted_name | ('.' | '...')+)
-//               'import' ('*' | '(' import_as_names ')' | import_as_names))
 import_from: FROM from_part IMPORT import_part
 ;
 
@@ -404,37 +375,29 @@ from_part: DOT
 		 | dotted_name
 ;
 
-// ('*' | '(' import_as_names ')' | import_as_names)
 import_part: STAR
 		   | LPAR import_as_names RPAR
 		   | import_as_names
 ;
 
-// import_as_name: NAME ['as' NAME]
 import_as_name: NAME opt_as_name
 ;
 
-// dotted_as_name: dotted_name ['as' NAME]
 dotted_as_name: dotted_name opt_as_name
 ;
 
-// import_as_names: import_as_name (',' import_as_name)* [',']
 import_as_names: import_as_name comma_import_as_name_star opt_comma
 ;
 
-// dotted_as_names: dotted_as_name (',' dotted_as_name)*
 dotted_as_names: dotted_as_name comma_dotted_as_name_star
 ;
 
-// dotted_name: NAME ('.' NAME)*
 dotted_name: NAME dot_name_star
 ;
 
-// global_stmt: 'global' NAME (',' NAME)*
 global_stmt: GLOBAL NAME comma_name_star
 ;
 
-// nonlocal_stmt: 'nonlocal' NAME (',' NAME)*
 nonlocal_stmt: NONLOCAL NAME comma_name_star
 ;
 
@@ -674,6 +637,7 @@ void yyerror (char const *s) {
 }
 
 int main() {
+    yydebug =1;    
     yyparse();
     printf("PARSE SUCCESSFUL!\n");
     yylex_destroy();    // To avoid memory leaks within flex...
