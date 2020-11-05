@@ -1,0 +1,1 @@
+x = 4 # Agora funciona sem newline :P
