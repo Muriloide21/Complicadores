@@ -5,6 +5,7 @@ c = 2.3
 d = 0xa32B5
 b = .1e-12 
 c = a + b
+print('Teste0')
 print(y)
 print('Teste') #Test
 #Teste1

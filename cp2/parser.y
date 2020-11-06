@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include "types.h"
 #include "tables.h"
+#include "ast.h"
 #include "parser.h"
 
 void lex_init(void);
@@ -16,11 +17,16 @@ int yylex(void);
 int yylex_destroy(void);
 void yyerror(char const *s);
 
+void check_var(char*);
+void new_var(void);
+
 extern char *yytext;
 extern int yylineno;
 
 StrTable *st;
 VarTable *vt;
+
+AST *root;
 %}
 
 %token ENDMARKER
@@ -32,10 +38,10 @@ VarTable *vt;
 
 // REGRAS COMPLEMENTARES
 
-newline_or_stmt_star: %empty
-                    | newline_or_stmt_star NEWLINE
-                    | newline_or_stmt_star stmt
-;
+newline_or_stmt_star: %empty { new_subtree(BLOCK_NODE, NO_TYPE, 0); }
+                    | newline_or_stmt_star NEWLINE { $$ = $1; }
+                    | newline_or_stmt_star stmt { add_child($1, $2); $$ = $1; }
+;   
 
 opt_par_arglist: %empty
                | LPAR RPAR
@@ -67,12 +73,13 @@ opt_comma: %empty
 ;
 
 opt_colon_test: %empty
-			        | COLON test
+			  | COLON test
 ;
 
-semi_small_stmt_star: %empty
-                    | semi_small_stmt_star SEMICOLON small_stmt
-;
+// semi_small_stmt_star: %empty
+//                     | semi_small_stmt_star SEMICOLON small_stmt
+// ;
+// REMOVIDA POR CONSIDERARMOS UMA FUNCIONALIDADE POUCO UTILIZADA
 
 opt_semi: %empty
 		    | SEMICOLON
@@ -91,11 +98,11 @@ opt_assing_yield_or_test: %empty
 
 comma_test_star_expr_star: %empty
                           | comma_test_star_expr_star COMMA test
-                          | comma_test_star_expr_star COMMA star_expr
+                          | comma_test_star_expr_star COMMA expr
 ;
 
-opt_testlist_star_expr: %empty
-                      | testlist_star_expr
+opt_testlist_star_expr: %empty { $$ = new_node(NOOP_NODE, 0, NO_TYPE); }
+                      | testlist_star_expr { $$ = $1; }
 ;
 
 opt_as_name: %empty
@@ -111,7 +118,7 @@ comma_dotted_as_name_star: %empty
 ;
 
 dot_name_star: %empty
-             | dot_name_star DOT NAME
+             | dot_name_star DOT NAME { new_var(); }
 ;
 
 comma_name_star: %empty
@@ -150,8 +157,8 @@ opt_colonass_test: %empty
                  | COLONEQUAL test
 ;
 
-or_and_test_star: %empty
-                | or_and_test_star OR and_test
+or_and_test_star: %empty { $$ = new_node(NOOP_NODE, 0, NO_TYPE); }
+                | or_and_test_star OR and_test { add_child($1, $2); }
 ;
 
 and_not_test_star: %empty
@@ -206,7 +213,7 @@ string_plus: STRING
 
 comma_namedexpr_test_star_expr_star: %empty
                                    | comma_namedexpr_test_star_expr_star COMMA namedexpr_test
-                                   | comma_namedexpr_test_star_expr_star COMMA star_expr
+                                   | comma_namedexpr_test_star_expr_star COMMA expr
 ;
 
 comma_subscript_star: %empty
@@ -223,7 +230,7 @@ opt_sliceop: %empty
 
 comma_expr_star_expr_star: %empty
                          | comma_expr_star_expr_star COMMA expr
-                         | comma_expr_star_expr_star COMMA star_expr
+                        //  | comma_expr_star_expr_star COMMA star_expr
 ;
 
 comma_test_star: %empty
@@ -245,12 +252,12 @@ opt_finally_suite: %empty
 
 // REGRAS
 
-program: file_input
+program: file_input { root = new_subtree(PROGRAM_NODE, NO_TYPE, 1, $1); }
    //  | single_input // Removida de acordo com sugestão do professor
    //  | eval_input   // Removida de acordo com sugestão do professor
 ;
 
-file_input: newline_or_stmt_star ENDMARKER
+file_input: newline_or_stmt_star ENDMARKER { $$ = $1; }
 ;
 
 decorator: AT dotted_name opt_par_arglist NEWLINE
@@ -283,7 +290,7 @@ argument: tfpdef opt_assign_test
 typedargslist: arguments
 ;
 
-tfpdef: NAME { check_var(); } opt_colon_test
+tfpdef: NAME { check_var("tfpdef"); } opt_colon_test
 ;
 
 // ---
@@ -292,12 +299,12 @@ stmt: simple_stmt
 	| compound_stmt
 ;
 
-simple_stmt: small_stmt semi_small_stmt_star opt_semi NEWLINE
+simple_stmt: small_stmt opt_semi NEWLINE
 ;
 
-small_stmt: expr_stmt
-		  | del_stmt
-		  | pass_stmt
+small_stmt: expr_stmt 
+		  | del_stmt //FOI
+		  | pass_stmt //FOI
 		  | flow_stmt
 		  | import_stmt
 		  | global_stmt
@@ -316,7 +323,7 @@ annassign: COLON test opt_assing_yield_or_test
 ;
 
 testlist_star_expr: test comma_test_star_expr_star opt_comma
-				  | star_expr comma_test_star_expr_star opt_comma
+				  | expr comma_test_star_expr_star opt_comma
 ;
 
 augassign: PLUSEQUAL
@@ -334,27 +341,27 @@ augassign: PLUSEQUAL
 		 | DOUBLESLASHEQUAL
 ;
 
-del_stmt: DEL exprlist
+del_stmt: DEL exprlist { $$ = new_subtree(DEL_NODE, NO_TYPE, 1, $2); }
 ;
 
-pass_stmt: PASS
+pass_stmt: PASS { $$ = new_subtree(PASS_NODE, NO_TYPE, 0); }
 ;
 
-flow_stmt: break_stmt
-		 | continue_stmt
-		 | return_stmt
+flow_stmt: break_stmt //FOI
+		 | continue_stmt //FOI
+		//  | return_stmt
 		 | raise_stmt
 		 | yield_stmt
 ;
 
-break_stmt: BREAK
+break_stmt: BREAK { $$ = new_subtree(BREAK_NODE, NO_TYPE, 0); }
 ;
 
-continue_stmt: CONTINUE
+continue_stmt: CONTINUE { $$ = new_node(CONTINUE_NODE, 0, NO_TYPE); }
 ;
 
-return_stmt: RETURN opt_testlist_star_expr
-;
+// return_stmt: RETURN opt_testlist_star_expr { $$ = new_subtree(RETURN_NODE, NO_TYPE, 1, $2); }
+// ;
 
 yield_stmt: yield_expr
 ;
@@ -368,7 +375,7 @@ import_stmt: import_name
 		   | import_from
 ;
 
-import_name: IMPORT dotted_as_names
+import_name: IMPORT dotted_as_names {}
 ;
 
 import_from: FROM from_part IMPORT import_part
@@ -404,7 +411,7 @@ import_as_names: import_as_name comma_import_as_name_star opt_comma
 dotted_as_names: dotted_as_name comma_dotted_as_name_star
 ;
 
-dotted_name: NAME dot_name_star
+dotted_name: NAME  { new_var(); } dot_name_star
 ;
 
 global_stmt: GLOBAL NAME { new_var(); } comma_name_star
@@ -463,23 +470,30 @@ namedexpr_test: test opt_colonass_test
 
 test: or_test
     | or_test IF or_test ELSE test
-    | lambdef
+//   | LAMBDA COLON test 
 ;
 
 test_nocond: or_test
-           | lambdef_nocond
+//           | LAMBDA COLON test_nocond
 ;
 
-lambdef: LAMBDA COLON test
+// SIMPLIFICADAS (LEVADAS PARA O LOCAL ONDE ERAM CHAMADAS):
+//lambdef: LAMBDA COLON test
 //     | LAMBDA varargslist COLON test // Varargslist removida de acordo com indicação do professor.
-;
+//;
 
-lambdef_nocond: LAMBDA COLON test_nocond
+//lambdef_nocond: LAMBDA COLON test_nocond
 //            | LAMBDA varargslist COLON test_nocond // Varargslist removida de acordo com indicação do professor.
-;
+//;
 
-or_test: and_test or_and_test_star
+or_test: and_test OR or_test { new_subtree(OR_NODE, NO_TYPE, 2, $1, $2); }
+       | and_test { $$ = $1; }
 ;
+        //     OR_NODE
+        //     or_test
+        //     /      \ 
+        //    /        \
+        // and_test    or_test
 
 and_test: not_test and_not_test_star
 ;
@@ -503,8 +517,11 @@ comp_op: LESS
        | IS NOT
 ;
 
-star_expr: STAR expr
-;
+// star_expr: STAR expr
+// ;
+// SIMPLIFICADO POIS NÃO SABEMOS O QUE SIGNIFICA
+// star_expr: expr
+// ;
 
 expr: xor_expr or_xor_expr_star
 ;
@@ -544,7 +561,7 @@ atom: LPAR RPAR
     | LSQB testlist_comp RSQB
     | LBRACE RBRACE
     | LBRACE dictorsetmaker RBRACE
-    | NAME { check_var(); }
+    | NAME { new_var(); }
     | NUMBER
     | string_plus
     | ELLIPSIS
@@ -555,14 +572,14 @@ atom: LPAR RPAR
 
 testlist_comp: namedexpr_test comp_for
              | namedexpr_test comma_namedexpr_test_star_expr_star opt_comma
-             | star_expr comp_for
-             | star_expr comma_namedexpr_test_star_expr_star opt_comma
+             | expr comp_for
+             | expr comma_namedexpr_test_star_expr_star opt_comma
 ;
 
 trailer: LPAR RPAR
        | LPAR arglist RPAR
        | LSQB subscriptlist RSQB
-       | DOT NAME { check_var(); }
+       | DOT NAME { check_var("trailer"); }
 ;
 
 subscriptlist: subscript comma_subscript_star opt_comma
@@ -593,8 +610,8 @@ dictorsetmaker1: test COLON test comp_for
 
 dictorsetmaker2: test comp_for
                | test comma_test_star_expr_star opt_comma
-               | star_expr comp_for
-               | star_expr comma_test_star_expr_star opt_comma
+               | expr comp_for
+               | expr comma_test_star_expr_star opt_comma
 ;
 
 classdef: CLASS NAME { new_var(); } opt_par_arglist COLON suite
@@ -628,11 +645,11 @@ comp_if: IF test_nocond
 ;
 
 yield_expr: YIELD
-		      | YIELD yield_arg
+		  | YIELD yield_arg
 ;
 
 yield_arg: FROM test
-		     | testlist_star_expr
+		 | testlist_star_expr
 ;
 
 func_body_suite: simple_stmt
@@ -642,9 +659,13 @@ func_body_suite: simple_stmt
 
 %%
 
-void check_var() {
+void check_var(char* rule_name) {
+    printf("Regra: %s\n", rule_name);
+    printf("variable '%s'\n", yytext);
     int idx = lookup_var(vt, yytext);
     if (idx == -1) {
+        print_str_table(st);
+        print_var_table(vt);
         printf("SEMANTIC ERROR (%d): variable '%s' was not declared.\n",
                 yylineno, yytext);
         exit(EXIT_FAILURE);
@@ -653,12 +674,13 @@ void check_var() {
 
 void new_var() {
     int idx = lookup_var(vt, yytext);
+    printf("Chegueeei %s\n",yytext);
     if (idx != -1) {
         printf("SEMANTIC ERROR (%d): variable '%s' already declared at line %d.\n",
                 yylineno, yytext, get_line(vt, idx));
         exit(EXIT_FAILURE);
     }
-    add_var(vt, yytext, yylineno, NUMBER);
+    add_var(vt, yytext, yylineno, NO_TYPE);
 }
 
 // Primitive error handling.
@@ -677,6 +699,7 @@ int main() {
     printf("PARSE SUCCESSFUL!\n");
 
     print_str_table(st);
+    print_var_table(vt);
 
     free_str_table(st);
     free_var_table(vt);

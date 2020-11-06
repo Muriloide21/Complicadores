@@ -1,1 +1,3 @@
-x = 4 # Agora funciona sem newline :P
+x = 4
+y = "Teste"
+print(x)
