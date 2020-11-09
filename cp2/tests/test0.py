@@ -1,3 +1,2 @@
 x = 4
-y = "Teste"
-print(x)
+y = "Teste" "Teste2"

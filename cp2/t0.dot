@@ -1,0 +1,14 @@
+
+atom_expr: atom trailer_star          { $$ = new_subtree(ATOM_EXPR_NODE, NO_TYPE, 2, $2, $3); }
+;
+
+trailer_star: %empty                  { $$ = new_subtree(TRAILER_NODE, NO_TYPE, 0); }
+			| trailer_star trailer    { add_child($1, $2); $$ = $1; }
+;
+
+trailer: LPAR RPAR
+       | LPAR arglist RPAR
+       | LSQB subscriptlist RSQB
+       | DOT NAME
+;
+

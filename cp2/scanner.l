@@ -7,7 +7,9 @@
 #include <string.h>
 #include "types.h"
 #include "tables.h"
+#include "ast.h"
 #include "parser.h"
+
 #
 
 #define YY_DECL int orig_yylex (void)
@@ -168,9 +170,9 @@ yield        { process_token(YIELD); }
 ">>="        { process_token(RIGHTSHIFTEQUAL); }
 "<<="        { process_token(LEFTSHIFTEQUAL); }
 
-["].*["]     { add_string(st, yytext); process_token(STRING); }
-[`].*[`]     { add_string(st, yytext); process_token(STRING); }
-['].*[']     { add_string(st, yytext); process_token(STRING); }
+["]([^\"]|\\.)*["]     { add_string(st, yytext); process_token(STRING); }
+[`]([^\`]|\\.)*[`]     { add_string(st, yytext); process_token(STRING); }
+[']([^\']|\\.)*[']     { add_string(st, yytext); process_token(STRING); }
 
 [a-zA-Z_][0-9a-zA-Z_]*              { process_token(NAME); }
 
