@@ -1,3 +1,9 @@
-if(True):
+if 2 < 5:
     x = 4
-y=x # Se jogar para o inicio da linha agora funciona... :P
+elif 2 > 5:
+    x = 40
+elif 2 == 5:
+    x = 50
+else:
+    x = 3
+y=x

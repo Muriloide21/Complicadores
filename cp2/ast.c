@@ -150,7 +150,13 @@ char* kind2str(NodeKind kind) {
         case DICT_NODE: return "DICT";
         case ARGLIST_NODE: return "ARGLIST";
         case PARS_NODE: return "PARS";
-        case TEST_LIST_NODE: return "TEST_LIST_NODE";    
+        case TESTLIST_NODE: return "TESTLIST";   
+        case IF_NODE: return "IF";
+        case ELIF_NODE: return "ELIF";
+        case ELSE_NODE: return "ELSE";
+        case WHILE_NODE: return "WHILE"; 
+        case FOR_NODE: return "FOR";
+        case EXPRLIST_NODE: return "EXPRLIST";
 
         default:            return "ERROR!!";
     }

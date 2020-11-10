@@ -1,7 +1,3 @@
-def f(x):
-  y = x * x
-  e = (m * c * c)
-  if x > 0:
-    return e
-  else:
-    return y
+x = [1,2,3]
+for i,v in [(1,2), (3,4), (5,6)]:
+  print(i,v)

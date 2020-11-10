@@ -43,7 +43,7 @@ AST *root;
 newline_or_stmt_star: %empty { $$ = new_subtree(BLOCK_NODE, NO_TYPE, 0); printf("newline_or_stmt_star_1\n"); }
                     | newline_or_stmt_star NEWLINE { $$ = $1; printf("newline_or_stmt_star_2\n"); }
                     | newline_or_stmt_star stmt { add_child($1, $2); $$ = $1; printf("newline_or_stmt_star_3\n"); }
-;   
+;
 
 opt_par_arglist: %empty
                | LPAR RPAR
@@ -132,12 +132,16 @@ opt_comma_test: %empty
               | COMMA test
 ;
 
-elif_test_suite_star: %empty
-                    | elif_test_suite_star ELIF namedexpr_test COLON suite
+elif_test_suite_plus: ELIF namedexpr_test COLON suite { $$ = new_subtree(ELIF_NODE, NO_TYPE, 2, $2, $4); }
+                    | elif_test_suite_plus ELIF namedexpr_test COLON suite { add_child($1, new_subtree(ELIF_NODE, NO_TYPE, 2, $3, $5)); $$ = $1; }
 ;
 
-opt_else_suite: %empty
-              | ELSE COLON suite
+// opt_else_suite: %empty { $$ = new_node(NOOP_NODE, 0, NO_TYPE); }
+//               | ELSE COLON suite { $$ = $3; }
+// ;
+
+opt_else_suite: %empty { $$ = new_node(NOOP_NODE, 0, NO_TYPE); }
+              | ELSE COLON suite { $$ = new_subtree(ELSE_NODE, NO_TYPE, 1, $3); }
 ;
 
 comma_with_item_star: %empty
@@ -152,8 +156,8 @@ opt_test_as_name: %empty
                 | test opt_as_name
 ;
 
-stmt_plus: stmt
-         | stmt_plus stmt
+stmt_plus: stmt { $$ = new_subtree(BLOCK_NODE, NO_TYPE, 1, $1); }
+         | stmt_plus stmt { add_child($1, $2); }
 ;
 
 opt_colonass_test: %empty
@@ -235,10 +239,10 @@ opt_sliceop: %empty
            | sliceop
 ;
 
-comma_expr_star_expr_star: %empty
-                         | comma_expr_star_expr_star COMMA expr
-                     //  | comma_expr_star_expr_star COMMA star_expr
-;
+// comma_expr_star_expr_star: %empty
+//                          | comma_expr_star_expr_star COMMA expr
+//                      //  | comma_expr_star_expr_star COMMA star_expr
+// ;
 
 comma_test_star: %empty
                | comma_test_star COMMA test
@@ -435,29 +439,32 @@ nonlocal_stmt: NONLOCAL NAME { new_var(); } comma_name_star
 assert_stmt: ASSERT test opt_comma_test
 ;
 
-compound_stmt: if_stmt
-             | while_stmt
-             | for_stmt
-             | try_stmt
-             | with_stmt
-             | funcdef
-             | classdef
-             | decorated
-             | async_stmt
+compound_stmt: if_stmt { $$ = $1; }
+             | while_stmt { $$ = $1; }
+             | for_stmt { $$ = $1; }
+             | try_stmt { $$ = $1; }
+             | with_stmt { $$ = $1; }
+             | funcdef { $$ = $1; }
+             | classdef { $$ = $1; }
+             | decorated { $$ = $1; }
+             | async_stmt { $$ = $1; }
 ;
 
 async_stmt: ASYNC funcdef
           | ASYNC with_stmt
           | ASYNC for_stmt
+;                
+
+if_stmt: IF namedexpr_test COLON suite elif_test_suite_plus opt_else_suite { $$ = new_subtree(IF_NODE, NO_TYPE, 4, $2, $4, $5, $6); }
+       | IF namedexpr_test COLON suite opt_else_suite { $$ = new_subtree(IF_NODE, NO_TYPE, 3, $2, $4, $5); }
 ;
 
-if_stmt: IF namedexpr_test COLON suite elif_test_suite_star opt_else_suite
+while_stmt: WHILE namedexpr_test COLON suite ELSE COLON suite { $$ = new_subtree(WHILE_NODE, NO_TYPE, 3, $2, $4, new_subtree(ELSE_NODE, NO_TYPE, 1, $7)); }
+          | WHILE namedexpr_test COLON suite { $$ = new_subtree(WHILE_NODE, NO_TYPE, 2, $1, $4); }
 ;
 
-while_stmt: WHILE namedexpr_test COLON suite opt_else_suite
-;
-
-for_stmt: FOR exprlist IN testlist COLON opt_type_comment suite opt_else_suite
+for_stmt: FOR exprlist IN testlist COLON opt_type_comment suite ELSE COLON suite { $$ = new_subtree(FOR_NODE, NO_TYPE, 4, $2, $4, $7, new_subtree(ELSE_NODE, NO_TYPE, 1, $10)); }
+        | FOR exprlist IN testlist COLON opt_type_comment suite { $$ = new_subtree(FOR_NODE, NO_TYPE, 3, $2, $4, $7); }
 ;
 
 try_stmt: TRY COLON suite except_suite_plus opt_else_suite opt_finally_suite
@@ -473,8 +480,8 @@ with_item: test opt_as_expr
 except_clause: EXCEPT opt_test_as_name
 ;
 
-suite: simple_stmt
-     | NEWLINE INDENT stmt_plus DEDENT
+suite: simple_stmt { $$ = $1; }
+     | NEWLINE INDENT stmt_plus DEDENT { $$ = $3; }
 ;
 
 // namedexpr_test: test opt_colonass_test 
@@ -605,7 +612,8 @@ atom: LPAR RPAR { $$ = new_node(PARS_NODE, 0, NO_TYPE); }
     | LPAR yield_expr RPAR { $$ = new_subtree(PARS_NODE, NO_TYPE, 1, $2); }
     | LPAR testlist_comp RPAR { $$ = new_subtree(PARS_NODE, NO_TYPE, 1, $2); }
     | LSQB RSQB { $$ = new_node(LIST_NODE, 0, NO_TYPE); }
-    | LSQB testlist_comp RSQB { $$ = new_subtree(LIST_NODE, NO_TYPE, 1, $2); }
+    //| LSQB testlist_comp RSQB { $$ = new_subtree(LIST_NODE, NO_TYPE, 1, $2); }
+    | LSQB subscriptlist RSQB { $$ = $2; }
     | LBRACE RBRACE { $$ = new_node(DICT_NODE, 0, NO_TYPE); }
     | LBRACE dictorsetmaker RBRACE { $$ = new_subtree(DICT_NODE, NO_TYPE, 1, $2); }
     | NAME { $$ = new_node(NAME_NODE, 0, NO_TYPE); }
@@ -649,14 +657,18 @@ subscript: test
 sliceop: COLON opt_test
 ;
 
-exprlist: expr comma_expr_star_expr_star opt_comma
+// exprlist: expr comma_expr_star_expr_star opt_comma
+// ;
+
+exprlist: expr COMMA exprlist { add_child($3, $1); $$ = $3; }
+        | expr opt_comma { $$ = new_subtree(EXPRLIST_NODE, NO_TYPE, 1, $1); }
 ;
 
 // testlist: test comma_test_star opt_comma
 // ;
 
 testlist: test COMMA testlist { add_child($3, $1); $$ = $3; }
-        | test opt_comma { $$ = new_subtree(TEST_LIST_NODE, NO_TYPE, 1, $1); }
+        | test opt_comma { $$ = new_subtree(TESTLIST_NODE, NO_TYPE, 1, $1); }
 ;
 
 dictorsetmaker: dictorsetmaker1

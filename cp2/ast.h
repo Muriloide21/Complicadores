@@ -53,7 +53,13 @@ typedef enum {
     DICT_NODE,
     ARGLIST_NODE,
     PARS_NODE,
-    TEST_LIST_NODE
+    TESTLIST_NODE,
+    IF_NODE,
+    ELIF_NODE,
+    ELSE_NODE,
+    WHILE_NODE,
+    FOR_NODE,
+    EXPRLIST_NODE,
 
 
 
