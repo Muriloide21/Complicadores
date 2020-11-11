@@ -157,6 +157,8 @@ char* kind2str(NodeKind kind) {
         case WHILE_NODE: return "WHILE"; 
         case FOR_NODE: return "FOR";
         case EXPRLIST_NODE: return "EXPRLIST";
+        case FUNCDEF_NODE: return "FUNCDEF";
+        case FUNCNAME_NODE: return "funcname";
 
         default:            return "ERROR!!";
     }

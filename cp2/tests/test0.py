@@ -1,2 +1,3 @@
 x = 4
-y = "Teste" "Teste2"
+y = "Teste"
+teste = x

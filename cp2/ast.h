@@ -60,6 +60,8 @@ typedef enum {
     WHILE_NODE,
     FOR_NODE,
     EXPRLIST_NODE,
+    FUNCDEF_NODE,
+    FUNCNAME_NODE,
 
 
 

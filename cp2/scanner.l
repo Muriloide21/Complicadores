@@ -16,6 +16,15 @@
 
 void process_token(yytoken_kind_t);
 void process_indent(void);
+void add_text(char*);
+
+typedef struct {
+    char* last_text[100];
+    int count;
+} mdl;
+
+mdl names_list;
+mdl names_list = { .count = 0 };
 
 const char *const nomes_var[] =
 {
@@ -174,7 +183,7 @@ yield        { process_token(YIELD); }
 [`]([^\`]|\\.)*[`]     { add_string(st, yytext); process_token(STRING); }
 [']([^\']|\\.)*[']     { add_string(st, yytext); process_token(STRING); }
 
-[a-zA-Z_][0-9a-zA-Z_]*              { process_token(NAME); }
+[a-zA-Z_][0-9a-zA-Z_]*              { add_text(yytext); process_token(NAME); }
 
 {inteiro}                           { process_token(NUMBER); }
 {float1}                            { process_token(NUMBER); }
@@ -266,6 +275,14 @@ void process_indent(void) {
 }
 
 int next_token = 0;
+
+void add_text(char* text){
+    printf("yytext: %s",yytext);
+    names_list.last_text[names_list.count] = malloc(sizeof(strlen(text)) + 1);
+    strcpy(names_list.last_text[names_list.count], text);
+    names_list.count++;
+}
+
 
 yytoken_kind_t yylex(void) {
     if (next_token < token_count) {

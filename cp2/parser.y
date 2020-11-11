@@ -20,8 +20,16 @@ void yyerror(char const *s);
 void check_var(char*);
 void new_var(void);
 
+typedef struct {
+    char* last_text[100];
+    int count;
+} mdl;
+
 extern char *yytext;
 extern int yylineno;
+extern mdl names_list;
+
+int position = 0;
 
 StrTable *st;
 VarTable *vt;
@@ -67,7 +75,7 @@ opt_type_comment: %empty
 // ;
 
 opt_assign_test: %empty
-			   | EQUAL test
+	       | EQUAL test
 ;
 
 opt_comma: %empty
@@ -282,36 +290,37 @@ decorated: decorators classdef
          | decorators async_funcdef
 ;
 
-async_funcdef: ASYNC funcdef
+async_funcdef: ASYNC funcdef { $$ = $2; }
 ;
 
-funcdef: DEF NAME { new_var(); } parameters opt_arrow_test COLON opt_type_comment func_body_suite
+funcdef: DEF NAME parameters opt_arrow_test COLON opt_type_comment func_body_suite { $$ = new_subtree(FUNCDEF_NODE, NO_TYPE, 3, new_node(FUNCNAME_NODE, 0, NO_TYPE), $3, $7); }
 ;
 
-parameters: LPAR RPAR
-		  | LPAR typedargslist RPAR
+parameters: LPAR RPAR { $$ = new_node(PARS_NODE, 0, NO_TYPE); }
+          | LPAR arguments RPAR { $$ = $2; }
 ;
 
 // arguments: argument comma_argument_star
 // ;
 
-arguments: argument COMMA arguments
-         | argument
+arguments: argument COMMA arguments { add_child($3, $1); $$ = $3; }
+         | argument { $$ = new_subtree(PARS_NODE, NO_TYPE, 1, $1); }
 ;
 
-argument: tfpdef opt_assign_test
+argument: tfpdef EQUAL test { $$ = new_subtree(ASSIGN_NODE, NO_TYPE, 2, $1, $3); }
+        | tfpdef { $$ = $1; }
 ;
 
-typedargslist: arguments
-;
+// typedargslist: arguments
+// ;
 
-tfpdef: NAME { check_var("tfpdef"); } opt_colon_test
+tfpdef: NAME opt_colon_test { $$ = new_node(NAME_NODE, 0, NO_TYPE); }
 ;
 
 // ---
 
 stmt: simple_stmt   { $$ = $1; }
-	| compound_stmt { $$ = $1; }
+    | compound_stmt { $$ = $1; }
 ;
 
 simple_stmt: small_stmt opt_semi NEWLINE { $$ = $1; }
@@ -339,7 +348,7 @@ annassign: COLON test opt_assing_yield_or_test
 
 testlist_star_expr: test opt_comma { $$ = $1; }
              //   | test comma_test_star_expr_star opt_comma
-			 //   | star_expr comma_test_star_expr_star opt_comma
+	     //   | star_expr comma_test_star_expr_star opt_comma
 ;
 
 augassign: PLUSEQUAL
@@ -363,11 +372,11 @@ del_stmt: DEL exprlist { $$ = new_subtree(DEL_NODE, NO_TYPE, 1, $2); }
 pass_stmt: PASS { $$ = new_subtree(PASS_NODE, NO_TYPE, 0); }
 ;
 
-flow_stmt: break_stmt //FOI
-		 | continue_stmt //FOI
-		//  | return_stmt
-		 | raise_stmt
-		 | yield_stmt
+flow_stmt: break_stmt { $$ = $1; } //FOI
+         | continue_stmt { $$ = $1; } //FOI
+         | return_stmt { $$ = $1; }
+         | raise_stmt { $$ = $1; }
+         | yield_stmt { $$ = $1; }
 ;
 
 break_stmt: BREAK { $$ = new_subtree(BREAK_NODE, NO_TYPE, 0); }
@@ -376,15 +385,16 @@ break_stmt: BREAK { $$ = new_subtree(BREAK_NODE, NO_TYPE, 0); }
 continue_stmt: CONTINUE { $$ = new_node(CONTINUE_NODE, 0, NO_TYPE); }
 ;
 
-// return_stmt: RETURN opt_testlist_star_expr { $$ = new_subtree(RETURN_NODE, NO_TYPE, 1, $2); }
-// ;
+return_stmt: RETURN testlist_star_expr { $$ = new_subtree(RETURN_NODE, NO_TYPE, 1, $2); }
+           | RETURN { $$ = new_node(RETURN_NODE, 0, NO_TYPE); }
+;
 
 yield_stmt: yield_expr
 ;
 
 raise_stmt: RAISE
-		  | RAISE test
-		  | RAISE test FROM test
+	  | RAISE test
+          | RAISE test FROM test
 ;
 
 import_stmt: import_name
@@ -616,7 +626,7 @@ atom: LPAR RPAR { $$ = new_node(PARS_NODE, 0, NO_TYPE); }
     | LSQB subscriptlist RSQB { $$ = $2; }
     | LBRACE RBRACE { $$ = new_node(DICT_NODE, 0, NO_TYPE); }
     | LBRACE dictorsetmaker RBRACE { $$ = new_subtree(DICT_NODE, NO_TYPE, 1, $2); }
-    | NAME { $$ = new_node(NAME_NODE, 0, NO_TYPE); }
+    | NAME { printf("name: %s\n", names_list.last_text[position++]); $$ = new_node(NAME_NODE, 0, NO_TYPE); }
     | NUMBER { $$ = new_node(NUMBER_NODE, 0, NO_TYPE); }
     | string_plus { $$ = $1; }
     | ELLIPSIS { $$ = new_node(ELLIPSIS_NODE, 0, NO_TYPE); }
@@ -651,10 +661,10 @@ subscriptlist: subscript COMMA subscriptlist { add_child($3, $1); $$ = $3; print
 ;
 
 subscript: test
-		 | opt_test COLON opt_test opt_sliceop
+	 | opt_test COLON opt_test opt_sliceop
 ;
 
-sliceop: COLON opt_test
+sliceop: COLON opt_test 
 ;
 
 // exprlist: expr comma_expr_star_expr_star opt_comma
@@ -730,9 +740,9 @@ yield_arg: FROM test
 		 | testlist_star_expr
 ;
 
-func_body_suite: simple_stmt
-			         | NEWLINE INDENT stmt_plus DEDENT
-  			       | NEWLINE TYPE_COMMENT NEWLINE INDENT stmt_plus DEDENT
+func_body_suite: simple_stmt { $$ = $1; }
+	       | NEWLINE INDENT stmt_plus DEDENT { $$ = $3; }
+  	       | NEWLINE TYPE_COMMENT NEWLINE INDENT stmt_plus DEDENT { $$ = $5; }
 ;
 
 %%
@@ -751,14 +761,14 @@ void check_var(char* rule_name) {
 }
 
 void new_var() {
-    // int idx = lookup_var(vt, yytext);
-    // printf("Chegueeei %s\n",yytext);
-    // if (idx != -1) {
-    //     printf("SEMANTIC ERROR (%d): variable '%s' already declared at line %d.\n",
-    //             yylineno, yytext, get_line(vt, idx));
-    //     exit(EXIT_FAILURE);
-    // }
-    // add_var(vt, yytext, yylineno, NO_TYPE);
+    int idx = lookup_var(vt, yytext);
+    printf("Chegueeei %s\n",yytext);
+    if (idx != -1) {
+        printf("SEMANTIC ERROR (%d): variable '%s' already declared at line %d.\n",
+                yylineno, yytext, get_line(vt, idx));
+        exit(EXIT_FAILURE);
+    }
+    add_var(vt, yytext, yylineno, NO_TYPE);
 }
 
 // Primitive error handling.
