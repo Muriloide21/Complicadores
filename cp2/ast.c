@@ -17,8 +17,18 @@ struct node {
     } data;
     Type type;
     int count;
+    char* name;
     AST* child[CHILDREN_LIMIT];
 };
+
+void set_name_node(AST* node, char* name){
+    node->name = malloc(strlen(name)+1);
+    node->name = name;
+}
+
+char* get_name_node(AST* node){
+    return node->name;
+}
 
 AST* new_node(NodeKind kind, int data, Type type) {
     AST* node = malloc(sizeof * node);

@@ -67,10 +67,12 @@ typedef enum {
 
 } NodeKind;
 
-struct node; // Opaque structure to ensure encapsulation.
+struct node;
 
 typedef struct node AST;
 
+void set_name_node(AST* node, char* name);
+char* get_name_node(AST* node);
 AST* new_node(NodeKind kind, int data, Type type);
 
 void add_child(AST *parent, AST *child);

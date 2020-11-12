@@ -4,6 +4,10 @@
 %define parse.lac full
 %define parse.trace
 
+%code requires {
+typedef enum yytokentype yytoken_kind_t;
+}
+
 %{
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,6 +15,8 @@
 #include "tables.h"
 #include "ast.h"
 #include "parser.h"
+
+#define CHILDREN_LIMIT 20
 
 void lex_init(void);
 int yylex(void);
@@ -24,6 +30,18 @@ typedef struct {
     char* last_text[100];
     int count;
 } mdl;
+
+struct node {
+    NodeKind kind;
+    union {
+        int   as_int;
+        float as_float;
+    } data;
+    Type type;
+    int count;
+    char* name;
+    AST* child[CHILDREN_LIMIT];
+};
 
 extern char *yytext;
 extern int yylineno;
@@ -293,7 +311,7 @@ decorated: decorators classdef
 async_funcdef: ASYNC funcdef { $$ = $2; }
 ;
 
-funcdef: DEF NAME parameters opt_arrow_test COLON opt_type_comment func_body_suite { $$ = new_subtree(FUNCDEF_NODE, NO_TYPE, 3, new_node(FUNCNAME_NODE, 0, NO_TYPE), $3, $7); }
+funcdef: DEF NAME parameters opt_arrow_test COLON opt_type_comment func_body_suite { $$ = new_subtree(FUNCDEF_NODE, NO_TYPE, 3, new_node(FUNCNAME_NODE, 0, NO_TYPE), $3, $7); set_name_node($$, names_list.last_text[position++]); }
 ;
 
 parameters: LPAR RPAR { $$ = new_node(PARS_NODE, 0, NO_TYPE); }
@@ -626,7 +644,7 @@ atom: LPAR RPAR { $$ = new_node(PARS_NODE, 0, NO_TYPE); }
     | LSQB subscriptlist RSQB { $$ = $2; }
     | LBRACE RBRACE { $$ = new_node(DICT_NODE, 0, NO_TYPE); }
     | LBRACE dictorsetmaker RBRACE { $$ = new_subtree(DICT_NODE, NO_TYPE, 1, $2); }
-    | NAME { printf("name: %s\n", names_list.last_text[position++]); $$ = new_node(NAME_NODE, 0, NO_TYPE); }
+    | NAME { $$ = new_node(NAME_NODE, 0, NO_TYPE); }
     | NUMBER { $$ = new_node(NUMBER_NODE, 0, NO_TYPE); }
     | string_plus { $$ = $1; }
     | ELLIPSIS { $$ = new_node(ELLIPSIS_NODE, 0, NO_TYPE); }
@@ -761,14 +779,14 @@ void check_var(char* rule_name) {
 }
 
 void new_var() {
-    int idx = lookup_var(vt, yytext);
-    printf("Chegueeei %s\n",yytext);
-    if (idx != -1) {
-        printf("SEMANTIC ERROR (%d): variable '%s' already declared at line %d.\n",
-                yylineno, yytext, get_line(vt, idx));
-        exit(EXIT_FAILURE);
-    }
-    add_var(vt, yytext, yylineno, NO_TYPE);
+    // int idx = lookup_var(vt, yytext);
+    // printf("Chegueeei %s\n",yytext);
+    // if (idx != -1) {
+    //     printf("SEMANTIC ERROR (%d): variable '%s' already declared at line %d.\n",
+    //             yylineno, yytext, get_line(vt, idx));
+    //     exit(EXIT_FAILURE);
+    // }
+    // add_var(vt, yytext, yylineno, NO_TYPE);
 }
 
 // Primitive error handling.
@@ -777,14 +795,23 @@ void yyerror (char const *s) {
     exit(EXIT_FAILURE);
 }
 
+void search_funcdefs(AST* root) {
+	if(root->kind == FUNCDEF_NODE){
+		printf("%s",get_name_node(root));
+        printf("\n");
+	}
+    int i = 0;
+	for(i = 0; i < (root->count - 1); i++){
+		search_funcdefs(root->child[i]); 
+	}
+}
+
 int main() {
-    st = create_str_table();
-    vt = create_var_table();
-    
-    yydebug = 0;
     lex_init();
     yyparse();
     printf("PARSE SUCCESSFUL!\n");
+
+	search_funcdefs(root);
 
     print_dot(root);
 
