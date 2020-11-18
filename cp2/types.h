@@ -7,6 +7,7 @@ typedef enum {
     REAL_TYPE,
     BOOL_TYPE,
     STR_TYPE,
+    LIST_TYPE,
     NO_TYPE, // Used when we need to pass a non-existing type to a function.
 } Type;
 

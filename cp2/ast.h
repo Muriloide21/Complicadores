@@ -85,7 +85,11 @@ AST* new_subtree(NodeKind kind, Type type, int child_count, ...);
 NodeKind get_kind(AST *node);
 char* kind2str(NodeKind kind);
 
-int get_data(AST *node);
+// int get_data(AST *node);
+
+Char* get_data(AST *node);
+void set_node_data(AST *node, char* data);
+
 void set_float_data(AST *node, float data);
 float get_float_data(AST *node);
 

@@ -634,7 +634,7 @@ atom: LPAR RPAR { $$ = new_node(PARS_NODE, 0, NO_TYPE); }
     | LBRACE RBRACE { $$ = new_node(DICT_NODE, 0, NO_TYPE); }
     | LBRACE dictorsetmaker RBRACE { $$ = new_subtree(DICT_NODE, NO_TYPE, 1, $2); }
     | NAME { $$ = new_node(NAME_NODE, 0, NO_TYPE); }
-    | NUMBER { $$ = new_node(NUMBER_NODE, 0, NO_TYPE); }
+    | NUMBER { $$ = new_node(NUMBER_NODE, 0, NO_TYPE); set_node_data($$, yytext)}
     | string_plus { $$ = $1; }
     | ELLIPSIS { $$ = new_node(ELLIPSIS_NODE, 0, NO_TYPE); }
     | NONE { $$ = new_node(NONE_NODE, 0, NO_TYPE); }
@@ -784,28 +784,30 @@ void yyerror (char const *s) {
     exit(EXIT_FAILURE);
 }
 
-//Podíamos botar outro nome aqui ein
-// Tipo, segunda passada kkkkk
+Type quarta_passada(AST* root) {
+    if(get_kind_node(root) == STRING_NODE){ return STR_TYPE; };
+    if(get_kind_node(root) == LIST_NODE){ return LIST_TYPE; };
+    if(get_kind_node(root) == BOOL_VAL_NODE){ return BOOL_TYPE; };
+    if(get_kind_node(root) == NUMBER_NODE){
+        float num = atof(get_data(root));
+        if (num  == floor(num)){
+            return INT_TYPE;
+        }
+        else{
+            return REAL_TYPE;
+        }
+    }
+    int children_count = get_node_count(root);
+    
+	for(i = 0; i < children_count; i++){
+		quarta_passada(get_node_child(root, i));
+	}
+    
+}
+
 void segunda_passada(AST* root) {
     if(get_kind_node(root) == NAME_NODE){
         set_name_node(root, names_list.last_text[position_f++]);
-    }
-    //Se for assign
-    //Verifica os filhos
-    if(get_kind_node(root) == ASSIGN_NODE){
-        //Não seria AST*
-        AST* left_child = get_node_child(root, 0);
-        AST* right_child = get_node_child(root, 1);
-        int pos = lookup_var(vt, get_name_node(left_child));
-        //to bugado
-        // pois é, tem que fazer um lookup ali em cima, se pá
-        //Não sei
-        if(pos == -1){ 
-            //Mas então aquele set ali em cima não vai mais existir? Pq senão vai fazer ++ 2 vezes
-            set_name_node(left_child, names_list.last_text[position++]);
-            add_var(vt, get_name_node(left_child), position, STR_TYPE, 0, get_node_count(get_node_child(root, 1)));
-        }
-
     }
     // Se estiver na direita e for um NAME e não estiver na tabela, dá erro
     // Se estiver na direita e for string, atribui esse value e o TYPE na tabela
@@ -844,6 +846,27 @@ void verify_func_calls(AST* root) {
 		verify_func_calls(get_node_child(root, i));
 	}
 }
+
+if(get_kind_node(root) == ASSIGN_NODE){
+        AST* left_child = get_node_child(root, 0);
+        AST* right_child = get_node_child(root, 1);
+
+        int pos = lookup_var(vt, get_name_node(left_child));
+        if(pos == -1){
+            //Adiciona nome ao nó
+            set_name_node(left_child, names_list.last_text[position_f++]);
+            //Resolve o lado direito do assign; Infere o tipo; E adiciona
+            add_var(vt, get_name_node(left_child), 0, NO_TYPE, 0, 0);
+            
+        }
+        else{
+            //Verifica se o value (child da direita) é do mesmo tipo declarado na tabela
+            // Se sim, atualiza o value e corre pro abraço
+            // Se não, vai tomar no 
+        }
+
+    }
+
 
 // Então, o que eu tinha falado é: A inferência de tipos vai exigir que nós passemos a armazenar value nos nós neh?
 // Shit, ok

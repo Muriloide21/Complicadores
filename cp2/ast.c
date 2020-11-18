@@ -11,11 +11,12 @@
 
 struct node {
     NodeKind kind;
-    union {
-        int   as_int;
-        float as_float;
-        char* as_string;
-    } data;
+    // union {
+    //     int   as_int;
+    //     float as_float;
+    //     char* as_string;
+    // } data;
+    Char* data;
     Type type;
     int count;
     char* name;
@@ -91,20 +92,18 @@ NodeKind get_kind(AST *node) {
     return node->kind;
 }
 
-int get_data(AST *node) {
-    return node->data.as_int;
+Char* get_data(AST *node) {
+    return node->data;
 }
 
-// void set_node_data(AST *node, int type, int data_int, float data_float, char* data_string) {
-//     node->data.as_int = data_int;
-//     node->data.as_float = data_float;
-//     if(data_string != NULL) {
-//         node->data.as_string = malloc(strlen(data_string) + 1);
-//         strcpy(node->data.as_string,data_string)
-//     }else{
-//         node->data.as_string = NULL;
-//     }
-// }
+void set_node_data(AST *node, char* data) {
+    if(data != NULL) {
+        node->data = malloc(strlen(data) + 1);
+        strcpy(node->data,data)
+    }else{
+        node->data = NULL;
+    }
+}
 
 float get_float_data(AST *node) {
     return node->data.as_float;
