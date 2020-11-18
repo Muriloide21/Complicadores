@@ -978,7 +978,7 @@ Nonterminals, with rules where they appear
 
 State 0
 
-    0 $accept: • program ENDMARKER
+    0 $accept: . program ENDMARKER
 
     $default  reduce using rule 1 (newline_or_stmt_star)
 
@@ -989,9 +989,9 @@ State 0
 
 State 1
 
-    2 newline_or_stmt_star: newline_or_stmt_star • NEWLINE
-    3                     | newline_or_stmt_star • stmt
-  115 file_input: newline_or_stmt_star • ENDMARKER
+    2 newline_or_stmt_star: newline_or_stmt_star . NEWLINE
+    3                     | newline_or_stmt_star . stmt
+  115 file_input: newline_or_stmt_star . ENDMARKER
 
     ENDMARKER  shift, and go to state 4
     ASSERT     shift, and go to state 5
@@ -1080,28 +1080,28 @@ State 1
 
 State 2
 
-    0 $accept: program • ENDMARKER
+    0 $accept: program . ENDMARKER
 
     ENDMARKER  shift, and go to state 84
 
 
 State 3
 
-  114 program: file_input •
+  114 program: file_input .
 
     $default  reduce using rule 114 (program)
 
 
 State 4
 
-  115 file_input: newline_or_stmt_star ENDMARKER •
+  115 file_input: newline_or_stmt_star ENDMARKER .
 
     $default  reduce using rule 115 (file_input)
 
 
 State 5
 
-  192 assert_stmt: ASSERT • test opt_comma_test
+  192 assert_stmt: ASSERT . test opt_comma_test
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 19
@@ -1132,9 +1132,9 @@ State 5
 
 State 6
 
-  202 async_stmt: ASYNC • funcdef
-  203           | ASYNC • with_stmt
-  204           | ASYNC • for_stmt
+  202 async_stmt: ASYNC . funcdef
+  203           | ASYNC . with_stmt
+  204           | ASYNC . for_stmt
 
     DEF   shift, and go to state 12
     FOR   shift, and go to state 14
@@ -1147,7 +1147,7 @@ State 6
 
 State 7
 
-  116 decorator: AT • dotted_name opt_par_arglist NEWLINE
+  116 decorator: AT . dotted_name opt_par_arglist NEWLINE
 
     NAME  shift, and go to state 89
 
@@ -1156,42 +1156,42 @@ State 7
 
 State 8
 
-   88 opt_await: AWAIT •
+   88 opt_await: AWAIT .
 
     $default  reduce using rule 88 (opt_await)
 
 
 State 9
 
-  168 break_stmt: BREAK •
+  168 break_stmt: BREAK .
 
     $default  reduce using rule 168 (break_stmt)
 
 
 State 10
 
-  290 classdef: CLASS • NAME opt_par_arglist COLON suite
+  290 classdef: CLASS . NAME opt_par_arglist COLON suite
 
     NAME  shift, and go to state 91
 
 
 State 11
 
-  169 continue_stmt: CONTINUE •
+  169 continue_stmt: CONTINUE .
 
     $default  reduce using rule 169 (continue_stmt)
 
 
 State 12
 
-  122 funcdef: DEF • NAME parameters opt_arrow_test COLON opt_type_comment func_body_suite
+  122 funcdef: DEF . NAME parameters opt_arrow_test COLON opt_type_comment func_body_suite
 
     NAME  shift, and go to state 92
 
 
 State 13
 
-  161 del_stmt: DEL • exprlist
+  161 del_stmt: DEL . exprlist
 
     AWAIT  shift, and go to state 8
     MINUS  shift, and go to state 20
@@ -1215,7 +1215,7 @@ State 13
 
 State 14
 
-  207 for_stmt: FOR • exprlist IN testlist COLON opt_type_comment suite opt_else_suite
+  207 for_stmt: FOR . exprlist IN testlist COLON opt_type_comment suite opt_else_suite
 
     AWAIT  shift, and go to state 8
     MINUS  shift, and go to state 20
@@ -1239,7 +1239,7 @@ State 14
 
 State 15
 
-  178 import_from: FROM • from_part IMPORT import_part
+  178 import_from: FROM . from_part IMPORT import_part
 
     DOT       shift, and go to state 96
     ELLIPSIS  shift, and go to state 97
@@ -1251,14 +1251,14 @@ State 15
 
 State 16
 
-  190 global_stmt: GLOBAL • NAME comma_name_star
+  190 global_stmt: GLOBAL . NAME comma_name_star
 
     NAME  shift, and go to state 100
 
 
 State 17
 
-  205 if_stmt: IF • namedexpr_test COLON suite elif_test_suite_star opt_else_suite
+  205 if_stmt: IF . namedexpr_test COLON suite elif_test_suite_star opt_else_suite
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 19
@@ -1290,7 +1290,7 @@ State 17
 
 State 18
 
-  177 import_name: IMPORT • dotted_as_names
+  177 import_name: IMPORT . dotted_as_names
 
     NAME  shift, and go to state 89
 
@@ -1301,14 +1301,14 @@ State 18
 
 State 19
 
-  221 lambdef: LAMBDA • COLON test
+  221 lambdef: LAMBDA . COLON test
 
     COLON  shift, and go to state 106
 
 
 State 20
 
-  246 factor: MINUS • factor
+  246 factor: MINUS . factor
 
     AWAIT  shift, and go to state 8
     MINUS  shift, and go to state 20
@@ -1325,21 +1325,21 @@ State 20
 
 State 21
 
-    2 newline_or_stmt_star: newline_or_stmt_star NEWLINE •
+    2 newline_or_stmt_star: newline_or_stmt_star NEWLINE .
 
     $default  reduce using rule 2 (newline_or_stmt_star)
 
 
 State 22
 
-  191 nonlocal_stmt: NONLOCAL • NAME comma_name_star
+  191 nonlocal_stmt: NONLOCAL . NAME comma_name_star
 
     NAME  shift, and go to state 108
 
 
 State 23
 
-  225 not_test: NOT • not_test
+  225 not_test: NOT . not_test
 
     AWAIT  shift, and go to state 8
     MINUS  shift, and go to state 20
@@ -1365,14 +1365,14 @@ State 23
 
 State 24
 
-  162 pass_stmt: PASS •
+  162 pass_stmt: PASS .
 
     $default  reduce using rule 162 (pass_stmt)
 
 
 State 25
 
-  245 factor: PLUS • factor
+  245 factor: PLUS . factor
 
     AWAIT  shift, and go to state 8
     MINUS  shift, and go to state 20
@@ -1389,9 +1389,9 @@ State 25
 
 State 26
 
-  172 raise_stmt: RAISE •
-  173           | RAISE • test
-  174           | RAISE • test FROM test
+  172 raise_stmt: RAISE .
+  173           | RAISE . test
+  174           | RAISE . test FROM test
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 19
@@ -1424,7 +1424,7 @@ State 26
 
 State 27
 
-  170 return_stmt: RETURN • opt_testlist_star_expr
+  170 return_stmt: RETURN . opt_testlist_star_expr
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 19
@@ -1461,7 +1461,7 @@ State 27
 
 State 28
 
-  238 star_expr: STAR • expr
+  238 star_expr: STAR . expr
 
     AWAIT  shift, and go to state 8
     MINUS  shift, and go to state 20
@@ -1484,7 +1484,7 @@ State 28
 
 State 29
 
-  247 factor: TILDE • factor
+  247 factor: TILDE . factor
 
     AWAIT  shift, and go to state 8
     MINUS  shift, and go to state 20
@@ -1501,15 +1501,15 @@ State 29
 
 State 30
 
-  208 try_stmt: TRY • COLON suite except_suite_plus opt_else_suite opt_finally_suite
-  209         | TRY • COLON suite FINALLY COLON suite
+  208 try_stmt: TRY . COLON suite except_suite_plus opt_else_suite opt_finally_suite
+  209         | TRY . COLON suite FINALLY COLON suite
 
     COLON  shift, and go to state 116
 
 
 State 31
 
-  210 with_stmt: WITH • with_item comma_with_item_star COLON opt_type_comment suite
+  210 with_stmt: WITH . with_item comma_with_item_star COLON opt_type_comment suite
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 19
@@ -1541,7 +1541,7 @@ State 31
 
 State 32
 
-  206 while_stmt: WHILE • namedexpr_test COLON suite opt_else_suite
+  206 while_stmt: WHILE . namedexpr_test COLON suite opt_else_suite
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 19
@@ -1573,8 +1573,8 @@ State 32
 
 State 33
 
-  306 yield_expr: YIELD •
-  307           | YIELD • yield_arg
+  306 yield_expr: YIELD .
+  307           | YIELD . yield_arg
 
     AWAIT   shift, and go to state 8
     FROM    shift, and go to state 120
@@ -1615,8 +1615,8 @@ State 33
 
 State 34
 
-    8 decorator_plus: decorator_plus • decorator
-  117 decorators: decorator_plus •
+    8 decorator_plus: decorator_plus . decorator
+  117 decorators: decorator_plus .
 
     AT  shift, and go to state 7
 
@@ -1627,7 +1627,7 @@ State 34
 
 State 35
 
-  251 atom_expr: opt_await • atom trailer_star
+  251 atom_expr: opt_await . atom trailer_star
 
     ELLIPSIS  shift, and go to state 124
     FALSE     shift, and go to state 125
@@ -1646,16 +1646,16 @@ State 35
 
 State 36
 
-    7 decorator_plus: decorator •
+    7 decorator_plus: decorator .
 
     $default  reduce using rule 7 (decorator_plus)
 
 
 State 37
 
-  118 decorated: decorators • classdef
-  119          | decorators • funcdef
-  120          | decorators • async_funcdef
+  118 decorated: decorators . classdef
+  119          | decorators . funcdef
+  120          | decorators . async_funcdef
 
     ASYNC  shift, and go to state 136
     CLASS  shift, and go to state 10
@@ -1668,35 +1668,35 @@ State 37
 
 State 38
 
-  200 compound_stmt: decorated •
+  200 compound_stmt: decorated .
 
     $default  reduce using rule 200 (compound_stmt)
 
 
 State 39
 
-  198 compound_stmt: funcdef •
+  198 compound_stmt: funcdef .
 
     $default  reduce using rule 198 (compound_stmt)
 
 
 State 40
 
-    3 newline_or_stmt_star: newline_or_stmt_star stmt •
+    3 newline_or_stmt_star: newline_or_stmt_star stmt .
 
     $default  reduce using rule 3 (newline_or_stmt_star)
 
 
 State 41
 
-  129 stmt: simple_stmt •
+  129 stmt: simple_stmt .
 
     $default  reduce using rule 129 (stmt)
 
 
 State 42
 
-  131 simple_stmt: small_stmt • semi_small_stmt_star opt_semi NEWLINE
+  131 simple_stmt: small_stmt . semi_small_stmt_star opt_semi NEWLINE
 
     $default  reduce using rule 21 (semi_small_stmt_star)
 
@@ -1705,18 +1705,18 @@ State 42
 
 State 43
 
-  132 small_stmt: expr_stmt •
+  132 small_stmt: expr_stmt .
 
     $default  reduce using rule 132 (small_stmt)
 
 
 State 44
 
-  140 expr_stmt: testlist_star_expr • annassign
-  141          | testlist_star_expr • augassign yield_expr
-  142          | testlist_star_expr • augassign testlist
-  143          | testlist_star_expr •
-  144          | testlist_star_expr • assing_yield_or_test_plus opt_type_comment
+  140 expr_stmt: testlist_star_expr . annassign
+  141          | testlist_star_expr . augassign yield_expr
+  142          | testlist_star_expr . augassign testlist
+  143          | testlist_star_expr .
+  144          | testlist_star_expr . assing_yield_or_test_plus opt_type_comment
 
     AMPEREQUAL        shift, and go to state 141
     EQUAL             shift, and go to state 142
@@ -1743,154 +1743,154 @@ State 44
 
 State 45
 
-  133 small_stmt: del_stmt •
+  133 small_stmt: del_stmt .
 
     $default  reduce using rule 133 (small_stmt)
 
 
 State 46
 
-  134 small_stmt: pass_stmt •
+  134 small_stmt: pass_stmt .
 
     $default  reduce using rule 134 (small_stmt)
 
 
 State 47
 
-  135 small_stmt: flow_stmt •
+  135 small_stmt: flow_stmt .
 
     $default  reduce using rule 135 (small_stmt)
 
 
 State 48
 
-  163 flow_stmt: break_stmt •
+  163 flow_stmt: break_stmt .
 
     $default  reduce using rule 163 (flow_stmt)
 
 
 State 49
 
-  164 flow_stmt: continue_stmt •
+  164 flow_stmt: continue_stmt .
 
     $default  reduce using rule 164 (flow_stmt)
 
 
 State 50
 
-  165 flow_stmt: return_stmt •
+  165 flow_stmt: return_stmt .
 
     $default  reduce using rule 165 (flow_stmt)
 
 
 State 51
 
-  167 flow_stmt: yield_stmt •
+  167 flow_stmt: yield_stmt .
 
     $default  reduce using rule 167 (flow_stmt)
 
 
 State 52
 
-  166 flow_stmt: raise_stmt •
+  166 flow_stmt: raise_stmt .
 
     $default  reduce using rule 166 (flow_stmt)
 
 
 State 53
 
-  136 small_stmt: import_stmt •
+  136 small_stmt: import_stmt .
 
     $default  reduce using rule 136 (small_stmt)
 
 
 State 54
 
-  175 import_stmt: import_name •
+  175 import_stmt: import_name .
 
     $default  reduce using rule 175 (import_stmt)
 
 
 State 55
 
-  176 import_stmt: import_from •
+  176 import_stmt: import_from .
 
     $default  reduce using rule 176 (import_stmt)
 
 
 State 56
 
-  137 small_stmt: global_stmt •
+  137 small_stmt: global_stmt .
 
     $default  reduce using rule 137 (small_stmt)
 
 
 State 57
 
-  138 small_stmt: nonlocal_stmt •
+  138 small_stmt: nonlocal_stmt .
 
     $default  reduce using rule 138 (small_stmt)
 
 
 State 58
 
-  139 small_stmt: assert_stmt •
+  139 small_stmt: assert_stmt .
 
     $default  reduce using rule 139 (small_stmt)
 
 
 State 59
 
-  130 stmt: compound_stmt •
+  130 stmt: compound_stmt .
 
     $default  reduce using rule 130 (stmt)
 
 
 State 60
 
-  201 compound_stmt: async_stmt •
+  201 compound_stmt: async_stmt .
 
     $default  reduce using rule 201 (compound_stmt)
 
 
 State 61
 
-  193 compound_stmt: if_stmt •
+  193 compound_stmt: if_stmt .
 
     $default  reduce using rule 193 (compound_stmt)
 
 
 State 62
 
-  194 compound_stmt: while_stmt •
+  194 compound_stmt: while_stmt .
 
     $default  reduce using rule 194 (compound_stmt)
 
 
 State 63
 
-  195 compound_stmt: for_stmt •
+  195 compound_stmt: for_stmt .
 
     $default  reduce using rule 195 (compound_stmt)
 
 
 State 64
 
-  196 compound_stmt: try_stmt •
+  196 compound_stmt: try_stmt .
 
     $default  reduce using rule 196 (compound_stmt)
 
 
 State 65
 
-  197 compound_stmt: with_stmt •
+  197 compound_stmt: with_stmt .
 
     $default  reduce using rule 197 (compound_stmt)
 
 
 State 66
 
-  146 testlist_star_expr: test • comma_test_star_expr_star opt_comma
+  146 testlist_star_expr: test . comma_test_star_expr_star opt_comma
 
     $default  reduce using rule 32 (comma_test_star_expr_star)
 
@@ -1899,15 +1899,15 @@ State 66
 
 State 67
 
-  218 test: lambdef •
+  218 test: lambdef .
 
     $default  reduce using rule 218 (test)
 
 
 State 68
 
-  216 test: or_test •
-  217     | or_test • IF or_test ELSE test
+  216 test: or_test .
+  217     | or_test . IF or_test ELSE test
 
     IF  shift, and go to state 160
 
@@ -1916,7 +1916,7 @@ State 68
 
 State 69
 
-  223 or_test: and_test • or_and_test_star
+  223 or_test: and_test . or_and_test_star
 
     $default  reduce using rule 63 (or_and_test_star)
 
@@ -1925,7 +1925,7 @@ State 69
 
 State 70
 
-  224 and_test: not_test • and_not_test_star
+  224 and_test: not_test . and_not_test_star
 
     $default  reduce using rule 65 (and_not_test_star)
 
@@ -1934,14 +1934,14 @@ State 70
 
 State 71
 
-  226 not_test: comparison •
+  226 not_test: comparison .
 
     $default  reduce using rule 226 (not_test)
 
 
 State 72
 
-  147 testlist_star_expr: star_expr • comma_test_star_expr_star opt_comma
+  147 testlist_star_expr: star_expr . comma_test_star_expr_star opt_comma
 
     $default  reduce using rule 32 (comma_test_star_expr_star)
 
@@ -1950,7 +1950,7 @@ State 72
 
 State 73
 
-  227 comparison: expr • comp_op_expr_star
+  227 comparison: expr . comp_op_expr_star
 
     $default  reduce using rule 67 (comp_op_expr_star)
 
@@ -1959,7 +1959,7 @@ State 73
 
 State 74
 
-  239 expr: xor_expr • or_xor_expr_star
+  239 expr: xor_expr . or_xor_expr_star
 
     $default  reduce using rule 69 (or_xor_expr_star)
 
@@ -1968,7 +1968,7 @@ State 74
 
 State 75
 
-  240 xor_expr: and_expr • xor_and_expr_star
+  240 xor_expr: and_expr . xor_and_expr_star
 
     $default  reduce using rule 71 (xor_and_expr_star)
 
@@ -1977,7 +1977,7 @@ State 75
 
 State 76
 
-  241 and_expr: shift_expr • and_shift_expr_star
+  241 and_expr: shift_expr . and_shift_expr_star
 
     $default  reduce using rule 73 (and_shift_expr_star)
 
@@ -1986,7 +1986,7 @@ State 76
 
 State 77
 
-  242 shift_expr: arith_expr • shift_arith_expr_star
+  242 shift_expr: arith_expr . shift_arith_expr_star
 
     $default  reduce using rule 75 (shift_arith_expr_star)
 
@@ -1995,7 +1995,7 @@ State 77
 
 State 78
 
-  243 arith_expr: term • op_term_star
+  243 arith_expr: term . op_term_star
 
     $default  reduce using rule 78 (op_term_star)
 
@@ -2004,7 +2004,7 @@ State 78
 
 State 79
 
-  244 term: factor • op_factor_star
+  244 term: factor . op_factor_star
 
     $default  reduce using rule 81 (op_factor_star)
 
@@ -2013,15 +2013,15 @@ State 79
 
 State 80
 
-  248 factor: power •
+  248 factor: power .
 
     $default  reduce using rule 248 (factor)
 
 
 State 81
 
-  249 power: atom_expr •
-  250      | atom_expr • DOUBLESTAR factor
+  249 power: atom_expr .
+  250      | atom_expr . DOUBLESTAR factor
 
     DOUBLESTAR  shift, and go to state 171
 
@@ -2030,28 +2030,28 @@ State 81
 
 State 82
 
-  199 compound_stmt: classdef •
+  199 compound_stmt: classdef .
 
     $default  reduce using rule 199 (compound_stmt)
 
 
 State 83
 
-  171 yield_stmt: yield_expr •
+  171 yield_stmt: yield_expr .
 
     $default  reduce using rule 171 (yield_stmt)
 
 
 State 84
 
-    0 $accept: program ENDMARKER •
+    0 $accept: program ENDMARKER .
 
     $default  accept
 
 
 State 85
 
-  192 assert_stmt: ASSERT test • opt_comma_test
+  192 assert_stmt: ASSERT test . opt_comma_test
 
     COMMA  shift, and go to state 172
 
@@ -2062,28 +2062,28 @@ State 85
 
 State 86
 
-  202 async_stmt: ASYNC funcdef •
+  202 async_stmt: ASYNC funcdef .
 
     $default  reduce using rule 202 (async_stmt)
 
 
 State 87
 
-  204 async_stmt: ASYNC for_stmt •
+  204 async_stmt: ASYNC for_stmt .
 
     $default  reduce using rule 204 (async_stmt)
 
 
 State 88
 
-  203 async_stmt: ASYNC with_stmt •
+  203 async_stmt: ASYNC with_stmt .
 
     $default  reduce using rule 203 (async_stmt)
 
 
 State 89
 
-  189 dotted_name: NAME • dot_name_star
+  189 dotted_name: NAME . dot_name_star
 
     $default  reduce using rule 43 (dot_name_star)
 
@@ -2092,7 +2092,7 @@ State 89
 
 State 90
 
-  116 decorator: AT dotted_name • opt_par_arglist NEWLINE
+  116 decorator: AT dotted_name . opt_par_arglist NEWLINE
 
     LPAR  shift, and go to state 175
 
@@ -2103,7 +2103,7 @@ State 90
 
 State 91
 
-  290 classdef: CLASS NAME • opt_par_arglist COLON suite
+  290 classdef: CLASS NAME . opt_par_arglist COLON suite
 
     LPAR  shift, and go to state 175
 
@@ -2114,7 +2114,7 @@ State 91
 
 State 92
 
-  122 funcdef: DEF NAME • parameters opt_arrow_test COLON opt_type_comment func_body_suite
+  122 funcdef: DEF NAME . parameters opt_arrow_test COLON opt_type_comment func_body_suite
 
     LPAR  shift, and go to state 178
 
@@ -2123,7 +2123,7 @@ State 92
 
 State 93
 
-  278 exprlist: expr • comma_expr_star_expr_star opt_comma
+  278 exprlist: expr . comma_expr_star_expr_star opt_comma
 
     $default  reduce using rule 102 (comma_expr_star_expr_star)
 
@@ -2132,49 +2132,49 @@ State 93
 
 State 94
 
-  161 del_stmt: DEL exprlist •
+  161 del_stmt: DEL exprlist .
 
     $default  reduce using rule 161 (del_stmt)
 
 
 State 95
 
-  207 for_stmt: FOR exprlist • IN testlist COLON opt_type_comment suite opt_else_suite
+  207 for_stmt: FOR exprlist . IN testlist COLON opt_type_comment suite opt_else_suite
 
     IN  shift, and go to state 181
 
 
 State 96
 
-  179 from_part: DOT •
+  179 from_part: DOT .
 
     $default  reduce using rule 179 (from_part)
 
 
 State 97
 
-  180 from_part: ELLIPSIS •
+  180 from_part: ELLIPSIS .
 
     $default  reduce using rule 180 (from_part)
 
 
 State 98
 
-  178 import_from: FROM from_part • IMPORT import_part
+  178 import_from: FROM from_part . IMPORT import_part
 
     IMPORT  shift, and go to state 182
 
 
 State 99
 
-  181 from_part: dotted_name •
+  181 from_part: dotted_name .
 
     $default  reduce using rule 181 (from_part)
 
 
 State 100
 
-  190 global_stmt: GLOBAL NAME • comma_name_star
+  190 global_stmt: GLOBAL NAME . comma_name_star
 
     $default  reduce using rule 45 (comma_name_star)
 
@@ -2183,14 +2183,14 @@ State 100
 
 State 101
 
-  205 if_stmt: IF namedexpr_test • COLON suite elif_test_suite_star opt_else_suite
+  205 if_stmt: IF namedexpr_test . COLON suite elif_test_suite_star opt_else_suite
 
     COLON  shift, and go to state 184
 
 
 State 102
 
-  215 namedexpr_test: test • opt_colonass_test
+  215 namedexpr_test: test . opt_colonass_test
 
     COLONEQUAL  shift, and go to state 185
 
@@ -2201,7 +2201,7 @@ State 102
 
 State 103
 
-  188 dotted_as_names: dotted_as_name • comma_dotted_as_name_star
+  188 dotted_as_names: dotted_as_name . comma_dotted_as_name_star
 
     $default  reduce using rule 41 (comma_dotted_as_name_star)
 
@@ -2210,14 +2210,14 @@ State 103
 
 State 104
 
-  177 import_name: IMPORT dotted_as_names •
+  177 import_name: IMPORT dotted_as_names .
 
     $default  reduce using rule 177 (import_name)
 
 
 State 105
 
-  186 dotted_as_name: dotted_name • opt_as_name
+  186 dotted_as_name: dotted_name . opt_as_name
 
     AS  shift, and go to state 188
 
@@ -2228,7 +2228,7 @@ State 105
 
 State 106
 
-  221 lambdef: LAMBDA COLON • test
+  221 lambdef: LAMBDA COLON . test
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 19
@@ -2259,14 +2259,14 @@ State 106
 
 State 107
 
-  246 factor: MINUS factor •
+  246 factor: MINUS factor .
 
     $default  reduce using rule 246 (factor)
 
 
 State 108
 
-  191 nonlocal_stmt: NONLOCAL NAME • comma_name_star
+  191 nonlocal_stmt: NONLOCAL NAME . comma_name_star
 
     $default  reduce using rule 45 (comma_name_star)
 
@@ -2275,22 +2275,22 @@ State 108
 
 State 109
 
-  225 not_test: NOT not_test •
+  225 not_test: NOT not_test .
 
     $default  reduce using rule 225 (not_test)
 
 
 State 110
 
-  245 factor: PLUS factor •
+  245 factor: PLUS factor .
 
     $default  reduce using rule 245 (factor)
 
 
 State 111
 
-  173 raise_stmt: RAISE test •
-  174           | RAISE test • FROM test
+  173 raise_stmt: RAISE test .
+  174           | RAISE test . FROM test
 
     FROM  shift, and go to state 192
 
@@ -2299,36 +2299,36 @@ State 111
 
 State 112
 
-  170 return_stmt: RETURN opt_testlist_star_expr •
+  170 return_stmt: RETURN opt_testlist_star_expr .
 
     $default  reduce using rule 170 (return_stmt)
 
 
 State 113
 
-   36 opt_testlist_star_expr: testlist_star_expr •
+   36 opt_testlist_star_expr: testlist_star_expr .
 
     $default  reduce using rule 36 (opt_testlist_star_expr)
 
 
 State 114
 
-  238 star_expr: STAR expr •
+  238 star_expr: STAR expr .
 
     $default  reduce using rule 238 (star_expr)
 
 
 State 115
 
-  247 factor: TILDE factor •
+  247 factor: TILDE factor .
 
     $default  reduce using rule 247 (factor)
 
 
 State 116
 
-  208 try_stmt: TRY COLON • suite except_suite_plus opt_else_suite opt_finally_suite
-  209         | TRY COLON • suite FINALLY COLON suite
+  208 try_stmt: TRY COLON . suite except_suite_plus opt_else_suite opt_finally_suite
+  209         | TRY COLON . suite FINALLY COLON suite
 
     ASSERT    shift, and go to state 5
     AWAIT     shift, and go to state 8
@@ -2394,7 +2394,7 @@ State 116
 
 State 117
 
-  210 with_stmt: WITH with_item • comma_with_item_star COLON opt_type_comment suite
+  210 with_stmt: WITH with_item . comma_with_item_star COLON opt_type_comment suite
 
     $default  reduce using rule 53 (comma_with_item_star)
 
@@ -2403,7 +2403,7 @@ State 117
 
 State 118
 
-  211 with_item: test • opt_as_expr
+  211 with_item: test . opt_as_expr
 
     AS  shift, and go to state 197
 
@@ -2414,14 +2414,14 @@ State 118
 
 State 119
 
-  206 while_stmt: WHILE namedexpr_test • COLON suite opt_else_suite
+  206 while_stmt: WHILE namedexpr_test . COLON suite opt_else_suite
 
     COLON  shift, and go to state 199
 
 
 State 120
 
-  308 yield_arg: FROM • test
+  308 yield_arg: FROM . test
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 19
@@ -2452,43 +2452,43 @@ State 120
 
 State 121
 
-  309 yield_arg: testlist_star_expr •
+  309 yield_arg: testlist_star_expr .
 
     $default  reduce using rule 309 (yield_arg)
 
 
 State 122
 
-  307 yield_expr: YIELD yield_arg •
+  307 yield_expr: YIELD yield_arg .
 
     $default  reduce using rule 307 (yield_expr)
 
 
 State 123
 
-    8 decorator_plus: decorator_plus decorator •
+    8 decorator_plus: decorator_plus decorator .
 
     $default  reduce using rule 8 (decorator_plus)
 
 
 State 124
 
-  262 atom: ELLIPSIS •
+  262 atom: ELLIPSIS .
 
     $default  reduce using rule 262 (atom)
 
 
 State 125
 
-  265 atom: FALSE •
+  265 atom: FALSE .
 
     $default  reduce using rule 265 (atom)
 
 
 State 126
 
-  255 atom: LSQB • RSQB
-  256     | LSQB • testlist_comp RSQB
+  255 atom: LSQB . RSQB
+  256     | LSQB . testlist_comp RSQB
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 19
@@ -2524,8 +2524,8 @@ State 126
 
 State 127
 
-  257 atom: LBRACE • RBRACE
-  258     | LBRACE • dictorsetmaker RBRACE
+  257 atom: LBRACE . RBRACE
+  258     | LBRACE . dictorsetmaker RBRACE
 
     AWAIT       shift, and go to state 8
     DOUBLESTAR  shift, and go to state 205
@@ -2563,9 +2563,9 @@ State 127
 
 State 128
 
-  252 atom: LPAR • RPAR
-  253     | LPAR • yield_expr RPAR
-  254     | LPAR • testlist_comp RPAR
+  252 atom: LPAR . RPAR
+  253     | LPAR . yield_expr RPAR
+  254     | LPAR . testlist_comp RPAR
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 19
@@ -2603,43 +2603,43 @@ State 128
 
 State 129
 
-  259 atom: NAME •
+  259 atom: NAME .
 
     $default  reduce using rule 259 (atom)
 
 
 State 130
 
-  263 atom: NONE •
+  263 atom: NONE .
 
     $default  reduce using rule 263 (atom)
 
 
 State 131
 
-  260 atom: NUMBER •
+  260 atom: NUMBER .
 
     $default  reduce using rule 260 (atom)
 
 
 State 132
 
-   91 string_plus: STRING •
+   91 string_plus: STRING .
 
     $default  reduce using rule 91 (string_plus)
 
 
 State 133
 
-  264 atom: TRUE •
+  264 atom: TRUE .
 
     $default  reduce using rule 264 (atom)
 
 
 State 134
 
-   92 string_plus: string_plus • STRING
-  261 atom: string_plus •
+   92 string_plus: string_plus . STRING
+  261 atom: string_plus .
 
     STRING  shift, and go to state 215
 
@@ -2648,7 +2648,7 @@ State 134
 
 State 135
 
-  251 atom_expr: opt_await atom • trailer_star
+  251 atom_expr: opt_await atom . trailer_star
 
     $default  reduce using rule 89 (trailer_star)
 
@@ -2657,7 +2657,7 @@ State 135
 
 State 136
 
-  121 async_funcdef: ASYNC • funcdef
+  121 async_funcdef: ASYNC . funcdef
 
     DEF  shift, and go to state 12
 
@@ -2666,29 +2666,29 @@ State 136
 
 State 137
 
-  120 decorated: decorators async_funcdef •
+  120 decorated: decorators async_funcdef .
 
     $default  reduce using rule 120 (decorated)
 
 
 State 138
 
-  119 decorated: decorators funcdef •
+  119 decorated: decorators funcdef .
 
     $default  reduce using rule 119 (decorated)
 
 
 State 139
 
-  118 decorated: decorators classdef •
+  118 decorated: decorators classdef .
 
     $default  reduce using rule 118 (decorated)
 
 
 State 140
 
-   22 semi_small_stmt_star: semi_small_stmt_star • SEMICOLON small_stmt
-  131 simple_stmt: small_stmt semi_small_stmt_star • opt_semi NEWLINE
+   22 semi_small_stmt_star: semi_small_stmt_star . SEMICOLON small_stmt
+  131 simple_stmt: small_stmt semi_small_stmt_star . opt_semi NEWLINE
 
     SEMICOLON  shift, and go to state 218
 
@@ -2699,15 +2699,15 @@ State 140
 
 State 141
 
-  154 augassign: AMPEREQUAL •
+  154 augassign: AMPEREQUAL .
 
     $default  reduce using rule 154 (augassign)
 
 
 State 142
 
-   25 assing_yield_or_test_plus: EQUAL • yield_expr
-   26                          | EQUAL • testlist_star_expr
+   25 assing_yield_or_test_plus: EQUAL . yield_expr
+   26                          | EQUAL . testlist_star_expr
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 19
@@ -2743,14 +2743,14 @@ State 142
 
 State 143
 
-  151 augassign: ATEQUAL •
+  151 augassign: ATEQUAL .
 
     $default  reduce using rule 151 (augassign)
 
 
 State 144
 
-  145 annassign: COLON • test opt_assing_yield_or_test
+  145 annassign: COLON . test opt_assing_yield_or_test
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 19
@@ -2781,86 +2781,86 @@ State 144
 
 State 145
 
-  160 augassign: DOUBLESLASHEQUAL •
+  160 augassign: DOUBLESLASHEQUAL .
 
     $default  reduce using rule 160 (augassign)
 
 
 State 146
 
-  159 augassign: DOUBLESTAREQUAL •
+  159 augassign: DOUBLESTAREQUAL .
 
     $default  reduce using rule 159 (augassign)
 
 
 State 147
 
-  157 augassign: LEFTSHIFTEQUAL •
+  157 augassign: LEFTSHIFTEQUAL .
 
     $default  reduce using rule 157 (augassign)
 
 
 State 148
 
-  149 augassign: MINUSEQUAL •
+  149 augassign: MINUSEQUAL .
 
     $default  reduce using rule 149 (augassign)
 
 
 State 149
 
-  155 augassign: VBAREQUAL •
+  155 augassign: VBAREQUAL .
 
     $default  reduce using rule 155 (augassign)
 
 
 State 150
 
-  153 augassign: PERCENTEQUAL •
+  153 augassign: PERCENTEQUAL .
 
     $default  reduce using rule 153 (augassign)
 
 
 State 151
 
-  148 augassign: PLUSEQUAL •
+  148 augassign: PLUSEQUAL .
 
     $default  reduce using rule 148 (augassign)
 
 
 State 152
 
-  158 augassign: RIGHTSHIFTEQUAL •
+  158 augassign: RIGHTSHIFTEQUAL .
 
     $default  reduce using rule 158 (augassign)
 
 
 State 153
 
-  152 augassign: SLASHEQUAL •
+  152 augassign: SLASHEQUAL .
 
     $default  reduce using rule 152 (augassign)
 
 
 State 154
 
-  150 augassign: STAREQUAL •
+  150 augassign: STAREQUAL .
 
     $default  reduce using rule 150 (augassign)
 
 
 State 155
 
-  156 augassign: CIRCUMFLEXEQUAL •
+  156 augassign: CIRCUMFLEXEQUAL .
 
     $default  reduce using rule 156 (augassign)
 
 
 State 156
 
-   27 assing_yield_or_test_plus: assing_yield_or_test_plus • EQUAL yield_expr
-   28                          | assing_yield_or_test_plus • EQUAL testlist_star_expr
-  144 expr_stmt: testlist_star_expr assing_yield_or_test_plus • opt_type_comment
+   27 assing_yield_or_test_plus: assing_yield_or_test_plus . EQUAL yield_expr
+   28                          | assing_yield_or_test_plus . EQUAL testlist_star_expr
+  144 expr_stmt: testlist_star_expr assing_yield_or_test_plus . opt_type_comment
 
     EQUAL         shift, and go to state 223
     TYPE_COMMENT  shift, and go to state 224
@@ -2872,15 +2872,15 @@ State 156
 
 State 157
 
-  140 expr_stmt: testlist_star_expr annassign •
+  140 expr_stmt: testlist_star_expr annassign .
 
     $default  reduce using rule 140 (expr_stmt)
 
 
 State 158
 
-  141 expr_stmt: testlist_star_expr augassign • yield_expr
-  142          | testlist_star_expr augassign • testlist
+  141 expr_stmt: testlist_star_expr augassign . yield_expr
+  142          | testlist_star_expr augassign . testlist
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 19
@@ -2914,9 +2914,9 @@ State 158
 
 State 159
 
-   33 comma_test_star_expr_star: comma_test_star_expr_star • COMMA test
-   34                          | comma_test_star_expr_star • COMMA star_expr
-  146 testlist_star_expr: test comma_test_star_expr_star • opt_comma
+   33 comma_test_star_expr_star: comma_test_star_expr_star . COMMA test
+   34                          | comma_test_star_expr_star . COMMA star_expr
+  146 testlist_star_expr: test comma_test_star_expr_star . opt_comma
 
     COMMA  shift, and go to state 229
 
@@ -2927,7 +2927,7 @@ State 159
 
 State 160
 
-  217 test: or_test IF • or_test ELSE test
+  217 test: or_test IF . or_test ELSE test
 
     AWAIT  shift, and go to state 8
     MINUS  shift, and go to state 20
@@ -2955,8 +2955,8 @@ State 160
 
 State 161
 
-   64 or_and_test_star: or_and_test_star • OR and_test
-  223 or_test: and_test or_and_test_star •
+   64 or_and_test_star: or_and_test_star . OR and_test
+  223 or_test: and_test or_and_test_star .
 
     OR  shift, and go to state 232
 
@@ -2965,8 +2965,8 @@ State 161
 
 State 162
 
-   66 and_not_test_star: and_not_test_star • AND not_test
-  224 and_test: not_test and_not_test_star •
+   66 and_not_test_star: and_not_test_star . AND not_test
+  224 and_test: not_test and_not_test_star .
 
     AND  shift, and go to state 233
 
@@ -2975,9 +2975,9 @@ State 162
 
 State 163
 
-   33 comma_test_star_expr_star: comma_test_star_expr_star • COMMA test
-   34                          | comma_test_star_expr_star • COMMA star_expr
-  147 testlist_star_expr: star_expr comma_test_star_expr_star • opt_comma
+   33 comma_test_star_expr_star: comma_test_star_expr_star . COMMA test
+   34                          | comma_test_star_expr_star . COMMA star_expr
+  147 testlist_star_expr: star_expr comma_test_star_expr_star . opt_comma
 
     COMMA  shift, and go to state 229
 
@@ -2988,8 +2988,8 @@ State 163
 
 State 164
 
-   68 comp_op_expr_star: comp_op_expr_star • comp_op expr
-  227 comparison: expr comp_op_expr_star •
+   68 comp_op_expr_star: comp_op_expr_star . comp_op expr
+  227 comparison: expr comp_op_expr_star .
 
     EQEQUAL       shift, and go to state 235
     GREATEREQUAL  shift, and go to state 236
@@ -3008,8 +3008,8 @@ State 164
 
 State 165
 
-   70 or_xor_expr_star: or_xor_expr_star • VBAR xor_expr
-  239 expr: xor_expr or_xor_expr_star •
+   70 or_xor_expr_star: or_xor_expr_star . VBAR xor_expr
+  239 expr: xor_expr or_xor_expr_star .
 
     VBAR  shift, and go to state 245
 
@@ -3018,8 +3018,8 @@ State 165
 
 State 166
 
-   72 xor_and_expr_star: xor_and_expr_star • CIRCUMFLEX and_expr
-  240 xor_expr: and_expr xor_and_expr_star •
+   72 xor_and_expr_star: xor_and_expr_star . CIRCUMFLEX and_expr
+  240 xor_expr: and_expr xor_and_expr_star .
 
     CIRCUMFLEX  shift, and go to state 246
 
@@ -3028,8 +3028,8 @@ State 166
 
 State 167
 
-   74 and_shift_expr_star: and_shift_expr_star • AMPER shift_expr
-  241 and_expr: shift_expr and_shift_expr_star •
+   74 and_shift_expr_star: and_shift_expr_star . AMPER shift_expr
+  241 and_expr: shift_expr and_shift_expr_star .
 
     AMPER  shift, and go to state 247
 
@@ -3038,9 +3038,9 @@ State 167
 
 State 168
 
-   76 shift_arith_expr_star: shift_arith_expr_star • LEFTSHIFT arith_expr
-   77                      | shift_arith_expr_star • RIGHTSHIFT arith_expr
-  242 shift_expr: arith_expr shift_arith_expr_star •
+   76 shift_arith_expr_star: shift_arith_expr_star . LEFTSHIFT arith_expr
+   77                      | shift_arith_expr_star . RIGHTSHIFT arith_expr
+  242 shift_expr: arith_expr shift_arith_expr_star .
 
     LEFTSHIFT   shift, and go to state 248
     RIGHTSHIFT  shift, and go to state 249
@@ -3050,9 +3050,9 @@ State 168
 
 State 169
 
-   79 op_term_star: op_term_star • PLUS term
-   80             | op_term_star • MINUS term
-  243 arith_expr: term op_term_star •
+   79 op_term_star: op_term_star . PLUS term
+   80             | op_term_star . MINUS term
+  243 arith_expr: term op_term_star .
 
     MINUS  shift, and go to state 250
     PLUS   shift, and go to state 251
@@ -3062,12 +3062,12 @@ State 169
 
 State 170
 
-   82 op_factor_star: op_factor_star • STAR factor
-   83               | op_factor_star • AT factor
-   84               | op_factor_star • SLASH factor
-   85               | op_factor_star • PERCENT factor
-   86               | op_factor_star • DOUBLESLASH factor
-  244 term: factor op_factor_star •
+   82 op_factor_star: op_factor_star . STAR factor
+   83               | op_factor_star . AT factor
+   84               | op_factor_star . SLASH factor
+   85               | op_factor_star . PERCENT factor
+   86               | op_factor_star . DOUBLESLASH factor
+  244 term: factor op_factor_star .
 
     AT           shift, and go to state 252
     DOUBLESLASH  shift, and go to state 253
@@ -3080,7 +3080,7 @@ State 170
 
 State 171
 
-  250 power: atom_expr DOUBLESTAR • factor
+  250 power: atom_expr DOUBLESTAR . factor
 
     AWAIT  shift, and go to state 8
     MINUS  shift, and go to state 20
@@ -3097,7 +3097,7 @@ State 171
 
 State 172
 
-   48 opt_comma_test: COMMA • test
+   48 opt_comma_test: COMMA . test
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 19
@@ -3128,15 +3128,15 @@ State 172
 
 State 173
 
-  192 assert_stmt: ASSERT test opt_comma_test •
+  192 assert_stmt: ASSERT test opt_comma_test .
 
     $default  reduce using rule 192 (assert_stmt)
 
 
 State 174
 
-   44 dot_name_star: dot_name_star • DOT NAME
-  189 dotted_name: NAME dot_name_star •
+   44 dot_name_star: dot_name_star . DOT NAME
+  189 dotted_name: NAME dot_name_star .
 
     DOT  shift, and go to state 259
 
@@ -3145,8 +3145,8 @@ State 174
 
 State 175
 
-    5 opt_par_arglist: LPAR • RPAR
-    6                | LPAR • arglist RPAR
+    5 opt_par_arglist: LPAR . RPAR
+    6                | LPAR . arglist RPAR
 
     AWAIT       shift, and go to state 8
     DOUBLESTAR  shift, and go to state 260
@@ -3182,22 +3182,22 @@ State 175
 
 State 176
 
-  116 decorator: AT dotted_name opt_par_arglist • NEWLINE
+  116 decorator: AT dotted_name opt_par_arglist . NEWLINE
 
     NEWLINE  shift, and go to state 266
 
 
 State 177
 
-  290 classdef: CLASS NAME opt_par_arglist • COLON suite
+  290 classdef: CLASS NAME opt_par_arglist . COLON suite
 
     COLON  shift, and go to state 267
 
 
 State 178
 
-  123 parameters: LPAR • RPAR
-  124           | LPAR • typedargslist RPAR
+  123 parameters: LPAR . RPAR
+  124           | LPAR . typedargslist RPAR
 
     NAME  shift, and go to state 268
     RPAR  shift, and go to state 269
@@ -3210,7 +3210,7 @@ State 178
 
 State 179
 
-  122 funcdef: DEF NAME parameters • opt_arrow_test COLON opt_type_comment func_body_suite
+  122 funcdef: DEF NAME parameters . opt_arrow_test COLON opt_type_comment func_body_suite
 
     ARROW  shift, and go to state 274
 
@@ -3221,9 +3221,9 @@ State 179
 
 State 180
 
-  103 comma_expr_star_expr_star: comma_expr_star_expr_star • COMMA expr
-  104                          | comma_expr_star_expr_star • COMMA star_expr
-  278 exprlist: expr comma_expr_star_expr_star • opt_comma
+  103 comma_expr_star_expr_star: comma_expr_star_expr_star . COMMA expr
+  104                          | comma_expr_star_expr_star . COMMA star_expr
+  278 exprlist: expr comma_expr_star_expr_star . opt_comma
 
     COMMA  shift, and go to state 276
 
@@ -3234,7 +3234,7 @@ State 180
 
 State 181
 
-  207 for_stmt: FOR exprlist IN • testlist COLON opt_type_comment suite opt_else_suite
+  207 for_stmt: FOR exprlist IN . testlist COLON opt_type_comment suite opt_else_suite
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 19
@@ -3266,7 +3266,7 @@ State 181
 
 State 182
 
-  178 import_from: FROM from_part IMPORT • import_part
+  178 import_from: FROM from_part IMPORT . import_part
 
     LPAR  shift, and go to state 279
     NAME  shift, and go to state 280
@@ -3279,8 +3279,8 @@ State 182
 
 State 183
 
-   46 comma_name_star: comma_name_star • COMMA NAME
-  190 global_stmt: GLOBAL NAME comma_name_star •
+   46 comma_name_star: comma_name_star . COMMA NAME
+  190 global_stmt: GLOBAL NAME comma_name_star .
 
     COMMA  shift, and go to state 285
 
@@ -3289,7 +3289,7 @@ State 183
 
 State 184
 
-  205 if_stmt: IF namedexpr_test COLON • suite elif_test_suite_star opt_else_suite
+  205 if_stmt: IF namedexpr_test COLON . suite elif_test_suite_star opt_else_suite
 
     ASSERT    shift, and go to state 5
     AWAIT     shift, and go to state 8
@@ -3355,7 +3355,7 @@ State 184
 
 State 185
 
-   62 opt_colonass_test: COLONEQUAL • test
+   62 opt_colonass_test: COLONEQUAL . test
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 19
@@ -3386,15 +3386,15 @@ State 185
 
 State 186
 
-  215 namedexpr_test: test opt_colonass_test •
+  215 namedexpr_test: test opt_colonass_test .
 
     $default  reduce using rule 215 (namedexpr_test)
 
 
 State 187
 
-   42 comma_dotted_as_name_star: comma_dotted_as_name_star • COMMA dotted_as_name
-  188 dotted_as_names: dotted_as_name comma_dotted_as_name_star •
+   42 comma_dotted_as_name_star: comma_dotted_as_name_star . COMMA dotted_as_name
+  188 dotted_as_names: dotted_as_name comma_dotted_as_name_star .
 
     COMMA  shift, and go to state 288
 
@@ -3403,29 +3403,29 @@ State 187
 
 State 188
 
-   38 opt_as_name: AS • NAME
+   38 opt_as_name: AS . NAME
 
     NAME  shift, and go to state 289
 
 
 State 189
 
-  186 dotted_as_name: dotted_name opt_as_name •
+  186 dotted_as_name: dotted_name opt_as_name .
 
     $default  reduce using rule 186 (dotted_as_name)
 
 
 State 190
 
-  221 lambdef: LAMBDA COLON test •
+  221 lambdef: LAMBDA COLON test .
 
     $default  reduce using rule 221 (lambdef)
 
 
 State 191
 
-   46 comma_name_star: comma_name_star • COMMA NAME
-  191 nonlocal_stmt: NONLOCAL NAME comma_name_star •
+   46 comma_name_star: comma_name_star . COMMA NAME
+  191 nonlocal_stmt: NONLOCAL NAME comma_name_star .
 
     COMMA  shift, and go to state 285
 
@@ -3434,7 +3434,7 @@ State 191
 
 State 192
 
-  174 raise_stmt: RAISE test FROM • test
+  174 raise_stmt: RAISE test FROM . test
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 19
@@ -3465,22 +3465,22 @@ State 192
 
 State 193
 
-  214 suite: NEWLINE • INDENT stmt_plus DEDENT
+  214 suite: NEWLINE . INDENT stmt_plus DEDENT
 
     INDENT  shift, and go to state 291
 
 
 State 194
 
-  213 suite: simple_stmt •
+  213 suite: simple_stmt .
 
     $default  reduce using rule 213 (suite)
 
 
 State 195
 
-  208 try_stmt: TRY COLON suite • except_suite_plus opt_else_suite opt_finally_suite
-  209         | TRY COLON suite • FINALLY COLON suite
+  208 try_stmt: TRY COLON suite . except_suite_plus opt_else_suite opt_finally_suite
+  209         | TRY COLON suite . FINALLY COLON suite
 
     EXCEPT   shift, and go to state 292
     FINALLY  shift, and go to state 293
@@ -3491,8 +3491,8 @@ State 195
 
 State 196
 
-   54 comma_with_item_star: comma_with_item_star • COMMA with_item
-  210 with_stmt: WITH with_item comma_with_item_star • COLON opt_type_comment suite
+   54 comma_with_item_star: comma_with_item_star . COMMA with_item
+  210 with_stmt: WITH with_item comma_with_item_star . COLON opt_type_comment suite
 
     COLON  shift, and go to state 296
     COMMA  shift, and go to state 297
@@ -3500,7 +3500,7 @@ State 196
 
 State 197
 
-   56 opt_as_expr: AS • expr
+   56 opt_as_expr: AS . expr
 
     AWAIT  shift, and go to state 8
     MINUS  shift, and go to state 20
@@ -3523,14 +3523,14 @@ State 197
 
 State 198
 
-  211 with_item: test opt_as_expr •
+  211 with_item: test opt_as_expr .
 
     $default  reduce using rule 211 (with_item)
 
 
 State 199
 
-  206 while_stmt: WHILE namedexpr_test COLON • suite opt_else_suite
+  206 while_stmt: WHILE namedexpr_test COLON . suite opt_else_suite
 
     ASSERT    shift, and go to state 5
     AWAIT     shift, and go to state 8
@@ -3596,22 +3596,22 @@ State 199
 
 State 200
 
-  308 yield_arg: FROM test •
+  308 yield_arg: FROM test .
 
     $default  reduce using rule 308 (yield_arg)
 
 
 State 201
 
-  255 atom: LSQB RSQB •
+  255 atom: LSQB RSQB .
 
     $default  reduce using rule 255 (atom)
 
 
 State 202
 
-  266 testlist_comp: namedexpr_test • comp_for
-  267              | namedexpr_test • comma_namedexpr_test_star_expr_star opt_comma
+  266 testlist_comp: namedexpr_test . comp_for
+  267              | namedexpr_test . comma_namedexpr_test_star_expr_star opt_comma
 
     ASYNC  shift, and go to state 300
     FOR    shift, and go to state 301
@@ -3625,8 +3625,8 @@ State 202
 
 State 203
 
-  268 testlist_comp: star_expr • comp_for
-  269              | star_expr • comma_namedexpr_test_star_expr_star opt_comma
+  268 testlist_comp: star_expr . comp_for
+  269              | star_expr . comma_namedexpr_test_star_expr_star opt_comma
 
     ASYNC  shift, and go to state 300
     FOR    shift, and go to state 301
@@ -3640,15 +3640,15 @@ State 203
 
 State 204
 
-  256 atom: LSQB testlist_comp • RSQB
+  256 atom: LSQB testlist_comp . RSQB
 
     RSQB  shift, and go to state 307
 
 
 State 205
 
-  284 dictorsetmaker1: DOUBLESTAR • expr comp_for
-  285                | DOUBLESTAR • expr comma_dict1_star opt_comma
+  284 dictorsetmaker1: DOUBLESTAR . expr comp_for
+  285                | DOUBLESTAR . expr comma_dict1_star opt_comma
 
     AWAIT  shift, and go to state 8
     MINUS  shift, and go to state 20
@@ -3671,17 +3671,17 @@ State 205
 
 State 206
 
-  257 atom: LBRACE RBRACE •
+  257 atom: LBRACE RBRACE .
 
     $default  reduce using rule 257 (atom)
 
 
 State 207
 
-  282 dictorsetmaker1: test • COLON test comp_for
-  283                | test • COLON test comma_dict1_star opt_comma
-  286 dictorsetmaker2: test • comp_for
-  287                | test • comma_test_star_expr_star opt_comma
+  282 dictorsetmaker1: test . COLON test comp_for
+  283                | test . COLON test comma_dict1_star opt_comma
+  286 dictorsetmaker2: test . comp_for
+  287                | test . comma_test_star_expr_star opt_comma
 
     ASYNC  shift, and go to state 300
     COLON  shift, and go to state 309
@@ -3696,8 +3696,8 @@ State 207
 
 State 208
 
-  288 dictorsetmaker2: star_expr • comp_for
-  289                | star_expr • comma_test_star_expr_star opt_comma
+  288 dictorsetmaker2: star_expr . comp_for
+  289                | star_expr . comma_test_star_expr_star opt_comma
 
     ASYNC  shift, and go to state 300
     FOR    shift, and go to state 301
@@ -3711,57 +3711,57 @@ State 208
 
 State 209
 
-  258 atom: LBRACE dictorsetmaker • RBRACE
+  258 atom: LBRACE dictorsetmaker . RBRACE
 
     RBRACE  shift, and go to state 314
 
 
 State 210
 
-  280 dictorsetmaker: dictorsetmaker1 •
+  280 dictorsetmaker: dictorsetmaker1 .
 
     $default  reduce using rule 280 (dictorsetmaker)
 
 
 State 211
 
-  281 dictorsetmaker: dictorsetmaker2 •
+  281 dictorsetmaker: dictorsetmaker2 .
 
     $default  reduce using rule 281 (dictorsetmaker)
 
 
 State 212
 
-  252 atom: LPAR RPAR •
+  252 atom: LPAR RPAR .
 
     $default  reduce using rule 252 (atom)
 
 
 State 213
 
-  254 atom: LPAR testlist_comp • RPAR
+  254 atom: LPAR testlist_comp . RPAR
 
     RPAR  shift, and go to state 315
 
 
 State 214
 
-  253 atom: LPAR yield_expr • RPAR
+  253 atom: LPAR yield_expr . RPAR
 
     RPAR  shift, and go to state 316
 
 
 State 215
 
-   92 string_plus: string_plus STRING •
+   92 string_plus: string_plus STRING .
 
     $default  reduce using rule 92 (string_plus)
 
 
 State 216
 
-   90 trailer_star: trailer_star • trailer
-  251 atom_expr: opt_await atom trailer_star •
+   90 trailer_star: trailer_star . trailer
+  251 atom_expr: opt_await atom trailer_star .
 
     DOT   shift, and go to state 317
     LSQB  shift, and go to state 318
@@ -3774,15 +3774,15 @@ State 216
 
 State 217
 
-  121 async_funcdef: ASYNC funcdef •
+  121 async_funcdef: ASYNC funcdef .
 
     $default  reduce using rule 121 (async_funcdef)
 
 
 State 218
 
-   22 semi_small_stmt_star: semi_small_stmt_star SEMICOLON • small_stmt
-   24 opt_semi: SEMICOLON •
+   22 semi_small_stmt_star: semi_small_stmt_star SEMICOLON . small_stmt
+   24 opt_semi: SEMICOLON .
 
     ASSERT    shift, and go to state 5
     AWAIT     shift, and go to state 8
@@ -3846,28 +3846,28 @@ State 218
 
 State 219
 
-  131 simple_stmt: small_stmt semi_small_stmt_star opt_semi • NEWLINE
+  131 simple_stmt: small_stmt semi_small_stmt_star opt_semi . NEWLINE
 
     NEWLINE  shift, and go to state 322
 
 
 State 220
 
-   26 assing_yield_or_test_plus: EQUAL testlist_star_expr •
+   26 assing_yield_or_test_plus: EQUAL testlist_star_expr .
 
     $default  reduce using rule 26 (assing_yield_or_test_plus)
 
 
 State 221
 
-   25 assing_yield_or_test_plus: EQUAL yield_expr •
+   25 assing_yield_or_test_plus: EQUAL yield_expr .
 
     $default  reduce using rule 25 (assing_yield_or_test_plus)
 
 
 State 222
 
-  145 annassign: COLON test • opt_assing_yield_or_test
+  145 annassign: COLON test . opt_assing_yield_or_test
 
     EQUAL  shift, and go to state 323
 
@@ -3878,8 +3878,8 @@ State 222
 
 State 223
 
-   27 assing_yield_or_test_plus: assing_yield_or_test_plus EQUAL • yield_expr
-   28                          | assing_yield_or_test_plus EQUAL • testlist_star_expr
+   27 assing_yield_or_test_plus: assing_yield_or_test_plus EQUAL . yield_expr
+   28                          | assing_yield_or_test_plus EQUAL . testlist_star_expr
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 19
@@ -3915,21 +3915,21 @@ State 223
 
 State 224
 
-   12 opt_type_comment: TYPE_COMMENT •
+   12 opt_type_comment: TYPE_COMMENT .
 
     $default  reduce using rule 12 (opt_type_comment)
 
 
 State 225
 
-  144 expr_stmt: testlist_star_expr assing_yield_or_test_plus opt_type_comment •
+  144 expr_stmt: testlist_star_expr assing_yield_or_test_plus opt_type_comment .
 
     $default  reduce using rule 144 (expr_stmt)
 
 
 State 226
 
-  279 testlist: test • comma_test_star opt_comma
+  279 testlist: test . comma_test_star opt_comma
 
     $default  reduce using rule 105 (comma_test_star)
 
@@ -3938,23 +3938,23 @@ State 226
 
 State 227
 
-  142 expr_stmt: testlist_star_expr augassign testlist •
+  142 expr_stmt: testlist_star_expr augassign testlist .
 
     $default  reduce using rule 142 (expr_stmt)
 
 
 State 228
 
-  141 expr_stmt: testlist_star_expr augassign yield_expr •
+  141 expr_stmt: testlist_star_expr augassign yield_expr .
 
     $default  reduce using rule 141 (expr_stmt)
 
 
 State 229
 
-   18 opt_comma: COMMA •
-   33 comma_test_star_expr_star: comma_test_star_expr_star COMMA • test
-   34                          | comma_test_star_expr_star COMMA • star_expr
+   18 opt_comma: COMMA .
+   33 comma_test_star_expr_star: comma_test_star_expr_star COMMA . test
+   34                          | comma_test_star_expr_star COMMA . star_expr
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 19
@@ -3997,21 +3997,21 @@ State 229
 
 State 230
 
-  146 testlist_star_expr: test comma_test_star_expr_star opt_comma •
+  146 testlist_star_expr: test comma_test_star_expr_star opt_comma .
 
     $default  reduce using rule 146 (testlist_star_expr)
 
 
 State 231
 
-  217 test: or_test IF or_test • ELSE test
+  217 test: or_test IF or_test . ELSE test
 
     ELSE  shift, and go to state 330
 
 
 State 232
 
-   64 or_and_test_star: or_and_test_star OR • and_test
+   64 or_and_test_star: or_and_test_star OR . and_test
 
     AWAIT  shift, and go to state 8
     MINUS  shift, and go to state 20
@@ -4038,7 +4038,7 @@ State 232
 
 State 233
 
-   66 and_not_test_star: and_not_test_star AND • not_test
+   66 and_not_test_star: and_not_test_star AND . not_test
 
     AWAIT  shift, and go to state 8
     MINUS  shift, and go to state 20
@@ -4064,43 +4064,43 @@ State 233
 
 State 234
 
-  147 testlist_star_expr: star_expr comma_test_star_expr_star opt_comma •
+  147 testlist_star_expr: star_expr comma_test_star_expr_star opt_comma .
 
     $default  reduce using rule 147 (testlist_star_expr)
 
 
 State 235
 
-  230 comp_op: EQEQUAL •
+  230 comp_op: EQEQUAL .
 
     $default  reduce using rule 230 (comp_op)
 
 
 State 236
 
-  231 comp_op: GREATEREQUAL •
+  231 comp_op: GREATEREQUAL .
 
     $default  reduce using rule 231 (comp_op)
 
 
 State 237
 
-  229 comp_op: GREATER •
+  229 comp_op: GREATER .
 
     $default  reduce using rule 229 (comp_op)
 
 
 State 238
 
-  234 comp_op: IN •
+  234 comp_op: IN .
 
     $default  reduce using rule 234 (comp_op)
 
 
 State 239
 
-  236 comp_op: IS •
-  237        | IS • NOT
+  236 comp_op: IS .
+  237        | IS . NOT
 
     NOT  shift, and go to state 333
 
@@ -4109,35 +4109,35 @@ State 239
 
 State 240
 
-  232 comp_op: LESSEQUAL •
+  232 comp_op: LESSEQUAL .
 
     $default  reduce using rule 232 (comp_op)
 
 
 State 241
 
-  228 comp_op: LESS •
+  228 comp_op: LESS .
 
     $default  reduce using rule 228 (comp_op)
 
 
 State 242
 
-  233 comp_op: NOTEQUAL •
+  233 comp_op: NOTEQUAL .
 
     $default  reduce using rule 233 (comp_op)
 
 
 State 243
 
-  235 comp_op: NOT • IN
+  235 comp_op: NOT . IN
 
     IN  shift, and go to state 334
 
 
 State 244
 
-   68 comp_op_expr_star: comp_op_expr_star comp_op • expr
+   68 comp_op_expr_star: comp_op_expr_star comp_op . expr
 
     AWAIT  shift, and go to state 8
     MINUS  shift, and go to state 20
@@ -4160,7 +4160,7 @@ State 244
 
 State 245
 
-   70 or_xor_expr_star: or_xor_expr_star VBAR • xor_expr
+   70 or_xor_expr_star: or_xor_expr_star VBAR . xor_expr
 
     AWAIT  shift, and go to state 8
     MINUS  shift, and go to state 20
@@ -4182,7 +4182,7 @@ State 245
 
 State 246
 
-   72 xor_and_expr_star: xor_and_expr_star CIRCUMFLEX • and_expr
+   72 xor_and_expr_star: xor_and_expr_star CIRCUMFLEX . and_expr
 
     AWAIT  shift, and go to state 8
     MINUS  shift, and go to state 20
@@ -4203,7 +4203,7 @@ State 246
 
 State 247
 
-   74 and_shift_expr_star: and_shift_expr_star AMPER • shift_expr
+   74 and_shift_expr_star: and_shift_expr_star AMPER . shift_expr
 
     AWAIT  shift, and go to state 8
     MINUS  shift, and go to state 20
@@ -4223,7 +4223,7 @@ State 247
 
 State 248
 
-   76 shift_arith_expr_star: shift_arith_expr_star LEFTSHIFT • arith_expr
+   76 shift_arith_expr_star: shift_arith_expr_star LEFTSHIFT . arith_expr
 
     AWAIT  shift, and go to state 8
     MINUS  shift, and go to state 20
@@ -4242,7 +4242,7 @@ State 248
 
 State 249
 
-   77 shift_arith_expr_star: shift_arith_expr_star RIGHTSHIFT • arith_expr
+   77 shift_arith_expr_star: shift_arith_expr_star RIGHTSHIFT . arith_expr
 
     AWAIT  shift, and go to state 8
     MINUS  shift, and go to state 20
@@ -4261,7 +4261,7 @@ State 249
 
 State 250
 
-   80 op_term_star: op_term_star MINUS • term
+   80 op_term_star: op_term_star MINUS . term
 
     AWAIT  shift, and go to state 8
     MINUS  shift, and go to state 20
@@ -4279,7 +4279,7 @@ State 250
 
 State 251
 
-   79 op_term_star: op_term_star PLUS • term
+   79 op_term_star: op_term_star PLUS . term
 
     AWAIT  shift, and go to state 8
     MINUS  shift, and go to state 20
@@ -4297,7 +4297,7 @@ State 251
 
 State 252
 
-   83 op_factor_star: op_factor_star AT • factor
+   83 op_factor_star: op_factor_star AT . factor
 
     AWAIT  shift, and go to state 8
     MINUS  shift, and go to state 20
@@ -4314,7 +4314,7 @@ State 252
 
 State 253
 
-   86 op_factor_star: op_factor_star DOUBLESLASH • factor
+   86 op_factor_star: op_factor_star DOUBLESLASH . factor
 
     AWAIT  shift, and go to state 8
     MINUS  shift, and go to state 20
@@ -4331,7 +4331,7 @@ State 253
 
 State 254
 
-   85 op_factor_star: op_factor_star PERCENT • factor
+   85 op_factor_star: op_factor_star PERCENT . factor
 
     AWAIT  shift, and go to state 8
     MINUS  shift, and go to state 20
@@ -4348,7 +4348,7 @@ State 254
 
 State 255
 
-   84 op_factor_star: op_factor_star SLASH • factor
+   84 op_factor_star: op_factor_star SLASH . factor
 
     AWAIT  shift, and go to state 8
     MINUS  shift, and go to state 20
@@ -4365,7 +4365,7 @@ State 255
 
 State 256
 
-   82 op_factor_star: op_factor_star STAR • factor
+   82 op_factor_star: op_factor_star STAR . factor
 
     AWAIT  shift, and go to state 8
     MINUS  shift, and go to state 20
@@ -4382,28 +4382,28 @@ State 256
 
 State 257
 
-  250 power: atom_expr DOUBLESTAR factor •
+  250 power: atom_expr DOUBLESTAR factor .
 
     $default  reduce using rule 250 (power)
 
 
 State 258
 
-   48 opt_comma_test: COMMA test •
+   48 opt_comma_test: COMMA test .
 
     $default  reduce using rule 48 (opt_comma_test)
 
 
 State 259
 
-   44 dot_name_star: dot_name_star DOT • NAME
+   44 dot_name_star: dot_name_star DOT . NAME
 
     NAME  shift, and go to state 348
 
 
 State 260
 
-  296 argument1: DOUBLESTAR • test
+  296 argument1: DOUBLESTAR . test
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 19
@@ -4434,14 +4434,14 @@ State 260
 
 State 261
 
-    5 opt_par_arglist: LPAR RPAR •
+    5 opt_par_arglist: LPAR RPAR .
 
     $default  reduce using rule 5 (opt_par_arglist)
 
 
 State 262
 
-  297 argument1: STAR • test
+  297 argument1: STAR . test
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 19
@@ -4472,10 +4472,10 @@ State 262
 
 State 263
 
-  292 argument1: test •
-  293          | test • comp_for
-  294          | test • COLONEQUAL test
-  295          | test • EQUAL test
+  292 argument1: test .
+  293          | test . comp_for
+  294          | test . COLONEQUAL test
+  295          | test . EQUAL test
 
     EQUAL       shift, and go to state 351
     ASYNC       shift, and go to state 300
@@ -4490,14 +4490,14 @@ State 263
 
 State 264
 
-    6 opt_par_arglist: LPAR arglist • RPAR
+    6 opt_par_arglist: LPAR arglist . RPAR
 
     RPAR  shift, and go to state 354
 
 
 State 265
 
-  291 arglist: argument1 • comma_argument_star opt_comma
+  291 arglist: argument1 . comma_argument_star opt_comma
 
     $default  reduce using rule 13 (comma_argument_star)
 
@@ -4506,14 +4506,14 @@ State 265
 
 State 266
 
-  116 decorator: AT dotted_name opt_par_arglist NEWLINE •
+  116 decorator: AT dotted_name opt_par_arglist NEWLINE .
 
     $default  reduce using rule 116 (decorator)
 
 
 State 267
 
-  290 classdef: CLASS NAME opt_par_arglist COLON • suite
+  290 classdef: CLASS NAME opt_par_arglist COLON . suite
 
     ASSERT    shift, and go to state 5
     AWAIT     shift, and go to state 8
@@ -4579,7 +4579,7 @@ State 267
 
 State 268
 
-  128 tfpdef: NAME • opt_colon_test
+  128 tfpdef: NAME . opt_colon_test
 
     COLON  shift, and go to state 357
 
@@ -4590,21 +4590,21 @@ State 268
 
 State 269
 
-  123 parameters: LPAR RPAR •
+  123 parameters: LPAR RPAR .
 
     $default  reduce using rule 123 (parameters)
 
 
 State 270
 
-  127 typedargslist: arguments •
+  127 typedargslist: arguments .
 
     $default  reduce using rule 127 (typedargslist)
 
 
 State 271
 
-  125 arguments: argument • comma_argument_star
+  125 arguments: argument . comma_argument_star
 
     $default  reduce using rule 13 (comma_argument_star)
 
@@ -4613,14 +4613,14 @@ State 271
 
 State 272
 
-  124 parameters: LPAR typedargslist • RPAR
+  124 parameters: LPAR typedargslist . RPAR
 
     RPAR  shift, and go to state 360
 
 
 State 273
 
-  126 argument: tfpdef • opt_assign_test
+  126 argument: tfpdef . opt_assign_test
 
     EQUAL  shift, and go to state 361
 
@@ -4631,7 +4631,7 @@ State 273
 
 State 274
 
-   10 opt_arrow_test: ARROW • test
+   10 opt_arrow_test: ARROW . test
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 19
@@ -4662,16 +4662,16 @@ State 274
 
 State 275
 
-  122 funcdef: DEF NAME parameters opt_arrow_test • COLON opt_type_comment func_body_suite
+  122 funcdef: DEF NAME parameters opt_arrow_test . COLON opt_type_comment func_body_suite
 
     COLON  shift, and go to state 364
 
 
 State 276
 
-   18 opt_comma: COMMA •
-  103 comma_expr_star_expr_star: comma_expr_star_expr_star COMMA • expr
-  104                          | comma_expr_star_expr_star COMMA • star_expr
+   18 opt_comma: COMMA .
+  103 comma_expr_star_expr_star: comma_expr_star_expr_star COMMA . expr
+  104                          | comma_expr_star_expr_star COMMA . star_expr
 
     AWAIT  shift, and go to state 8
     MINUS  shift, and go to state 20
@@ -4699,21 +4699,21 @@ State 276
 
 State 277
 
-  278 exprlist: expr comma_expr_star_expr_star opt_comma •
+  278 exprlist: expr comma_expr_star_expr_star opt_comma .
 
     $default  reduce using rule 278 (exprlist)
 
 
 State 278
 
-  207 for_stmt: FOR exprlist IN testlist • COLON opt_type_comment suite opt_else_suite
+  207 for_stmt: FOR exprlist IN testlist . COLON opt_type_comment suite opt_else_suite
 
     COLON  shift, and go to state 367
 
 
 State 279
 
-  183 import_part: LPAR • import_as_names RPAR
+  183 import_part: LPAR . import_as_names RPAR
 
     NAME  shift, and go to state 280
 
@@ -4723,7 +4723,7 @@ State 279
 
 State 280
 
-  185 import_as_name: NAME • opt_as_name
+  185 import_as_name: NAME . opt_as_name
 
     AS  shift, and go to state 188
 
@@ -4734,21 +4734,21 @@ State 280
 
 State 281
 
-  182 import_part: STAR •
+  182 import_part: STAR .
 
     $default  reduce using rule 182 (import_part)
 
 
 State 282
 
-  178 import_from: FROM from_part IMPORT import_part •
+  178 import_from: FROM from_part IMPORT import_part .
 
     $default  reduce using rule 178 (import_from)
 
 
 State 283
 
-  187 import_as_names: import_as_name • comma_import_as_name_star opt_comma
+  187 import_as_names: import_as_name . comma_import_as_name_star opt_comma
 
     $default  reduce using rule 39 (comma_import_as_name_star)
 
@@ -4757,21 +4757,21 @@ State 283
 
 State 284
 
-  184 import_part: import_as_names •
+  184 import_part: import_as_names .
 
     $default  reduce using rule 184 (import_part)
 
 
 State 285
 
-   46 comma_name_star: comma_name_star COMMA • NAME
+   46 comma_name_star: comma_name_star COMMA . NAME
 
     NAME  shift, and go to state 371
 
 
 State 286
 
-  205 if_stmt: IF namedexpr_test COLON suite • elif_test_suite_star opt_else_suite
+  205 if_stmt: IF namedexpr_test COLON suite . elif_test_suite_star opt_else_suite
 
     $default  reduce using rule 49 (elif_test_suite_star)
 
@@ -4780,14 +4780,14 @@ State 286
 
 State 287
 
-   62 opt_colonass_test: COLONEQUAL test •
+   62 opt_colonass_test: COLONEQUAL test .
 
     $default  reduce using rule 62 (opt_colonass_test)
 
 
 State 288
 
-   42 comma_dotted_as_name_star: comma_dotted_as_name_star COMMA • dotted_as_name
+   42 comma_dotted_as_name_star: comma_dotted_as_name_star COMMA . dotted_as_name
 
     NAME  shift, and go to state 89
 
@@ -4797,21 +4797,21 @@ State 288
 
 State 289
 
-   38 opt_as_name: AS NAME •
+   38 opt_as_name: AS NAME .
 
     $default  reduce using rule 38 (opt_as_name)
 
 
 State 290
 
-  174 raise_stmt: RAISE test FROM test •
+  174 raise_stmt: RAISE test FROM test .
 
     $default  reduce using rule 174 (raise_stmt)
 
 
 State 291
 
-  214 suite: NEWLINE INDENT • stmt_plus DEDENT
+  214 suite: NEWLINE INDENT . stmt_plus DEDENT
 
     ASSERT    shift, and go to state 5
     ASYNC     shift, and go to state 6
@@ -4899,7 +4899,7 @@ State 291
 
 State 292
 
-  212 except_clause: EXCEPT • opt_test_as_name
+  212 except_clause: EXCEPT . opt_test_as_name
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 19
@@ -4932,15 +4932,15 @@ State 292
 
 State 293
 
-  209 try_stmt: TRY COLON suite FINALLY • COLON suite
+  209 try_stmt: TRY COLON suite FINALLY . COLON suite
 
     COLON  shift, and go to state 378
 
 
 State 294
 
-  111 except_suite_plus: except_suite_plus • except_clause COLON suite
-  208 try_stmt: TRY COLON suite except_suite_plus • opt_else_suite opt_finally_suite
+  111 except_suite_plus: except_suite_plus . except_clause COLON suite
+  208 try_stmt: TRY COLON suite except_suite_plus . opt_else_suite opt_finally_suite
 
     ELSE    shift, and go to state 379
     EXCEPT  shift, and go to state 292
@@ -4953,14 +4953,14 @@ State 294
 
 State 295
 
-  110 except_suite_plus: except_clause • COLON suite
+  110 except_suite_plus: except_clause . COLON suite
 
     COLON  shift, and go to state 382
 
 
 State 296
 
-  210 with_stmt: WITH with_item comma_with_item_star COLON • opt_type_comment suite
+  210 with_stmt: WITH with_item comma_with_item_star COLON . opt_type_comment suite
 
     TYPE_COMMENT  shift, and go to state 224
 
@@ -4971,7 +4971,7 @@ State 296
 
 State 297
 
-   54 comma_with_item_star: comma_with_item_star COMMA • with_item
+   54 comma_with_item_star: comma_with_item_star COMMA . with_item
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 19
@@ -5003,14 +5003,14 @@ State 297
 
 State 298
 
-   56 opt_as_expr: AS expr •
+   56 opt_as_expr: AS expr .
 
     $default  reduce using rule 56 (opt_as_expr)
 
 
 State 299
 
-  206 while_stmt: WHILE namedexpr_test COLON suite • opt_else_suite
+  206 while_stmt: WHILE namedexpr_test COLON suite . opt_else_suite
 
     ELSE  shift, and go to state 379
 
@@ -5021,7 +5021,7 @@ State 299
 
 State 300
 
-  303 comp_for: ASYNC • sync_comp_for
+  303 comp_for: ASYNC . sync_comp_for
 
     FOR  shift, and go to state 301
 
@@ -5030,8 +5030,8 @@ State 300
 
 State 301
 
-  300 sync_comp_for: FOR • exprlist IN or_test
-  301              | FOR • exprlist IN or_test comp_iter
+  300 sync_comp_for: FOR . exprlist IN or_test
+  301              | FOR . exprlist IN or_test comp_iter
 
     AWAIT  shift, and go to state 8
     MINUS  shift, and go to state 20
@@ -5055,9 +5055,9 @@ State 301
 
 State 302
 
-   94 comma_namedexpr_test_star_expr_star: comma_namedexpr_test_star_expr_star • COMMA namedexpr_test
-   95                                    | comma_namedexpr_test_star_expr_star • COMMA star_expr
-  267 testlist_comp: namedexpr_test comma_namedexpr_test_star_expr_star • opt_comma
+   94 comma_namedexpr_test_star_expr_star: comma_namedexpr_test_star_expr_star . COMMA namedexpr_test
+   95                                    | comma_namedexpr_test_star_expr_star . COMMA star_expr
+  267 testlist_comp: namedexpr_test comma_namedexpr_test_star_expr_star . opt_comma
 
     COMMA  shift, and go to state 388
 
@@ -5068,23 +5068,23 @@ State 302
 
 State 303
 
-  302 comp_for: sync_comp_for •
+  302 comp_for: sync_comp_for .
 
     $default  reduce using rule 302 (comp_for)
 
 
 State 304
 
-  266 testlist_comp: namedexpr_test comp_for •
+  266 testlist_comp: namedexpr_test comp_for .
 
     $default  reduce using rule 266 (testlist_comp)
 
 
 State 305
 
-   94 comma_namedexpr_test_star_expr_star: comma_namedexpr_test_star_expr_star • COMMA namedexpr_test
-   95                                    | comma_namedexpr_test_star_expr_star • COMMA star_expr
-  269 testlist_comp: star_expr comma_namedexpr_test_star_expr_star • opt_comma
+   94 comma_namedexpr_test_star_expr_star: comma_namedexpr_test_star_expr_star . COMMA namedexpr_test
+   95                                    | comma_namedexpr_test_star_expr_star . COMMA star_expr
+  269 testlist_comp: star_expr comma_namedexpr_test_star_expr_star . opt_comma
 
     COMMA  shift, and go to state 388
 
@@ -5095,22 +5095,22 @@ State 305
 
 State 306
 
-  268 testlist_comp: star_expr comp_for •
+  268 testlist_comp: star_expr comp_for .
 
     $default  reduce using rule 268 (testlist_comp)
 
 
 State 307
 
-  256 atom: LSQB testlist_comp RSQB •
+  256 atom: LSQB testlist_comp RSQB .
 
     $default  reduce using rule 256 (atom)
 
 
 State 308
 
-  284 dictorsetmaker1: DOUBLESTAR expr • comp_for
-  285                | DOUBLESTAR expr • comma_dict1_star opt_comma
+  284 dictorsetmaker1: DOUBLESTAR expr . comp_for
+  285                | DOUBLESTAR expr . comma_dict1_star opt_comma
 
     ASYNC  shift, and go to state 300
     FOR    shift, and go to state 301
@@ -5124,8 +5124,8 @@ State 308
 
 State 309
 
-  282 dictorsetmaker1: test COLON • test comp_for
-  283                | test COLON • test comma_dict1_star opt_comma
+  282 dictorsetmaker1: test COLON . test comp_for
+  283                | test COLON . test comma_dict1_star opt_comma
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 19
@@ -5156,9 +5156,9 @@ State 309
 
 State 310
 
-   33 comma_test_star_expr_star: comma_test_star_expr_star • COMMA test
-   34                          | comma_test_star_expr_star • COMMA star_expr
-  287 dictorsetmaker2: test comma_test_star_expr_star • opt_comma
+   33 comma_test_star_expr_star: comma_test_star_expr_star . COMMA test
+   34                          | comma_test_star_expr_star . COMMA star_expr
+  287 dictorsetmaker2: test comma_test_star_expr_star . opt_comma
 
     COMMA  shift, and go to state 229
 
@@ -5169,16 +5169,16 @@ State 310
 
 State 311
 
-  286 dictorsetmaker2: test comp_for •
+  286 dictorsetmaker2: test comp_for .
 
     $default  reduce using rule 286 (dictorsetmaker2)
 
 
 State 312
 
-   33 comma_test_star_expr_star: comma_test_star_expr_star • COMMA test
-   34                          | comma_test_star_expr_star • COMMA star_expr
-  289 dictorsetmaker2: star_expr comma_test_star_expr_star • opt_comma
+   33 comma_test_star_expr_star: comma_test_star_expr_star . COMMA test
+   34                          | comma_test_star_expr_star . COMMA star_expr
+  289 dictorsetmaker2: star_expr comma_test_star_expr_star . opt_comma
 
     COMMA  shift, and go to state 229
 
@@ -5189,42 +5189,42 @@ State 312
 
 State 313
 
-  288 dictorsetmaker2: star_expr comp_for •
+  288 dictorsetmaker2: star_expr comp_for .
 
     $default  reduce using rule 288 (dictorsetmaker2)
 
 
 State 314
 
-  258 atom: LBRACE dictorsetmaker RBRACE •
+  258 atom: LBRACE dictorsetmaker RBRACE .
 
     $default  reduce using rule 258 (atom)
 
 
 State 315
 
-  254 atom: LPAR testlist_comp RPAR •
+  254 atom: LPAR testlist_comp RPAR .
 
     $default  reduce using rule 254 (atom)
 
 
 State 316
 
-  253 atom: LPAR yield_expr RPAR •
+  253 atom: LPAR yield_expr RPAR .
 
     $default  reduce using rule 253 (atom)
 
 
 State 317
 
-  273 trailer: DOT • NAME
+  273 trailer: DOT . NAME
 
     NAME  shift, and go to state 396
 
 
 State 318
 
-  272 trailer: LSQB • subscriptlist RSQB
+  272 trailer: LSQB . subscriptlist RSQB
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 19
@@ -5259,8 +5259,8 @@ State 318
 
 State 319
 
-  270 trailer: LPAR • RPAR
-  271        | LPAR • arglist RPAR
+  270 trailer: LPAR . RPAR
+  271        | LPAR . arglist RPAR
 
     AWAIT       shift, and go to state 8
     DOUBLESTAR  shift, and go to state 260
@@ -5296,29 +5296,29 @@ State 319
 
 State 320
 
-   90 trailer_star: trailer_star trailer •
+   90 trailer_star: trailer_star trailer .
 
     $default  reduce using rule 90 (trailer_star)
 
 
 State 321
 
-   22 semi_small_stmt_star: semi_small_stmt_star SEMICOLON small_stmt •
+   22 semi_small_stmt_star: semi_small_stmt_star SEMICOLON small_stmt .
 
     $default  reduce using rule 22 (semi_small_stmt_star)
 
 
 State 322
 
-  131 simple_stmt: small_stmt semi_small_stmt_star opt_semi NEWLINE •
+  131 simple_stmt: small_stmt semi_small_stmt_star opt_semi NEWLINE .
 
     $default  reduce using rule 131 (simple_stmt)
 
 
 State 323
 
-   30 opt_assing_yield_or_test: EQUAL • yield_expr
-   31                         | EQUAL • testlist_star_expr
+   30 opt_assing_yield_or_test: EQUAL . yield_expr
+   31                         | EQUAL . testlist_star_expr
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 19
@@ -5354,29 +5354,29 @@ State 323
 
 State 324
 
-  145 annassign: COLON test opt_assing_yield_or_test •
+  145 annassign: COLON test opt_assing_yield_or_test .
 
     $default  reduce using rule 145 (annassign)
 
 
 State 325
 
-   28 assing_yield_or_test_plus: assing_yield_or_test_plus EQUAL testlist_star_expr •
+   28 assing_yield_or_test_plus: assing_yield_or_test_plus EQUAL testlist_star_expr .
 
     $default  reduce using rule 28 (assing_yield_or_test_plus)
 
 
 State 326
 
-   27 assing_yield_or_test_plus: assing_yield_or_test_plus EQUAL yield_expr •
+   27 assing_yield_or_test_plus: assing_yield_or_test_plus EQUAL yield_expr .
 
     $default  reduce using rule 27 (assing_yield_or_test_plus)
 
 
 State 327
 
-  106 comma_test_star: comma_test_star • COMMA test
-  279 testlist: test comma_test_star • opt_comma
+  106 comma_test_star: comma_test_star . COMMA test
+  279 testlist: test comma_test_star . opt_comma
 
     COMMA  shift, and go to state 405
 
@@ -5387,21 +5387,21 @@ State 327
 
 State 328
 
-   33 comma_test_star_expr_star: comma_test_star_expr_star COMMA test •
+   33 comma_test_star_expr_star: comma_test_star_expr_star COMMA test .
 
     $default  reduce using rule 33 (comma_test_star_expr_star)
 
 
 State 329
 
-   34 comma_test_star_expr_star: comma_test_star_expr_star COMMA star_expr •
+   34 comma_test_star_expr_star: comma_test_star_expr_star COMMA star_expr .
 
     $default  reduce using rule 34 (comma_test_star_expr_star)
 
 
 State 330
 
-  217 test: or_test IF or_test ELSE • test
+  217 test: or_test IF or_test ELSE . test
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 19
@@ -5432,147 +5432,147 @@ State 330
 
 State 331
 
-   64 or_and_test_star: or_and_test_star OR and_test •
+   64 or_and_test_star: or_and_test_star OR and_test .
 
     $default  reduce using rule 64 (or_and_test_star)
 
 
 State 332
 
-   66 and_not_test_star: and_not_test_star AND not_test •
+   66 and_not_test_star: and_not_test_star AND not_test .
 
     $default  reduce using rule 66 (and_not_test_star)
 
 
 State 333
 
-  237 comp_op: IS NOT •
+  237 comp_op: IS NOT .
 
     $default  reduce using rule 237 (comp_op)
 
 
 State 334
 
-  235 comp_op: NOT IN •
+  235 comp_op: NOT IN .
 
     $default  reduce using rule 235 (comp_op)
 
 
 State 335
 
-   68 comp_op_expr_star: comp_op_expr_star comp_op expr •
+   68 comp_op_expr_star: comp_op_expr_star comp_op expr .
 
     $default  reduce using rule 68 (comp_op_expr_star)
 
 
 State 336
 
-   70 or_xor_expr_star: or_xor_expr_star VBAR xor_expr •
+   70 or_xor_expr_star: or_xor_expr_star VBAR xor_expr .
 
     $default  reduce using rule 70 (or_xor_expr_star)
 
 
 State 337
 
-   72 xor_and_expr_star: xor_and_expr_star CIRCUMFLEX and_expr •
+   72 xor_and_expr_star: xor_and_expr_star CIRCUMFLEX and_expr .
 
     $default  reduce using rule 72 (xor_and_expr_star)
 
 
 State 338
 
-   74 and_shift_expr_star: and_shift_expr_star AMPER shift_expr •
+   74 and_shift_expr_star: and_shift_expr_star AMPER shift_expr .
 
     $default  reduce using rule 74 (and_shift_expr_star)
 
 
 State 339
 
-   76 shift_arith_expr_star: shift_arith_expr_star LEFTSHIFT arith_expr •
+   76 shift_arith_expr_star: shift_arith_expr_star LEFTSHIFT arith_expr .
 
     $default  reduce using rule 76 (shift_arith_expr_star)
 
 
 State 340
 
-   77 shift_arith_expr_star: shift_arith_expr_star RIGHTSHIFT arith_expr •
+   77 shift_arith_expr_star: shift_arith_expr_star RIGHTSHIFT arith_expr .
 
     $default  reduce using rule 77 (shift_arith_expr_star)
 
 
 State 341
 
-   80 op_term_star: op_term_star MINUS term •
+   80 op_term_star: op_term_star MINUS term .
 
     $default  reduce using rule 80 (op_term_star)
 
 
 State 342
 
-   79 op_term_star: op_term_star PLUS term •
+   79 op_term_star: op_term_star PLUS term .
 
     $default  reduce using rule 79 (op_term_star)
 
 
 State 343
 
-   83 op_factor_star: op_factor_star AT factor •
+   83 op_factor_star: op_factor_star AT factor .
 
     $default  reduce using rule 83 (op_factor_star)
 
 
 State 344
 
-   86 op_factor_star: op_factor_star DOUBLESLASH factor •
+   86 op_factor_star: op_factor_star DOUBLESLASH factor .
 
     $default  reduce using rule 86 (op_factor_star)
 
 
 State 345
 
-   85 op_factor_star: op_factor_star PERCENT factor •
+   85 op_factor_star: op_factor_star PERCENT factor .
 
     $default  reduce using rule 85 (op_factor_star)
 
 
 State 346
 
-   84 op_factor_star: op_factor_star SLASH factor •
+   84 op_factor_star: op_factor_star SLASH factor .
 
     $default  reduce using rule 84 (op_factor_star)
 
 
 State 347
 
-   82 op_factor_star: op_factor_star STAR factor •
+   82 op_factor_star: op_factor_star STAR factor .
 
     $default  reduce using rule 82 (op_factor_star)
 
 
 State 348
 
-   44 dot_name_star: dot_name_star DOT NAME •
+   44 dot_name_star: dot_name_star DOT NAME .
 
     $default  reduce using rule 44 (dot_name_star)
 
 
 State 349
 
-  296 argument1: DOUBLESTAR test •
+  296 argument1: DOUBLESTAR test .
 
     $default  reduce using rule 296 (argument1)
 
 
 State 350
 
-  297 argument1: STAR test •
+  297 argument1: STAR test .
 
     $default  reduce using rule 297 (argument1)
 
 
 State 351
 
-  295 argument1: test EQUAL • test
+  295 argument1: test EQUAL . test
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 19
@@ -5603,7 +5603,7 @@ State 351
 
 State 352
 
-  294 argument1: test COLONEQUAL • test
+  294 argument1: test COLONEQUAL . test
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 19
@@ -5634,22 +5634,22 @@ State 352
 
 State 353
 
-  293 argument1: test comp_for •
+  293 argument1: test comp_for .
 
     $default  reduce using rule 293 (argument1)
 
 
 State 354
 
-    6 opt_par_arglist: LPAR arglist RPAR •
+    6 opt_par_arglist: LPAR arglist RPAR .
 
     $default  reduce using rule 6 (opt_par_arglist)
 
 
 State 355
 
-   14 comma_argument_star: comma_argument_star • COMMA opt_type_comment argument
-  291 arglist: argument1 comma_argument_star • opt_comma
+   14 comma_argument_star: comma_argument_star . COMMA opt_type_comment argument
+  291 arglist: argument1 comma_argument_star . opt_comma
 
     COMMA  shift, and go to state 410
 
@@ -5660,14 +5660,14 @@ State 355
 
 State 356
 
-  290 classdef: CLASS NAME opt_par_arglist COLON suite •
+  290 classdef: CLASS NAME opt_par_arglist COLON suite .
 
     $default  reduce using rule 290 (classdef)
 
 
 State 357
 
-   20 opt_colon_test: COLON • test
+   20 opt_colon_test: COLON . test
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 19
@@ -5698,15 +5698,15 @@ State 357
 
 State 358
 
-  128 tfpdef: NAME opt_colon_test •
+  128 tfpdef: NAME opt_colon_test .
 
     $default  reduce using rule 128 (tfpdef)
 
 
 State 359
 
-   14 comma_argument_star: comma_argument_star • COMMA opt_type_comment argument
-  125 arguments: argument comma_argument_star •
+   14 comma_argument_star: comma_argument_star . COMMA opt_type_comment argument
+  125 arguments: argument comma_argument_star .
 
     COMMA  shift, and go to state 413
 
@@ -5715,14 +5715,14 @@ State 359
 
 State 360
 
-  124 parameters: LPAR typedargslist RPAR •
+  124 parameters: LPAR typedargslist RPAR .
 
     $default  reduce using rule 124 (parameters)
 
 
 State 361
 
-   16 opt_assign_test: EQUAL • test
+   16 opt_assign_test: EQUAL . test
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 19
@@ -5753,21 +5753,21 @@ State 361
 
 State 362
 
-  126 argument: tfpdef opt_assign_test •
+  126 argument: tfpdef opt_assign_test .
 
     $default  reduce using rule 126 (argument)
 
 
 State 363
 
-   10 opt_arrow_test: ARROW test •
+   10 opt_arrow_test: ARROW test .
 
     $default  reduce using rule 10 (opt_arrow_test)
 
 
 State 364
 
-  122 funcdef: DEF NAME parameters opt_arrow_test COLON • opt_type_comment func_body_suite
+  122 funcdef: DEF NAME parameters opt_arrow_test COLON . opt_type_comment func_body_suite
 
     TYPE_COMMENT  shift, and go to state 224
 
@@ -5778,21 +5778,21 @@ State 364
 
 State 365
 
-  104 comma_expr_star_expr_star: comma_expr_star_expr_star COMMA star_expr •
+  104 comma_expr_star_expr_star: comma_expr_star_expr_star COMMA star_expr .
 
     $default  reduce using rule 104 (comma_expr_star_expr_star)
 
 
 State 366
 
-  103 comma_expr_star_expr_star: comma_expr_star_expr_star COMMA expr •
+  103 comma_expr_star_expr_star: comma_expr_star_expr_star COMMA expr .
 
     $default  reduce using rule 103 (comma_expr_star_expr_star)
 
 
 State 367
 
-  207 for_stmt: FOR exprlist IN testlist COLON • opt_type_comment suite opt_else_suite
+  207 for_stmt: FOR exprlist IN testlist COLON . opt_type_comment suite opt_else_suite
 
     TYPE_COMMENT  shift, and go to state 224
 
@@ -5803,22 +5803,22 @@ State 367
 
 State 368
 
-  183 import_part: LPAR import_as_names • RPAR
+  183 import_part: LPAR import_as_names . RPAR
 
     RPAR  shift, and go to state 417
 
 
 State 369
 
-  185 import_as_name: NAME opt_as_name •
+  185 import_as_name: NAME opt_as_name .
 
     $default  reduce using rule 185 (import_as_name)
 
 
 State 370
 
-   40 comma_import_as_name_star: comma_import_as_name_star • COMMA import_as_name
-  187 import_as_names: import_as_name comma_import_as_name_star • opt_comma
+   40 comma_import_as_name_star: comma_import_as_name_star . COMMA import_as_name
+  187 import_as_names: import_as_name comma_import_as_name_star . opt_comma
 
     COMMA  shift, and go to state 418
 
@@ -5829,15 +5829,15 @@ State 370
 
 State 371
 
-   46 comma_name_star: comma_name_star COMMA NAME •
+   46 comma_name_star: comma_name_star COMMA NAME .
 
     $default  reduce using rule 46 (comma_name_star)
 
 
 State 372
 
-   50 elif_test_suite_star: elif_test_suite_star • ELIF namedexpr_test COLON suite
-  205 if_stmt: IF namedexpr_test COLON suite elif_test_suite_star • opt_else_suite
+   50 elif_test_suite_star: elif_test_suite_star . ELIF namedexpr_test COLON suite
+  205 if_stmt: IF namedexpr_test COLON suite elif_test_suite_star . opt_else_suite
 
     ELIF  shift, and go to state 420
     ELSE  shift, and go to state 379
@@ -5849,15 +5849,15 @@ State 372
 
 State 373
 
-   42 comma_dotted_as_name_star: comma_dotted_as_name_star COMMA dotted_as_name •
+   42 comma_dotted_as_name_star: comma_dotted_as_name_star COMMA dotted_as_name .
 
     $default  reduce using rule 42 (comma_dotted_as_name_star)
 
 
 State 374
 
-   60 stmt_plus: stmt_plus • stmt
-  214 suite: NEWLINE INDENT stmt_plus • DEDENT
+   60 stmt_plus: stmt_plus . stmt
+  214 suite: NEWLINE INDENT stmt_plus . DEDENT
 
     ASSERT    shift, and go to state 5
     ASYNC     shift, and go to state 6
@@ -5945,21 +5945,21 @@ State 374
 
 State 375
 
-   59 stmt_plus: stmt •
+   59 stmt_plus: stmt .
 
     $default  reduce using rule 59 (stmt_plus)
 
 
 State 376
 
-  212 except_clause: EXCEPT opt_test_as_name •
+  212 except_clause: EXCEPT opt_test_as_name .
 
     $default  reduce using rule 212 (except_clause)
 
 
 State 377
 
-   58 opt_test_as_name: test • opt_as_name
+   58 opt_test_as_name: test . opt_as_name
 
     AS  shift, and go to state 188
 
@@ -5970,7 +5970,7 @@ State 377
 
 State 378
 
-  209 try_stmt: TRY COLON suite FINALLY COLON • suite
+  209 try_stmt: TRY COLON suite FINALLY COLON . suite
 
     ASSERT    shift, and go to state 5
     AWAIT     shift, and go to state 8
@@ -6036,14 +6036,14 @@ State 378
 
 State 379
 
-   52 opt_else_suite: ELSE • COLON suite
+   52 opt_else_suite: ELSE . COLON suite
 
     COLON  shift, and go to state 426
 
 
 State 380
 
-  208 try_stmt: TRY COLON suite except_suite_plus opt_else_suite • opt_finally_suite
+  208 try_stmt: TRY COLON suite except_suite_plus opt_else_suite . opt_finally_suite
 
     FINALLY  shift, and go to state 427
 
@@ -6054,14 +6054,14 @@ State 380
 
 State 381
 
-  111 except_suite_plus: except_suite_plus except_clause • COLON suite
+  111 except_suite_plus: except_suite_plus except_clause . COLON suite
 
     COLON  shift, and go to state 429
 
 
 State 382
 
-  110 except_suite_plus: except_clause COLON • suite
+  110 except_suite_plus: except_clause COLON . suite
 
     ASSERT    shift, and go to state 5
     AWAIT     shift, and go to state 8
@@ -6127,7 +6127,7 @@ State 382
 
 State 383
 
-  210 with_stmt: WITH with_item comma_with_item_star COLON opt_type_comment • suite
+  210 with_stmt: WITH with_item comma_with_item_star COLON opt_type_comment . suite
 
     ASSERT    shift, and go to state 5
     AWAIT     shift, and go to state 8
@@ -6193,38 +6193,38 @@ State 383
 
 State 384
 
-   54 comma_with_item_star: comma_with_item_star COMMA with_item •
+   54 comma_with_item_star: comma_with_item_star COMMA with_item .
 
     $default  reduce using rule 54 (comma_with_item_star)
 
 
 State 385
 
-  206 while_stmt: WHILE namedexpr_test COLON suite opt_else_suite •
+  206 while_stmt: WHILE namedexpr_test COLON suite opt_else_suite .
 
     $default  reduce using rule 206 (while_stmt)
 
 
 State 386
 
-  303 comp_for: ASYNC sync_comp_for •
+  303 comp_for: ASYNC sync_comp_for .
 
     $default  reduce using rule 303 (comp_for)
 
 
 State 387
 
-  300 sync_comp_for: FOR exprlist • IN or_test
-  301              | FOR exprlist • IN or_test comp_iter
+  300 sync_comp_for: FOR exprlist . IN or_test
+  301              | FOR exprlist . IN or_test comp_iter
 
     IN  shift, and go to state 432
 
 
 State 388
 
-   18 opt_comma: COMMA •
-   94 comma_namedexpr_test_star_expr_star: comma_namedexpr_test_star_expr_star COMMA • namedexpr_test
-   95                                    | comma_namedexpr_test_star_expr_star COMMA • star_expr
+   18 opt_comma: COMMA .
+   94 comma_namedexpr_test_star_expr_star: comma_namedexpr_test_star_expr_star COMMA . namedexpr_test
+   95                                    | comma_namedexpr_test_star_expr_star COMMA . star_expr
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 19
@@ -6260,23 +6260,23 @@ State 388
 
 State 389
 
-  267 testlist_comp: namedexpr_test comma_namedexpr_test_star_expr_star opt_comma •
+  267 testlist_comp: namedexpr_test comma_namedexpr_test_star_expr_star opt_comma .
 
     $default  reduce using rule 267 (testlist_comp)
 
 
 State 390
 
-  269 testlist_comp: star_expr comma_namedexpr_test_star_expr_star opt_comma •
+  269 testlist_comp: star_expr comma_namedexpr_test_star_expr_star opt_comma .
 
     $default  reduce using rule 269 (testlist_comp)
 
 
 State 391
 
-  108 comma_dict1_star: comma_dict1_star • COMMA test COLON test
-  109                 | comma_dict1_star • COMMA DOUBLESTAR expr
-  285 dictorsetmaker1: DOUBLESTAR expr comma_dict1_star • opt_comma
+  108 comma_dict1_star: comma_dict1_star . COMMA test COLON test
+  109                 | comma_dict1_star . COMMA DOUBLESTAR expr
+  285 dictorsetmaker1: DOUBLESTAR expr comma_dict1_star . opt_comma
 
     COMMA  shift, and go to state 435
 
@@ -6287,15 +6287,15 @@ State 391
 
 State 392
 
-  284 dictorsetmaker1: DOUBLESTAR expr comp_for •
+  284 dictorsetmaker1: DOUBLESTAR expr comp_for .
 
     $default  reduce using rule 284 (dictorsetmaker1)
 
 
 State 393
 
-  282 dictorsetmaker1: test COLON test • comp_for
-  283                | test COLON test • comma_dict1_star opt_comma
+  282 dictorsetmaker1: test COLON test . comp_for
+  283                | test COLON test . comma_dict1_star opt_comma
 
     ASYNC  shift, and go to state 300
     FOR    shift, and go to state 301
@@ -6309,36 +6309,36 @@ State 393
 
 State 394
 
-  287 dictorsetmaker2: test comma_test_star_expr_star opt_comma •
+  287 dictorsetmaker2: test comma_test_star_expr_star opt_comma .
 
     $default  reduce using rule 287 (dictorsetmaker2)
 
 
 State 395
 
-  289 dictorsetmaker2: star_expr comma_test_star_expr_star opt_comma •
+  289 dictorsetmaker2: star_expr comma_test_star_expr_star opt_comma .
 
     $default  reduce using rule 289 (dictorsetmaker2)
 
 
 State 396
 
-  273 trailer: DOT NAME •
+  273 trailer: DOT NAME .
 
     $default  reduce using rule 273 (trailer)
 
 
 State 397
 
-  276 subscript: opt_test • COLON opt_test opt_sliceop
+  276 subscript: opt_test . COLON opt_test opt_sliceop
 
     COLON  shift, and go to state 439
 
 
 State 398
 
-   99 opt_test: test •
-  275 subscript: test •
+   99 opt_test: test .
+  275 subscript: test .
 
     COLON     reduce using rule 99 (opt_test)
     $default  reduce using rule 275 (subscript)
@@ -6346,14 +6346,14 @@ State 398
 
 State 399
 
-  272 trailer: LSQB subscriptlist • RSQB
+  272 trailer: LSQB subscriptlist . RSQB
 
     RSQB  shift, and go to state 440
 
 
 State 400
 
-  274 subscriptlist: subscript • comma_subscript_star opt_comma
+  274 subscriptlist: subscript . comma_subscript_star opt_comma
 
     $default  reduce using rule 96 (comma_subscript_star)
 
@@ -6362,36 +6362,36 @@ State 400
 
 State 401
 
-  270 trailer: LPAR RPAR •
+  270 trailer: LPAR RPAR .
 
     $default  reduce using rule 270 (trailer)
 
 
 State 402
 
-  271 trailer: LPAR arglist • RPAR
+  271 trailer: LPAR arglist . RPAR
 
     RPAR  shift, and go to state 442
 
 
 State 403
 
-   31 opt_assing_yield_or_test: EQUAL testlist_star_expr •
+   31 opt_assing_yield_or_test: EQUAL testlist_star_expr .
 
     $default  reduce using rule 31 (opt_assing_yield_or_test)
 
 
 State 404
 
-   30 opt_assing_yield_or_test: EQUAL yield_expr •
+   30 opt_assing_yield_or_test: EQUAL yield_expr .
 
     $default  reduce using rule 30 (opt_assing_yield_or_test)
 
 
 State 405
 
-   18 opt_comma: COMMA •
-  106 comma_test_star: comma_test_star COMMA • test
+   18 opt_comma: COMMA .
+  106 comma_test_star: comma_test_star COMMA . test
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 19
@@ -6425,36 +6425,36 @@ State 405
 
 State 406
 
-  279 testlist: test comma_test_star opt_comma •
+  279 testlist: test comma_test_star opt_comma .
 
     $default  reduce using rule 279 (testlist)
 
 
 State 407
 
-  217 test: or_test IF or_test ELSE test •
+  217 test: or_test IF or_test ELSE test .
 
     $default  reduce using rule 217 (test)
 
 
 State 408
 
-  295 argument1: test EQUAL test •
+  295 argument1: test EQUAL test .
 
     $default  reduce using rule 295 (argument1)
 
 
 State 409
 
-  294 argument1: test COLONEQUAL test •
+  294 argument1: test COLONEQUAL test .
 
     $default  reduce using rule 294 (argument1)
 
 
 State 410
 
-   14 comma_argument_star: comma_argument_star COMMA • opt_type_comment argument
-   18 opt_comma: COMMA •
+   14 comma_argument_star: comma_argument_star COMMA . opt_type_comment argument
+   18 opt_comma: COMMA .
 
     TYPE_COMMENT  shift, and go to state 224
 
@@ -6466,21 +6466,21 @@ State 410
 
 State 411
 
-  291 arglist: argument1 comma_argument_star opt_comma •
+  291 arglist: argument1 comma_argument_star opt_comma .
 
     $default  reduce using rule 291 (arglist)
 
 
 State 412
 
-   20 opt_colon_test: COLON test •
+   20 opt_colon_test: COLON test .
 
     $default  reduce using rule 20 (opt_colon_test)
 
 
 State 413
 
-   14 comma_argument_star: comma_argument_star COMMA • opt_type_comment argument
+   14 comma_argument_star: comma_argument_star COMMA . opt_type_comment argument
 
     TYPE_COMMENT  shift, and go to state 224
 
@@ -6491,14 +6491,14 @@ State 413
 
 State 414
 
-   16 opt_assign_test: EQUAL test •
+   16 opt_assign_test: EQUAL test .
 
     $default  reduce using rule 16 (opt_assign_test)
 
 
 State 415
 
-  122 funcdef: DEF NAME parameters opt_arrow_test COLON opt_type_comment • func_body_suite
+  122 funcdef: DEF NAME parameters opt_arrow_test COLON opt_type_comment . func_body_suite
 
     ASSERT    shift, and go to state 5
     AWAIT     shift, and go to state 8
@@ -6564,7 +6564,7 @@ State 415
 
 State 416
 
-  207 for_stmt: FOR exprlist IN testlist COLON opt_type_comment • suite opt_else_suite
+  207 for_stmt: FOR exprlist IN testlist COLON opt_type_comment . suite opt_else_suite
 
     ASSERT    shift, and go to state 5
     AWAIT     shift, and go to state 8
@@ -6630,15 +6630,15 @@ State 416
 
 State 417
 
-  183 import_part: LPAR import_as_names RPAR •
+  183 import_part: LPAR import_as_names RPAR .
 
     $default  reduce using rule 183 (import_part)
 
 
 State 418
 
-   18 opt_comma: COMMA •
-   40 comma_import_as_name_star: comma_import_as_name_star COMMA • import_as_name
+   18 opt_comma: COMMA .
+   40 comma_import_as_name_star: comma_import_as_name_star COMMA . import_as_name
 
     NAME  shift, and go to state 280
 
@@ -6649,14 +6649,14 @@ State 418
 
 State 419
 
-  187 import_as_names: import_as_name comma_import_as_name_star opt_comma •
+  187 import_as_names: import_as_name comma_import_as_name_star opt_comma .
 
     $default  reduce using rule 187 (import_as_names)
 
 
 State 420
 
-   50 elif_test_suite_star: elif_test_suite_star ELIF • namedexpr_test COLON suite
+   50 elif_test_suite_star: elif_test_suite_star ELIF . namedexpr_test COLON suite
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 19
@@ -6688,42 +6688,42 @@ State 420
 
 State 421
 
-  205 if_stmt: IF namedexpr_test COLON suite elif_test_suite_star opt_else_suite •
+  205 if_stmt: IF namedexpr_test COLON suite elif_test_suite_star opt_else_suite .
 
     $default  reduce using rule 205 (if_stmt)
 
 
 State 422
 
-  214 suite: NEWLINE INDENT stmt_plus DEDENT •
+  214 suite: NEWLINE INDENT stmt_plus DEDENT .
 
     $default  reduce using rule 214 (suite)
 
 
 State 423
 
-   60 stmt_plus: stmt_plus stmt •
+   60 stmt_plus: stmt_plus stmt .
 
     $default  reduce using rule 60 (stmt_plus)
 
 
 State 424
 
-   58 opt_test_as_name: test opt_as_name •
+   58 opt_test_as_name: test opt_as_name .
 
     $default  reduce using rule 58 (opt_test_as_name)
 
 
 State 425
 
-  209 try_stmt: TRY COLON suite FINALLY COLON suite •
+  209 try_stmt: TRY COLON suite FINALLY COLON suite .
 
     $default  reduce using rule 209 (try_stmt)
 
 
 State 426
 
-   52 opt_else_suite: ELSE COLON • suite
+   52 opt_else_suite: ELSE COLON . suite
 
     ASSERT    shift, and go to state 5
     AWAIT     shift, and go to state 8
@@ -6789,21 +6789,21 @@ State 426
 
 State 427
 
-  113 opt_finally_suite: FINALLY • COLON suite
+  113 opt_finally_suite: FINALLY . COLON suite
 
     COLON  shift, and go to state 452
 
 
 State 428
 
-  208 try_stmt: TRY COLON suite except_suite_plus opt_else_suite opt_finally_suite •
+  208 try_stmt: TRY COLON suite except_suite_plus opt_else_suite opt_finally_suite .
 
     $default  reduce using rule 208 (try_stmt)
 
 
 State 429
 
-  111 except_suite_plus: except_suite_plus except_clause COLON • suite
+  111 except_suite_plus: except_suite_plus except_clause COLON . suite
 
     ASSERT    shift, and go to state 5
     AWAIT     shift, and go to state 8
@@ -6869,22 +6869,22 @@ State 429
 
 State 430
 
-  110 except_suite_plus: except_clause COLON suite •
+  110 except_suite_plus: except_clause COLON suite .
 
     $default  reduce using rule 110 (except_suite_plus)
 
 
 State 431
 
-  210 with_stmt: WITH with_item comma_with_item_star COLON opt_type_comment suite •
+  210 with_stmt: WITH with_item comma_with_item_star COLON opt_type_comment suite .
 
     $default  reduce using rule 210 (with_stmt)
 
 
 State 432
 
-  300 sync_comp_for: FOR exprlist IN • or_test
-  301              | FOR exprlist IN • or_test comp_iter
+  300 sync_comp_for: FOR exprlist IN . or_test
+  301              | FOR exprlist IN . or_test comp_iter
 
     AWAIT  shift, and go to state 8
     MINUS  shift, and go to state 20
@@ -6912,23 +6912,23 @@ State 432
 
 State 433
 
-   94 comma_namedexpr_test_star_expr_star: comma_namedexpr_test_star_expr_star COMMA namedexpr_test •
+   94 comma_namedexpr_test_star_expr_star: comma_namedexpr_test_star_expr_star COMMA namedexpr_test .
 
     $default  reduce using rule 94 (comma_namedexpr_test_star_expr_star)
 
 
 State 434
 
-   95 comma_namedexpr_test_star_expr_star: comma_namedexpr_test_star_expr_star COMMA star_expr •
+   95 comma_namedexpr_test_star_expr_star: comma_namedexpr_test_star_expr_star COMMA star_expr .
 
     $default  reduce using rule 95 (comma_namedexpr_test_star_expr_star)
 
 
 State 435
 
-   18 opt_comma: COMMA •
-  108 comma_dict1_star: comma_dict1_star COMMA • test COLON test
-  109                 | comma_dict1_star COMMA • DOUBLESTAR expr
+   18 opt_comma: COMMA .
+  108 comma_dict1_star: comma_dict1_star COMMA . test COLON test
+  109                 | comma_dict1_star COMMA . DOUBLESTAR expr
 
     AWAIT       shift, and go to state 8
     DOUBLESTAR  shift, and go to state 455
@@ -6961,16 +6961,16 @@ State 435
 
 State 436
 
-  285 dictorsetmaker1: DOUBLESTAR expr comma_dict1_star opt_comma •
+  285 dictorsetmaker1: DOUBLESTAR expr comma_dict1_star opt_comma .
 
     $default  reduce using rule 285 (dictorsetmaker1)
 
 
 State 437
 
-  108 comma_dict1_star: comma_dict1_star • COMMA test COLON test
-  109                 | comma_dict1_star • COMMA DOUBLESTAR expr
-  283 dictorsetmaker1: test COLON test comma_dict1_star • opt_comma
+  108 comma_dict1_star: comma_dict1_star . COMMA test COLON test
+  109                 | comma_dict1_star . COMMA DOUBLESTAR expr
+  283 dictorsetmaker1: test COLON test comma_dict1_star . opt_comma
 
     COMMA  shift, and go to state 435
 
@@ -6981,14 +6981,14 @@ State 437
 
 State 438
 
-  282 dictorsetmaker1: test COLON test comp_for •
+  282 dictorsetmaker1: test COLON test comp_for .
 
     $default  reduce using rule 282 (dictorsetmaker1)
 
 
 State 439
 
-  276 subscript: opt_test COLON • opt_test opt_sliceop
+  276 subscript: opt_test COLON . opt_test opt_sliceop
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 19
@@ -7023,15 +7023,15 @@ State 439
 
 State 440
 
-  272 trailer: LSQB subscriptlist RSQB •
+  272 trailer: LSQB subscriptlist RSQB .
 
     $default  reduce using rule 272 (trailer)
 
 
 State 441
 
-   97 comma_subscript_star: comma_subscript_star • COMMA subscript
-  274 subscriptlist: subscript comma_subscript_star • opt_comma
+   97 comma_subscript_star: comma_subscript_star . COMMA subscript
+  274 subscriptlist: subscript comma_subscript_star . opt_comma
 
     COMMA  shift, and go to state 460
 
@@ -7042,21 +7042,21 @@ State 441
 
 State 442
 
-  271 trailer: LPAR arglist RPAR •
+  271 trailer: LPAR arglist RPAR .
 
     $default  reduce using rule 271 (trailer)
 
 
 State 443
 
-  106 comma_test_star: comma_test_star COMMA test •
+  106 comma_test_star: comma_test_star COMMA test .
 
     $default  reduce using rule 106 (comma_test_star)
 
 
 State 444
 
-   14 comma_argument_star: comma_argument_star COMMA opt_type_comment • argument
+   14 comma_argument_star: comma_argument_star COMMA opt_type_comment . argument
 
     NAME  shift, and go to state 268
 
@@ -7066,8 +7066,8 @@ State 444
 
 State 445
 
-  311 func_body_suite: NEWLINE • INDENT stmt_plus DEDENT
-  312                | NEWLINE • TYPE_COMMENT NEWLINE INDENT stmt_plus DEDENT
+  311 func_body_suite: NEWLINE . INDENT stmt_plus DEDENT
+  312                | NEWLINE . TYPE_COMMENT NEWLINE INDENT stmt_plus DEDENT
 
     INDENT        shift, and go to state 463
     TYPE_COMMENT  shift, and go to state 464
@@ -7075,21 +7075,21 @@ State 445
 
 State 446
 
-  310 func_body_suite: simple_stmt •
+  310 func_body_suite: simple_stmt .
 
     $default  reduce using rule 310 (func_body_suite)
 
 
 State 447
 
-  122 funcdef: DEF NAME parameters opt_arrow_test COLON opt_type_comment func_body_suite •
+  122 funcdef: DEF NAME parameters opt_arrow_test COLON opt_type_comment func_body_suite .
 
     $default  reduce using rule 122 (funcdef)
 
 
 State 448
 
-  207 for_stmt: FOR exprlist IN testlist COLON opt_type_comment suite • opt_else_suite
+  207 for_stmt: FOR exprlist IN testlist COLON opt_type_comment suite . opt_else_suite
 
     ELSE  shift, and go to state 379
 
@@ -7100,28 +7100,28 @@ State 448
 
 State 449
 
-   40 comma_import_as_name_star: comma_import_as_name_star COMMA import_as_name •
+   40 comma_import_as_name_star: comma_import_as_name_star COMMA import_as_name .
 
     $default  reduce using rule 40 (comma_import_as_name_star)
 
 
 State 450
 
-   50 elif_test_suite_star: elif_test_suite_star ELIF namedexpr_test • COLON suite
+   50 elif_test_suite_star: elif_test_suite_star ELIF namedexpr_test . COLON suite
 
     COLON  shift, and go to state 466
 
 
 State 451
 
-   52 opt_else_suite: ELSE COLON suite •
+   52 opt_else_suite: ELSE COLON suite .
 
     $default  reduce using rule 52 (opt_else_suite)
 
 
 State 452
 
-  113 opt_finally_suite: FINALLY COLON • suite
+  113 opt_finally_suite: FINALLY COLON . suite
 
     ASSERT    shift, and go to state 5
     AWAIT     shift, and go to state 8
@@ -7187,15 +7187,15 @@ State 452
 
 State 453
 
-  111 except_suite_plus: except_suite_plus except_clause COLON suite •
+  111 except_suite_plus: except_suite_plus except_clause COLON suite .
 
     $default  reduce using rule 111 (except_suite_plus)
 
 
 State 454
 
-  300 sync_comp_for: FOR exprlist IN or_test •
-  301              | FOR exprlist IN or_test • comp_iter
+  300 sync_comp_for: FOR exprlist IN or_test .
+  301              | FOR exprlist IN or_test . comp_iter
 
     ASYNC  shift, and go to state 300
     FOR    shift, and go to state 301
@@ -7211,7 +7211,7 @@ State 454
 
 State 455
 
-  109 comma_dict1_star: comma_dict1_star COMMA DOUBLESTAR • expr
+  109 comma_dict1_star: comma_dict1_star COMMA DOUBLESTAR . expr
 
     AWAIT  shift, and go to state 8
     MINUS  shift, and go to state 20
@@ -7234,21 +7234,21 @@ State 455
 
 State 456
 
-  108 comma_dict1_star: comma_dict1_star COMMA test • COLON test
+  108 comma_dict1_star: comma_dict1_star COMMA test . COLON test
 
     COLON  shift, and go to state 473
 
 
 State 457
 
-  283 dictorsetmaker1: test COLON test comma_dict1_star opt_comma •
+  283 dictorsetmaker1: test COLON test comma_dict1_star opt_comma .
 
     $default  reduce using rule 283 (dictorsetmaker1)
 
 
 State 458
 
-  276 subscript: opt_test COLON opt_test • opt_sliceop
+  276 subscript: opt_test COLON opt_test . opt_sliceop
 
     COLON  shift, and go to state 474
 
@@ -7260,15 +7260,15 @@ State 458
 
 State 459
 
-   99 opt_test: test •
+   99 opt_test: test .
 
     $default  reduce using rule 99 (opt_test)
 
 
 State 460
 
-   18 opt_comma: COMMA •
-   97 comma_subscript_star: comma_subscript_star COMMA • subscript
+   18 opt_comma: COMMA .
+   97 comma_subscript_star: comma_subscript_star COMMA . subscript
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 19
@@ -7303,21 +7303,21 @@ State 460
 
 State 461
 
-  274 subscriptlist: subscript comma_subscript_star opt_comma •
+  274 subscriptlist: subscript comma_subscript_star opt_comma .
 
     $default  reduce using rule 274 (subscriptlist)
 
 
 State 462
 
-   14 comma_argument_star: comma_argument_star COMMA opt_type_comment argument •
+   14 comma_argument_star: comma_argument_star COMMA opt_type_comment argument .
 
     $default  reduce using rule 14 (comma_argument_star)
 
 
 State 463
 
-  311 func_body_suite: NEWLINE INDENT • stmt_plus DEDENT
+  311 func_body_suite: NEWLINE INDENT . stmt_plus DEDENT
 
     ASSERT    shift, and go to state 5
     ASYNC     shift, and go to state 6
@@ -7405,21 +7405,21 @@ State 463
 
 State 464
 
-  312 func_body_suite: NEWLINE TYPE_COMMENT • NEWLINE INDENT stmt_plus DEDENT
+  312 func_body_suite: NEWLINE TYPE_COMMENT . NEWLINE INDENT stmt_plus DEDENT
 
     NEWLINE  shift, and go to state 479
 
 
 State 465
 
-  207 for_stmt: FOR exprlist IN testlist COLON opt_type_comment suite opt_else_suite •
+  207 for_stmt: FOR exprlist IN testlist COLON opt_type_comment suite opt_else_suite .
 
     $default  reduce using rule 207 (for_stmt)
 
 
 State 466
 
-   50 elif_test_suite_star: elif_test_suite_star ELIF namedexpr_test COLON • suite
+   50 elif_test_suite_star: elif_test_suite_star ELIF namedexpr_test COLON . suite
 
     ASSERT    shift, and go to state 5
     AWAIT     shift, and go to state 8
@@ -7485,15 +7485,15 @@ State 466
 
 State 467
 
-  113 opt_finally_suite: FINALLY COLON suite •
+  113 opt_finally_suite: FINALLY COLON suite .
 
     $default  reduce using rule 113 (opt_finally_suite)
 
 
 State 468
 
-  304 comp_if: IF • test_nocond
-  305        | IF • test_nocond comp_iter
+  304 comp_if: IF . test_nocond
+  305        | IF . test_nocond comp_iter
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 481
@@ -7524,35 +7524,35 @@ State 468
 
 State 469
 
-  301 sync_comp_for: FOR exprlist IN or_test comp_iter •
+  301 sync_comp_for: FOR exprlist IN or_test comp_iter .
 
     $default  reduce using rule 301 (sync_comp_for)
 
 
 State 470
 
-  298 comp_iter: comp_for •
+  298 comp_iter: comp_for .
 
     $default  reduce using rule 298 (comp_iter)
 
 
 State 471
 
-  299 comp_iter: comp_if •
+  299 comp_iter: comp_if .
 
     $default  reduce using rule 299 (comp_iter)
 
 
 State 472
 
-  109 comma_dict1_star: comma_dict1_star COMMA DOUBLESTAR expr •
+  109 comma_dict1_star: comma_dict1_star COMMA DOUBLESTAR expr .
 
     $default  reduce using rule 109 (comma_dict1_star)
 
 
 State 473
 
-  108 comma_dict1_star: comma_dict1_star COMMA test COLON • test
+  108 comma_dict1_star: comma_dict1_star COMMA test COLON . test
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 19
@@ -7583,7 +7583,7 @@ State 473
 
 State 474
 
-  277 sliceop: COLON • opt_test
+  277 sliceop: COLON . opt_test
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 19
@@ -7617,29 +7617,29 @@ State 474
 
 State 475
 
-  276 subscript: opt_test COLON opt_test opt_sliceop •
+  276 subscript: opt_test COLON opt_test opt_sliceop .
 
     $default  reduce using rule 276 (subscript)
 
 
 State 476
 
-  101 opt_sliceop: sliceop •
+  101 opt_sliceop: sliceop .
 
     $default  reduce using rule 101 (opt_sliceop)
 
 
 State 477
 
-   97 comma_subscript_star: comma_subscript_star COMMA subscript •
+   97 comma_subscript_star: comma_subscript_star COMMA subscript .
 
     $default  reduce using rule 97 (comma_subscript_star)
 
 
 State 478
 
-   60 stmt_plus: stmt_plus • stmt
-  311 func_body_suite: NEWLINE INDENT stmt_plus • DEDENT
+   60 stmt_plus: stmt_plus . stmt
+  311 func_body_suite: NEWLINE INDENT stmt_plus . DEDENT
 
     ASSERT    shift, and go to state 5
     ASYNC     shift, and go to state 6
@@ -7727,29 +7727,29 @@ State 478
 
 State 479
 
-  312 func_body_suite: NEWLINE TYPE_COMMENT NEWLINE • INDENT stmt_plus DEDENT
+  312 func_body_suite: NEWLINE TYPE_COMMENT NEWLINE . INDENT stmt_plus DEDENT
 
     INDENT  shift, and go to state 488
 
 
 State 480
 
-   50 elif_test_suite_star: elif_test_suite_star ELIF namedexpr_test COLON suite •
+   50 elif_test_suite_star: elif_test_suite_star ELIF namedexpr_test COLON suite .
 
     $default  reduce using rule 50 (elif_test_suite_star)
 
 
 State 481
 
-  222 lambdef_nocond: LAMBDA • COLON test_nocond
+  222 lambdef_nocond: LAMBDA . COLON test_nocond
 
     COLON  shift, and go to state 489
 
 
 State 482
 
-  304 comp_if: IF test_nocond •
-  305        | IF test_nocond • comp_iter
+  304 comp_if: IF test_nocond .
+  305        | IF test_nocond . comp_iter
 
     ASYNC  shift, and go to state 300
     FOR    shift, and go to state 301
@@ -7765,42 +7765,42 @@ State 482
 
 State 483
 
-  220 test_nocond: lambdef_nocond •
+  220 test_nocond: lambdef_nocond .
 
     $default  reduce using rule 220 (test_nocond)
 
 
 State 484
 
-  219 test_nocond: or_test •
+  219 test_nocond: or_test .
 
     $default  reduce using rule 219 (test_nocond)
 
 
 State 485
 
-  108 comma_dict1_star: comma_dict1_star COMMA test COLON test •
+  108 comma_dict1_star: comma_dict1_star COMMA test COLON test .
 
     $default  reduce using rule 108 (comma_dict1_star)
 
 
 State 486
 
-  277 sliceop: COLON opt_test •
+  277 sliceop: COLON opt_test .
 
     $default  reduce using rule 277 (sliceop)
 
 
 State 487
 
-  311 func_body_suite: NEWLINE INDENT stmt_plus DEDENT •
+  311 func_body_suite: NEWLINE INDENT stmt_plus DEDENT .
 
     $default  reduce using rule 311 (func_body_suite)
 
 
 State 488
 
-  312 func_body_suite: NEWLINE TYPE_COMMENT NEWLINE INDENT • stmt_plus DEDENT
+  312 func_body_suite: NEWLINE TYPE_COMMENT NEWLINE INDENT . stmt_plus DEDENT
 
     ASSERT    shift, and go to state 5
     ASYNC     shift, and go to state 6
@@ -7888,7 +7888,7 @@ State 488
 
 State 489
 
-  222 lambdef_nocond: LAMBDA COLON • test_nocond
+  222 lambdef_nocond: LAMBDA COLON . test_nocond
 
     AWAIT   shift, and go to state 8
     LAMBDA  shift, and go to state 481
@@ -7919,15 +7919,15 @@ State 489
 
 State 490
 
-  305 comp_if: IF test_nocond comp_iter •
+  305 comp_if: IF test_nocond comp_iter .
 
     $default  reduce using rule 305 (comp_if)
 
 
 State 491
 
-   60 stmt_plus: stmt_plus • stmt
-  312 func_body_suite: NEWLINE TYPE_COMMENT NEWLINE INDENT stmt_plus • DEDENT
+   60 stmt_plus: stmt_plus . stmt
+  312 func_body_suite: NEWLINE TYPE_COMMENT NEWLINE INDENT stmt_plus . DEDENT
 
     ASSERT    shift, and go to state 5
     ASYNC     shift, and go to state 6
@@ -8015,13 +8015,13 @@ State 491
 
 State 492
 
-  222 lambdef_nocond: LAMBDA COLON test_nocond •
+  222 lambdef_nocond: LAMBDA COLON test_nocond .
 
     $default  reduce using rule 222 (lambdef_nocond)
 
 
 State 493
 
-  312 func_body_suite: NEWLINE TYPE_COMMENT NEWLINE INDENT stmt_plus DEDENT •
+  312 func_body_suite: NEWLINE TYPE_COMMENT NEWLINE INDENT stmt_plus DEDENT .
 
     $default  reduce using rule 312 (func_body_suite)

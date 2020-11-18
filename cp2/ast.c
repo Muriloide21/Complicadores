@@ -16,7 +16,7 @@ struct node {
     //     float as_float;
     //     char* as_string;
     // } data;
-    Char* data;
+    char* data;
     Type type;
     int count;
     char* name;
@@ -50,7 +50,7 @@ AST* get_node_child(AST* node, int index){
 AST* new_node(NodeKind kind, int data, Type type) {
     AST* node = malloc(sizeof * node);
     node->kind = kind;
-    node->data.as_int = data;
+    //node->data.as_int = data;
     node->type = type;
     node->count = 0;
     for (int i = 0; i < CHILDREN_LIMIT; i++) {
@@ -92,22 +92,30 @@ NodeKind get_kind(AST *node) {
     return node->kind;
 }
 
-Char* get_data(AST *node) {
+char* get_data(AST *node) {
     return node->data;
 }
 
-void set_node_data(AST *node, char* data) {
+void set_node_string_data(AST *node, char* data) {
     if(data != NULL) {
-        node->data = malloc(strlen(data) + 1);
-        strcpy(node->data,data)
+        node->data = data;
     }else{
         node->data = NULL;
     }
 }
 
-float get_float_data(AST *node) {
-    return node->data.as_float;
+void set_node_data(AST *node, char* data) {
+    if(data != NULL) {
+        node->data = malloc(strlen(data) + 1);
+        strcpy(node->data,data);
+    }else{
+        node->data = NULL;
+    }
 }
+
+// float get_float_data(AST *node) {
+//     return node->data.as_float;
+// }
 
 Type get_node_type(AST *node) {
     return node->type;
@@ -223,6 +231,9 @@ int print_node_dot(AST *node) {
     // } else {
         // fprintf("Kind: %d\n", node->kind);
         fprintf(stderr, "%s", kind2str(node->kind));
+        if (node->kind == NUMBER_NODE || node->kind == STRING_NODE){
+            fprintf(stderr, " - %s", get_data(node));
+        }
     // }
     // if (has_data(node->kind)) {
     //     if (node->kind == REAL_VAL_NODE) {

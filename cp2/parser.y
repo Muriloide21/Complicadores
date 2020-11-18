@@ -233,9 +233,9 @@ trailer_plus: trailer { $$ = $1; }
 // 			| trailer_star trailer
 // ;
 
-string_plus: STRING { $$ = new_subtree(STRING_NODE, STR_TYPE, 0); }
-           | string_plus STRING { add_child($1,$2); $$ = $1; }
-;
+// string_plus: STRING { $$ = new_subtree(STRING_NODE, STR_TYPE, 0); }
+//            | string_plus STRING { add_child($1,$2); $$ = $1; }
+// ;
 
 // comma_namedexpr_test_star_expr_star: %empty
 //                                    | comma_namedexpr_test_star_expr_star COMMA namedexpr_test
@@ -634,15 +634,14 @@ atom: LPAR RPAR { $$ = new_node(PARS_NODE, 0, NO_TYPE); }
     | LBRACE RBRACE { $$ = new_node(DICT_NODE, 0, NO_TYPE); }
     | LBRACE dictorsetmaker RBRACE { $$ = new_subtree(DICT_NODE, NO_TYPE, 1, $2); }
     | NAME { $$ = new_node(NAME_NODE, 0, NO_TYPE); }
-    | NUMBER { $$ = new_node(NUMBER_NODE, 0, NO_TYPE); set_node_data($$, yytext)}
-    | string_plus { $$ = $1; }
+    | NUMBER { $$ = new_node(NUMBER_NODE, 0, NO_TYPE); set_node_data($$, yytext);}
+    // | string_plus { $$ = $1; }
+    | STRING { $$ = new_node(STRING_NODE, 0, STR_TYPE); }
     | ELLIPSIS { $$ = new_node(ELLIPSIS_NODE, 0, NO_TYPE); }
     | NONE { $$ = new_node(NONE_NODE, 0, NO_TYPE); }
     | TRUE { $$ = new_node(BOOL_VAL_NODE, 1, BOOL_TYPE); }
     | FALSE { $$ = new_node(BOOL_VAL_NODE, 0, BOOL_TYPE); }
 ;
-
-
 
 // testlist_comp: namedexpr_test comp_for
 //              | testlist
@@ -784,24 +783,43 @@ void yyerror (char const *s) {
     exit(EXIT_FAILURE);
 }
 
-Type quarta_passada(AST* root) {
-    if(get_kind_node(root) == STRING_NODE){ return STR_TYPE; };
-    if(get_kind_node(root) == LIST_NODE){ return LIST_TYPE; };
-    if(get_kind_node(root) == BOOL_VAL_NODE){ return BOOL_TYPE; };
-    if(get_kind_node(root) == NUMBER_NODE){
-        float num = atof(get_data(root));
-        if (num  == floor(num)){
-            return INT_TYPE;
-        }
-        else{
-            return REAL_TYPE;
-        }
-    }
-    int children_count = get_node_count(root);
+
+// Type unify_type(AST* root){
     
-	for(i = 0; i < children_count; i++){
-		quarta_passada(get_node_child(root, i));
-	}
+// }
+
+void quarta_passada(AST* root) {
+    // if(get_kind_node(root) == ASSIGN_NODE){
+    //     int pos = lookup_var(get_name_node(get_node_child(root,0))
+    //     if(pos == -1){
+    //         //Insere na tabela
+    //     }
+    //     else{
+    //         Type aux_type = get_type(vt, pos);
+    //         if(unify_type(get_node_child(root,1)) != aux_type){
+    //             printf("TypeError, variable %s expects type '%s'", get_name_node(get_node_child(root,0)), aux_type);
+    //         }
+    //     }
+    //     //Unifica os tipos do que estiver a direita
+    //     Type aux_type = unify_type(get_node_child(root,0), get_node_child(root,1))    
+    // }
+    // if(get_kind_node(root) == STRING_NODE){ return STR_TYPE; };
+    // if(get_kind_node(root) == LIST_NODE){ return LIST_TYPE; };
+    // if(get_kind_node(root) == BOOL_VAL_NODE){ return BOOL_TYPE; };
+    // if(get_kind_node(root) == NUMBER_NODE){
+    //     float num = atof(get_data(root));
+    //     if (num  == floor(num)){
+    //         return INT_TYPE;
+    //     }
+    //     else{
+    //         return REAL_TYPE;
+    //     }
+    // }
+    // int children_count = get_node_count(root);
+    
+	// for(i = 0; i < children_count; i++){
+	// 	quarta_passada(get_node_child(root, i));
+	// }
     
 }
 
@@ -811,10 +829,16 @@ void segunda_passada(AST* root) {
     }
     // Se estiver na direita e for um NAME e não estiver na tabela, dá erro
     // Se estiver na direita e for string, atribui esse value e o TYPE na tabela
+    
 	if(get_kind_node(root) == FUNCDEF_NODE){
         set_name_node(root, names_list.last_text[position_f++]);
-        add_var(vt, get_name_node(root), 0, NO_TYPE, 1, get_node_count(get_node_child(root, 1)));
+        //add_var(vt, get_name_node(root), 0, NO_TYPE, 1, get_node_count(get_node_child(root, 1)));
 	}
+
+    if(get_kind_node(root) == STRING_NODE){
+        set_node_string_data(root, get_string(st,position++));
+    }
+
     int i = 0;
     int children_count = get_node_count(root);
 	for(i = 0; i < children_count; i++){
@@ -823,6 +847,7 @@ void segunda_passada(AST* root) {
 }
 
 void verify_func_calls(AST* root) {
+    
     // Se é uma função
 	if( (get_kind_node(root) == NAME_NODE) && (get_node_count(root) > 0) ){
         if( get_kind_node(get_node_child(root, 0)) == ARGLIST_NODE ){
@@ -831,71 +856,43 @@ void verify_func_calls(AST* root) {
             if (pos == -1){
                 printf("ERROR: Function \"%s\" is not defined.\n",get_name_node(root));
                 exit(EXIT_FAILURE);
-            }else {
-                // Verifica se eh uma funcao
-                if (get_func_bool(vt, pos) == 0){
-                    printf("ERROR: \"%s\" is not a function.\n",get_name_node(root));
-                    exit(EXIT_FAILURE);
-                }
             }
         }
 	}
+    
     int i = 0;
     int children_count = get_node_count(root);
 	for(i = 0; i < children_count; i++){
 		verify_func_calls(get_node_child(root, i));
-	}
+    }  
 }
 
-if(get_kind_node(root) == ASSIGN_NODE){
-        AST* left_child = get_node_child(root, 0);
-        AST* right_child = get_node_child(root, 1);
-
-        int pos = lookup_var(vt, get_name_node(left_child));
-        if(pos == -1){
-            //Adiciona nome ao nó
-            set_name_node(left_child, names_list.last_text[position_f++]);
-            //Resolve o lado direito do assign; Infere o tipo; E adiciona
-            add_var(vt, get_name_node(left_child), 0, NO_TYPE, 0, 0);
-            
-        }
-        else{
-            //Verifica se o value (child da direita) é do mesmo tipo declarado na tabela
-            // Se sim, atualiza o value e corre pro abraço
-            // Se não, vai tomar no 
-        }
-
-    }
-
-
-// Então, o que eu tinha falado é: A inferência de tipos vai exigir que nós passemos a armazenar value nos nós neh?
-// Shit, ok
-
+// Mas então, testa com mais strings, vê se dá bom
+//Nem eu
 int main() {
-    lex_init();
-    yyparse();
-    printf("PARSE SUCCESSFUL!\n");
-
-    // Tá bom
     vt = create_var_table();
     st = create_str_table();
 
-    // for(int i = 0; i < names_list.count; i++){
-    //     printf("Index:%d, %s\n",i,names_list.last_text[i]);
-    // }
+    lex_init();
+    yyparse();
+
+    printf("PARSE SUCCESSFUL!\n");
+
+    // Tá bom
+    
+    printf("Size da st: %d", get_size_st(st));
+
+    for(int i = 0; i < names_list.count; i++){
+        printf("Index:%d, %s\n",i,names_list.last_text[i]);
+    }
 
 	segunda_passada(root);
-
-    print_str_table(st);
-    print_var_table(vt);
-
     verify_func_calls(root);
 
     print_dot(root);
 
     print_str_table(st);
     print_var_table(vt);
-
     free_str_table(st);
     free_var_table(vt);
     yylex_destroy();    // To avoid memory leaks within flex...

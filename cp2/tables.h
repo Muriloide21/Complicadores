@@ -15,6 +15,8 @@ typedef struct str_table StrTable;
 // Creates an empty strings table.
 StrTable* create_str_table();
 
+int get_size_st(StrTable* st);
+
 // Adds the given string to the table without repetitions.
 // String 's' is copied internally.
 // Returns the index of the string in the table.

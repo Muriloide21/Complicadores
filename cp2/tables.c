@@ -2,7 +2,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <assert.h>
 #include "tables.h"
+
 
 // Strings Table
 // ----------------------------------------------------------------------------
@@ -21,8 +23,31 @@ StrTable* create_str_table() {
     return st;
 }
 
+//Ele não ta printando nada
+
+int get_size_st(StrTable* st){
+    if(st == NULL) return -1;
+    return st->size;
+}
+
+//Pq a sua mãe é minha sogra, Kelvin
+//Assim fica menos ofensivo
+
+//Man, não faz sentido estar chegando Nulo
+//Tem uma fucking função de inicialização na main
+
+//Então me dubla, caralho
+
+//Alguém fala pro Kelvin que a mãe dele é minha
+
+//A gente vai fazer trabalho, Athus
 int add_string(StrTable* st, char* s) {
-    for (int i = 0; i < st->size; i++) {
+    assert(st);
+    assert(s);
+    printf("%d", st->size);
+    // O 0 e o 1 são os tamanhos da st, Athus
+    // Por algum motivo ele ta entendendo como 2 entradas diferentes, as 2 strings na mesma linha
+    for (int i = 0; i < get_size_st(st); i++) {
         if (strcmp(st->t[i], s) == 0) {
             return i;
         }
