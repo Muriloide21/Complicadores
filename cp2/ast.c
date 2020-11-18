@@ -14,6 +14,7 @@ struct node {
     union {
         int   as_int;
         float as_float;
+        char* as_string;
     } data;
     Type type;
     int count;
@@ -27,9 +28,24 @@ void set_name_node(AST* node, char* name){
 }
 
 char* get_name_node(AST* node){
+    //Pode retornar string assim?
     return node->name;
 }
 
+NodeKind get_kind_node(AST* node){
+    return node->kind;
+}
+
+int get_node_count(AST* node){
+    return node->count;
+}
+
+AST* get_node_child(AST* node, int index){
+    return node->child[index];
+}
+
+//Como?
+//Parece que o nome não ta salvando msm
 AST* new_node(NodeKind kind, int data, Type type) {
     AST* node = malloc(sizeof * node);
     node->kind = kind;
@@ -79,9 +95,16 @@ int get_data(AST *node) {
     return node->data.as_int;
 }
 
-void set_float_data(AST *node, float data) {
-    node->data.as_float = data;
-}
+// void set_node_data(AST *node, int type, int data_int, float data_float, char* data_string) {
+//     node->data.as_int = data_int;
+//     node->data.as_float = data_float;
+//     if(data_string != NULL) {
+//         node->data.as_string = malloc(strlen(data_string) + 1);
+//         strcpy(node->data.as_string,data_string)
+//     }else{
+//         node->data.as_string = NULL;
+//     }
+// }
 
 float get_float_data(AST *node) {
     return node->data.as_float;

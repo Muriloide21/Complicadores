@@ -24,6 +24,7 @@ typedef struct {
 } mdl;
 
 mdl names_list;
+// Isso é inicialização de struct
 mdl names_list = { .count = 0 };
 
 const char *const nomes_var[] =
@@ -276,9 +277,12 @@ void process_indent(void) {
 
 int next_token = 0;
 
+// Tem algo errado aqui
+// Não faz sentido pq eu testei isso algumas vezes em outros arquivos e retornava tudo bonitinho
+// Boa, vamos testar
 void add_text(char* text){
     printf("yytext: %s",yytext);
-    names_list.last_text[names_list.count] = malloc(sizeof(strlen(text)) + 1);
+    names_list.last_text[names_list.count] = malloc(strlen(text) + 1);
     strcpy(names_list.last_text[names_list.count], text);
     names_list.count++;
 }

@@ -13,4 +13,3 @@ typedef enum {
 const char* get_text(Type type);
 
 #endif // TYPES_H
-

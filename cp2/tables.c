@@ -53,11 +53,17 @@ void free_str_table(StrTable* st) {
 
 #define VARIABLE_MAX_SIZE 128
 #define VARIABLES_TABLE_MAX_SIZE 100
+#define FUNC_MAX_ARGS 10
+
 
 typedef struct {
   char name[VARIABLE_MAX_SIZE];
   int line;
   Type type;
+  //para funcoes:
+  int func;
+  int n_args;
+  int args[FUNC_MAX_ARGS];
 } Entry;
 
 struct var_table {
@@ -80,10 +86,15 @@ int lookup_var(VarTable* vt, char* s) {
     return -1;
 }
 
-int add_var(VarTable* vt, char* s, int line, Type type) {
+int add_var(VarTable* vt, char* s, int line, Type type, int func, int n_args) {
     strcpy(vt->t[vt->size].name, s);
     vt->t[vt->size].line = line;
     vt->t[vt->size].type = type;
+
+    // para funcoes:
+    vt->t[vt->size].func = func;
+    vt->t[vt->size].n_args = n_args;
+
     int idx_added = vt->size;
     vt->size++;
     return idx_added;
@@ -101,11 +112,15 @@ Type get_type(VarTable* vt, int i) {
     return vt->t[i].type;
 }
 
+int get_func_bool(VarTable* vt, int i) {
+    return vt->t[i].func;
+}
+
 void print_var_table(VarTable* vt) {
     printf("Variables table:\n");
     for (int i = 0; i < vt->size; i++) {
-         printf("Entry %d -- name: %s, line: %d, type: %s\n", i,
-                get_name(vt, i), get_line(vt, i), get_text(get_type(vt, i)));
+         printf("Entry %d -- name: %s, line: %d, type: %s, func: %d, n_args: %d\n", i,
+                get_name(vt, i), get_line(vt, i), get_text(get_type(vt, i)), vt->t[i].func, vt->t[i].n_args);
     }
 }
 

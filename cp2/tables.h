@@ -45,7 +45,7 @@ VarTable* create_var_table();
 // Adds a fresh var to the table.
 // No check is made by this function, so make sure to call 'lookup_var' first.
 // Returns the index where the variable was inserted.
-int add_var(VarTable* vt, char* s, int line, Type type);
+int add_var(VarTable* vt, char* s, int line, Type type, int func, int n_args);
 
 // Returns the index where the given variable is stored or -1 otherwise.
 int lookup_var(VarTable* vt, char* s);
@@ -61,6 +61,9 @@ int get_line(VarTable* vt, int i);
 // Returns the variable type stored at the given index.
 // No check is made by this function, so make sure that the index is valid first.
 Type get_type(VarTable* vt, int i);
+
+// Retorna um booleano informando se é uma função.
+int get_func_bool(VarTable* vt, int i);
 
 // Prints the given table to stdout.
 void print_var_table(VarTable* vt);

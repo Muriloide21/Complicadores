@@ -70,9 +70,11 @@ typedef enum {
 struct node;
 
 typedef struct node AST;
-
 void set_name_node(AST* node, char* name);
 char* get_name_node(AST* node);
+NodeKind get_kind_node(AST* node);
+int get_node_count(AST* node);
+AST* get_node_child(AST* node, int index);
 AST* new_node(NodeKind kind, int data, Type type);
 
 void add_child(AST *parent, AST *child);

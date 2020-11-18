@@ -31,23 +31,12 @@ typedef struct {
     int count;
 } mdl;
 
-struct node {
-    NodeKind kind;
-    union {
-        int   as_int;
-        float as_float;
-    } data;
-    Type type;
-    int count;
-    char* name;
-    AST* child[CHILDREN_LIMIT];
-};
-
 extern char *yytext;
 extern int yylineno;
 extern mdl names_list;
 
 int position = 0;
+int position_f = 0;
 
 StrTable *st;
 VarTable *vt;
@@ -66,9 +55,9 @@ AST *root;
 
 // REGRAS COMPLEMENTARES
 
-newline_or_stmt_star: %empty { $$ = new_subtree(BLOCK_NODE, NO_TYPE, 0); printf("newline_or_stmt_star_1\n"); }
-                    | newline_or_stmt_star NEWLINE { $$ = $1; printf("newline_or_stmt_star_2\n"); }
-                    | newline_or_stmt_star stmt { add_child($1, $2); $$ = $1; printf("newline_or_stmt_star_3\n"); }
+newline_or_stmt_star: %empty { $$ = new_subtree(BLOCK_NODE, NO_TYPE, 0); }
+                    | newline_or_stmt_star NEWLINE { $$ = $1; }
+                    | newline_or_stmt_star stmt { add_child($1, $2); $$ = $1; }
 ;
 
 opt_par_arglist: %empty
@@ -289,12 +278,12 @@ opt_finally_suite: %empty
 
 // REGRAS
 
-program: file_input { root = new_subtree(PROGRAM_NODE, NO_TYPE, 1, $1); printf("program\n"); }
+program: file_input { root = new_subtree(PROGRAM_NODE, NO_TYPE, 1, $1); }
    //  | single_input // Removida de acordo com sugestão do professor
    //  | eval_input   // Removida de acordo com sugestão do professor
 ;
 
-file_input: newline_or_stmt_star ENDMARKER { $$ = $1; printf("file input\n"); }
+file_input: newline_or_stmt_star ENDMARKER { $$ = $1; }
 ;
 
 decorator: AT dotted_name opt_par_arglist NEWLINE
@@ -311,7 +300,7 @@ decorated: decorators classdef
 async_funcdef: ASYNC funcdef { $$ = $2; }
 ;
 
-funcdef: DEF NAME parameters opt_arrow_test COLON opt_type_comment func_body_suite { $$ = new_subtree(FUNCDEF_NODE, NO_TYPE, 3, new_node(FUNCNAME_NODE, 0, NO_TYPE), $3, $7); set_name_node($$, names_list.last_text[position++]); }
+funcdef: DEF NAME parameters opt_arrow_test COLON opt_type_comment func_body_suite { $$ = new_subtree(FUNCDEF_NODE, NO_TYPE, 3, new_node(FUNCNAME_NODE, 0, NO_TYPE), $3, $7); }
 ;
 
 parameters: LPAR RPAR { $$ = new_node(PARS_NODE, 0, NO_TYPE); }
@@ -537,7 +526,7 @@ test_nocond: or_test
 //;
 
 or_test: and_test OR or_test { $$ = new_subtree(OR_NODE, BOOL_TYPE, 2, $1, $3); printf("or_test_1\n"); }
-       | and_test { $$ = $1; printf("or_test_2\n"); }
+       | and_test { $$ = $1;}
 ;
         //     OR_NODE
         //     or_test
@@ -795,23 +784,89 @@ void yyerror (char const *s) {
     exit(EXIT_FAILURE);
 }
 
-void search_funcdefs(AST* root) {
-	if(root->kind == FUNCDEF_NODE){
-		printf("%s",get_name_node(root));
-        printf("\n");
+//Podíamos botar outro nome aqui ein
+// Tipo, segunda passada kkkkk
+void segunda_passada(AST* root) {
+    if(get_kind_node(root) == NAME_NODE){
+        set_name_node(root, names_list.last_text[position_f++]);
+    }
+    //Se for assign
+    //Verifica os filhos
+    if(get_kind_node(root) == ASSIGN_NODE){
+        //Não seria AST*
+        AST* left_child = get_node_child(root, 0);
+        AST* right_child = get_node_child(root, 1);
+        int pos = lookup_var(vt, get_name_node(left_child));
+        //to bugado
+        // pois é, tem que fazer um lookup ali em cima, se pá
+        //Não sei
+        if(pos == -1){ 
+            //Mas então aquele set ali em cima não vai mais existir? Pq senão vai fazer ++ 2 vezes
+            set_name_node(left_child, names_list.last_text[position++]);
+            add_var(vt, get_name_node(left_child), position, STR_TYPE, 0, get_node_count(get_node_child(root, 1)));
+        }
+
+    }
+    // Se estiver na direita e for um NAME e não estiver na tabela, dá erro
+    // Se estiver na direita e for string, atribui esse value e o TYPE na tabela
+	if(get_kind_node(root) == FUNCDEF_NODE){
+        set_name_node(root, names_list.last_text[position_f++]);
+        add_var(vt, get_name_node(root), 0, NO_TYPE, 1, get_node_count(get_node_child(root, 1)));
 	}
     int i = 0;
-	for(i = 0; i < (root->count - 1); i++){
-		search_funcdefs(root->child[i]); 
+    int children_count = get_node_count(root);
+	for(i = 0; i < children_count; i++){
+		segunda_passada(get_node_child(root, i));
 	}
 }
+
+void verify_func_calls(AST* root) {
+    // Se é uma função
+	if( (get_kind_node(root) == NAME_NODE) && (get_node_count(root) > 0) ){
+        if( get_kind_node(get_node_child(root, 0)) == ARGLIST_NODE ){
+            // Verifica se está na tabela de símbolos (VarTable)
+            int pos = lookup_var(vt, get_name_node(root));
+            if (pos == -1){
+                printf("ERROR: Function \"%s\" is not defined.\n",get_name_node(root));
+                exit(EXIT_FAILURE);
+            }else {
+                // Verifica se eh uma funcao
+                if (get_func_bool(vt, pos) == 0){
+                    printf("ERROR: \"%s\" is not a function.\n",get_name_node(root));
+                    exit(EXIT_FAILURE);
+                }
+            }
+        }
+	}
+    int i = 0;
+    int children_count = get_node_count(root);
+	for(i = 0; i < children_count; i++){
+		verify_func_calls(get_node_child(root, i));
+	}
+}
+
+// Então, o que eu tinha falado é: A inferência de tipos vai exigir que nós passemos a armazenar value nos nós neh?
+// Shit, ok
 
 int main() {
     lex_init();
     yyparse();
     printf("PARSE SUCCESSFUL!\n");
 
-	search_funcdefs(root);
+    // Tá bom
+    vt = create_var_table();
+    st = create_str_table();
+
+    // for(int i = 0; i < names_list.count; i++){
+    //     printf("Index:%d, %s\n",i,names_list.last_text[i]);
+    // }
+
+	segunda_passada(root);
+
+    print_str_table(st);
+    print_var_table(vt);
+
+    verify_func_calls(root);
 
     print_dot(root);
 
