@@ -15,6 +15,7 @@ typedef enum yytokentype yytoken_kind_t;
 #include "tables.h"
 #include "ast.h"
 #include "parser.h"
+#include "string.h"
 
 #define CHILDREN_LIMIT 20
 
@@ -34,14 +35,20 @@ typedef struct {
 extern char *yytext;
 extern int yylineno;
 extern mdl names_list;
+extern mdl numbers_list;
+extern mdl bool_list;
 
 int position = 0;
 int position_f = 0;
+int position_numbers = 0;
 
 StrTable *st;
 VarTable *vt;
-
 AST *root;
+
+int builtin_funcs_n = 16;
+char **builtin_funcs = (char *[]){"print","input","abs","float","len","int","max","min","pow","range","round","slice","str","tuple","type"};
+
 %}
 
 %define api.value.type {AST*}
@@ -634,7 +641,7 @@ atom: LPAR RPAR { $$ = new_node(PARS_NODE, 0, NO_TYPE); }
     | LBRACE RBRACE { $$ = new_node(DICT_NODE, 0, NO_TYPE); }
     | LBRACE dictorsetmaker RBRACE { $$ = new_subtree(DICT_NODE, NO_TYPE, 1, $2); }
     | NAME { $$ = new_node(NAME_NODE, 0, NO_TYPE); }
-    | NUMBER { $$ = new_node(NUMBER_NODE, 0, NO_TYPE); set_node_data($$, yytext);}
+    | NUMBER { $$ = new_node(NUMBER_NODE, 0, NO_TYPE); set_node_string_data($$, yytext);}
     // | string_plus { $$ = $1; }
     | STRING { $$ = new_node(STRING_NODE, 0, STR_TYPE); }
     | ELLIPSIS { $$ = new_node(ELLIPSIS_NODE, 0, NO_TYPE); }
@@ -827,17 +834,23 @@ void segunda_passada(AST* root) {
     if(get_kind_node(root) == NAME_NODE){
         set_name_node(root, names_list.last_text[position_f++]);
     }
-    // Se estiver na direita e for um NAME e não estiver na tabela, dá erro
-    // Se estiver na direita e for string, atribui esse value e o TYPE na tabela
     
 	if(get_kind_node(root) == FUNCDEF_NODE){
         set_name_node(root, names_list.last_text[position_f++]);
-        //add_var(vt, get_name_node(root), 0, NO_TYPE, 1, get_node_count(get_node_child(root, 1)));
+        add_var(vt, get_name_node(root), 0, NO_TYPE, 1, get_node_count(get_node_child(root, 1)));
 	}
 
     if(get_kind_node(root) == STRING_NODE){
         set_node_string_data(root, get_string(st,position++));
     }
+
+    if(get_kind_node(root) == NUMBER_NODE){
+        set_node_string_data(root, numbers_list.last_text[position_numbers++]);
+    }
+
+    if(get_kind_node(root) == BOOL_VAL_NODE){
+        set_node_string_data(root, bool_list.last_text[position_boolean++]);
+    })
 
     int i = 0;
     int children_count = get_node_count(root);
@@ -846,17 +859,31 @@ void segunda_passada(AST* root) {
 	}
 }
 
+char* verify_builtin_func(char* name){
+    int i = 0;
+    for(i = 0; i < builtin_funcs_n ; i++){
+        if(strcmp(builtin_funcs[i],name))
+            return name;
+    }
+    return NULL;
+}
+
 void verify_func_calls(AST* root) {
     
     // Se é uma função
 	if( (get_kind_node(root) == NAME_NODE) && (get_node_count(root) > 0) ){
         if( get_kind_node(get_node_child(root, 0)) == ARGLIST_NODE ){
-            // Verifica se está na tabela de símbolos (VarTable)
-            int pos = lookup_var(vt, get_name_node(root));
-            if (pos == -1){
-                printf("ERROR: Function \"%s\" is not defined.\n",get_name_node(root));
-                exit(EXIT_FAILURE);
+            if (verify_builtin_func(get_name_node(root)) != NULL){
+                set_kind_node(root, FUNC_BUILTIN_NODE);
+            }else{
+                // Verifica se está na tabela de símbolos (VarTable)
+                int pos = lookup_var(vt, get_name_node(root));
+                if (pos == -1){
+                    printf("ERROR: Function \"%s\" is not defined.\n",get_name_node(root));
+                    exit(EXIT_FAILURE);
+                }
             }
+            
         }
 	}
     

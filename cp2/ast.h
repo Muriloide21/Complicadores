@@ -62,7 +62,7 @@ typedef enum {
     EXPRLIST_NODE,
     FUNCDEF_NODE,
     FUNCNAME_NODE,
-
+    FUNC_BUILTIN_NODE,
 
 
 } NodeKind;
@@ -70,6 +70,7 @@ typedef enum {
 struct node;
 
 typedef struct node AST;
+void set_kind_node(AST* node, NodeKind kind);
 void set_name_node(AST* node, char* name);
 char* get_name_node(AST* node);
 NodeKind get_kind_node(AST* node);

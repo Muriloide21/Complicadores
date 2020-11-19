@@ -23,6 +23,10 @@ struct node {
     AST* child[CHILDREN_LIMIT];
 };
 
+void set_kind_node(AST* node, NodeKind kind){
+    node->kind = kind;
+}
+
 void set_name_node(AST* node, char* name){
     node->name = malloc(strlen(name)+1);
     node->name = name;
@@ -149,8 +153,8 @@ char* kind2str(NodeKind kind) {
         case CONTINUE_NODE: return "continue";
         case RETURN_NODE:   return "return";
         case NOOP_NODE:     return "NOOP";
-        case OR_NODE:       return "or";
-        case AND_NODE:      return "and";
+        case OR_NODE:       return "OR";
+        case AND_NODE:      return "AND";
         case ASSIGN_NODE:   return "=";
         case LESS_NODE:     return "<";
         case GREATER_NODE:  return ">";
@@ -199,6 +203,7 @@ char* kind2str(NodeKind kind) {
         case EXPRLIST_NODE: return "EXPRLIST";
         case FUNCDEF_NODE: return "FUNCDEF";
         case FUNCNAME_NODE: return "funcname";
+        case FUNC_BUILTIN_NODE: return "funcBuiltIn";
 
         default:            return "ERROR!!";
     }
@@ -232,7 +237,10 @@ int print_node_dot(AST *node) {
         // fprintf("Kind: %d\n", node->kind);
         fprintf(stderr, "%s", kind2str(node->kind));
         if (node->kind == NUMBER_NODE || node->kind == STRING_NODE){
-            fprintf(stderr, " - %s", get_data(node));
+            fprintf(stderr, ": %s", get_data(node));
+        }
+        if (node->kind == NAME_NODE || node->kind == FUNCDEF_NODE || node->kind == FUNC_BUILTIN_NODE){
+            fprintf(stderr, ": %s", get_name_node(node));
         }
     // }
     // if (has_data(node->kind)) {

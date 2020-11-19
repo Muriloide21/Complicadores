@@ -17,6 +17,8 @@
 void process_token(yytoken_kind_t);
 void process_indent(void);
 void add_text(char*);
+void add_number(char* number);
+void add_boolean(char* number);
 
 typedef struct {
     char* last_text[100];
@@ -24,8 +26,13 @@ typedef struct {
 } mdl;
 
 mdl names_list;
-// Isso é inicialização de struct
 mdl names_list = { .count = 0 };
+
+mdl numbers_list;
+mdl numbers_list = { .count = 0 };
+
+mdl bool_list;
+mdl bool_list = { .count = 0 };
 
 const char *const nomes_var[] =
 {
@@ -86,7 +93,7 @@ float2 {inteiro}\.[0-9]*
 
 "\n"         { process_token(NEWLINE); process_indent(); }
 
-False        { process_token(FALSE); }
+False        { add_boolean(yytext); process_token(FALSE); }
 await        { process_token(AWAIT); }
 else         { process_token(ELSE); }
 import       { process_token(IMPORT); }
@@ -96,7 +103,7 @@ break        { process_token(BREAK); }
 except       { process_token(EXCEPT); }
 in           { process_token(IN); }
 raise        { process_token(RAISE); }
-True         { process_token(TRUE); }
+True         { add_boolean(yytext); process_token(TRUE); }
 class        { process_token(CLASS); }
 finally      { process_token(FINALLY); }
 is           { process_token(IS); }
@@ -177,17 +184,17 @@ yield        { process_token(YIELD); }
 
 [a-zA-Z_][0-9a-zA-Z_]*              { add_text(yytext); process_token(NAME); }
 
-{inteiro}                           { process_token(NUMBER); }
-{float1}                            { process_token(NUMBER); }
-{float2}                            { process_token(NUMBER); }
+{inteiro}                           { add_number(yytext); process_token(NUMBER); }
+{float1}                            { add_number(yytext); process_token(NUMBER); }
+{float2}                            { add_number(yytext); process_token(NUMBER); }
 
-{inteiro}e[-]?{inteiro}             { process_token(NUMBER); }
-{float1}e[-]?{inteiro}              { process_token(NUMBER); }
-{float2}e[-]?{inteiro}              { process_token(NUMBER); }
+{inteiro}e[-]?{inteiro}             { add_number(yytext); process_token(NUMBER); }
+{float1}e[-]?{inteiro}              { add_number(yytext); process_token(NUMBER); }
+{float2}e[-]?{inteiro}              { add_number(yytext); process_token(NUMBER); }
 
-0b[10]+                             { process_token(NUMBER); }
+0b[10]+                             { add_number(yytext); process_token(NUMBER); }
 
-0x[a-fA-F0-9]+                      { process_token(NUMBER); }
+0x[a-fA-F0-9]+                      { add_number(yytext); process_token(NUMBER); }
 
 <<EOF>>    { process_token(ENDMARKER); return -1; /* O valor de retorno de orig_yylex é descartado. */}
 
@@ -268,9 +275,6 @@ void process_indent(void) {
 
 int next_token = 0;
 
-// Tem algo errado aqui
-// Não faz sentido pq eu testei isso algumas vezes em outros arquivos e retornava tudo bonitinho
-// Boa, vamos testar
 void add_text(char* text){
     printf("yytext: %s",yytext);
     names_list.last_text[names_list.count] = malloc(strlen(text) + 1);
@@ -278,6 +282,17 @@ void add_text(char* text){
     names_list.count++;
 }
 
+void add_number(char* number){
+    numbers_list.last_text[numbers_list.count] = malloc(strlen(number) + 1);
+    strcpy(numbers_list.last_text[numbers_list.count], number);
+    numbers_list.count++;
+}
+
+void add_boolean(char* boolean){
+    bool_list.last_text[bool_list.count] = malloc(strlen(boolean) + 1);
+    strcpy(bool_list.last_text[bool_list.count], boolean);
+    bool_list.count++;
+}
 
 yytoken_kind_t yylex(void) {
     if (next_token < token_count) {
