@@ -24,9 +24,6 @@ int yylex(void);
 int yylex_destroy(void);
 void yyerror(char const *s);
 
-void check_var(char*);
-void new_var(void);
-
 typedef struct {
     char* last_text[100];
     int count;
@@ -41,6 +38,7 @@ extern mdl bool_list;
 int position = 0;
 int position_f = 0;
 int position_numbers = 0;
+int position_boolean = 0;
 
 StrTable *st;
 VarTable *vt;
@@ -131,7 +129,7 @@ opt_testlist_star_expr: %empty { $$ = new_node(NOOP_NODE, 0, NO_TYPE); }
 ;
 
 opt_as_name: %empty
-           | AS NAME { new_var(); }
+           | AS NAME 
 ;
 
 comma_import_as_name_star: %empty
@@ -143,11 +141,11 @@ comma_dotted_as_name_star: %empty
 ;
 
 dot_name_star: %empty
-             | dot_name_star DOT NAME { new_var(); }
+             | dot_name_star DOT NAME
 ;
 
 comma_name_star: %empty
-               | comma_name_star COMMA NAME { new_var(); }
+               | comma_name_star COMMA NAME 
 ;
 
 opt_comma_test: %empty
@@ -439,7 +437,7 @@ import_part: STAR
 		   | import_as_names
 ;
 
-import_as_name: NAME { new_var(); } opt_as_name
+import_as_name: NAME opt_as_name
 ;
 
 dotted_as_name: dotted_name opt_as_name
@@ -451,13 +449,13 @@ import_as_names: import_as_name comma_import_as_name_star opt_comma
 dotted_as_names: dotted_as_name comma_dotted_as_name_star
 ;
 
-dotted_name: NAME  { new_var(); } dot_name_star
+dotted_name: NAME dot_name_star
 ;
 
-global_stmt: GLOBAL NAME { new_var(); } comma_name_star
+global_stmt: GLOBAL NAME comma_name_star
 ;
 
-nonlocal_stmt: NONLOCAL NAME { new_var(); } comma_name_star
+nonlocal_stmt: NONLOCAL NAME comma_name_star
 ;
 
 assert_stmt: ASSERT test opt_comma_test
@@ -711,7 +709,7 @@ dictorsetmaker2: test comp_for
             //    | star_expr comma_test_star_expr_star opt_comma
 ;
 
-classdef: CLASS NAME { new_var(); } opt_par_arglist COLON suite
+classdef: CLASS NAME  opt_par_arglist COLON suite
 ;
 
 // arglist: argument1 comma_argument_star opt_comma
@@ -760,74 +758,10 @@ func_body_suite: simple_stmt { $$ = $1; }
 
 %%
 
-void check_var(char* rule_name) {
-    // printf("Regra: %s\n", rule_name);
-    // printf("variable '%s'\n", yytext);
-    // int idx = lookup_var(vt, yytext);
-    // if (idx == -1) {
-    //     print_str_table(st);
-    //     print_var_table(vt);
-    //     printf("SEMANTIC ERROR (%d): variable '%s' was not declared.\n",
-    //             yylineno, yytext);
-    //     exit(EXIT_FAILURE);
-    // }
-}
-
-void new_var() {
-    // int idx = lookup_var(vt, yytext);
-    // printf("Chegueeei %s\n",yytext);
-    // if (idx != -1) {
-    //     printf("SEMANTIC ERROR (%d): variable '%s' already declared at line %d.\n",
-    //             yylineno, yytext, get_line(vt, idx));
-    //     exit(EXIT_FAILURE);
-    // }
-    // add_var(vt, yytext, yylineno, NO_TYPE);
-}
-
 // Primitive error handling.
 void yyerror (char const *s) {
     printf("SYNTAX ERROR (%d): %s\n", yylineno, s);
     exit(EXIT_FAILURE);
-}
-
-
-// Type unify_type(AST* root){
-    
-// }
-
-void quarta_passada(AST* root) {
-    // if(get_kind_node(root) == ASSIGN_NODE){
-    //     int pos = lookup_var(get_name_node(get_node_child(root,0))
-    //     if(pos == -1){
-    //         //Insere na tabela
-    //     }
-    //     else{
-    //         Type aux_type = get_type(vt, pos);
-    //         if(unify_type(get_node_child(root,1)) != aux_type){
-    //             printf("TypeError, variable %s expects type '%s'", get_name_node(get_node_child(root,0)), aux_type);
-    //         }
-    //     }
-    //     //Unifica os tipos do que estiver a direita
-    //     Type aux_type = unify_type(get_node_child(root,0), get_node_child(root,1))    
-    // }
-    // if(get_kind_node(root) == STRING_NODE){ return STR_TYPE; };
-    // if(get_kind_node(root) == LIST_NODE){ return LIST_TYPE; };
-    // if(get_kind_node(root) == BOOL_VAL_NODE){ return BOOL_TYPE; };
-    // if(get_kind_node(root) == NUMBER_NODE){
-    //     float num = atof(get_data(root));
-    //     if (num  == floor(num)){
-    //         return INT_TYPE;
-    //     }
-    //     else{
-    //         return REAL_TYPE;
-    //     }
-    // }
-    // int children_count = get_node_count(root);
-    
-	// for(i = 0; i < children_count; i++){
-	// 	quarta_passada(get_node_child(root, i));
-	// }
-    
 }
 
 void segunda_passada(AST* root) {
@@ -850,7 +784,7 @@ void segunda_passada(AST* root) {
 
     if(get_kind_node(root) == BOOL_VAL_NODE){
         set_node_string_data(root, bool_list.last_text[position_boolean++]);
-    })
+    }
 
     int i = 0;
     int children_count = get_node_count(root);
@@ -862,12 +796,12 @@ void segunda_passada(AST* root) {
 char* verify_builtin_func(char* name){
     int i = 0;
     for(i = 0; i < builtin_funcs_n ; i++){
-        if(strcmp(builtin_funcs[i],name))
+        if(strcmp(builtin_funcs[i],name) == 0)
             return name;
     }
     return NULL;
 }
-
+//terceira passada
 void verify_func_calls(AST* root) {
     
     // Se é uma função
@@ -881,9 +815,13 @@ void verify_func_calls(AST* root) {
                 if (pos == -1){
                     printf("ERROR: Function \"%s\" is not defined.\n",get_name_node(root));
                     exit(EXIT_FAILURE);
+                }else{
+                    if(get_child_count(get_node_child(root,0)) != get_n_args(vt, pos)){
+                        printf("ERROR: Wrong number of pars on function \"%s\". Expected %d, but received %d.\n",get_name_node(root),get_n_args(vt, pos),get_child_count(get_node_child(root,0)));
+                        exit(EXIT_FAILURE);
+                    }
                 }
-            }
-            
+            } 
         }
 	}
     
@@ -894,8 +832,52 @@ void verify_func_calls(AST* root) {
     }  
 }
 
-// Mas então, testa com mais strings, vê se dá bom
-//Nem eu
+void verifica_variaveis(AST* root) {
+    if(get_kind_node(root) == ASSIGN_NODE){
+        //Atualiza o name a esquerda
+        int aux = lookup_var(vt, get_name_node(get_node_child(root,0)));
+        if(aux == -1){
+            //Adiciona na tabela
+            add_var(vt, get_name_node(get_node_child(root,0)), 0, NO_TYPE, 0, 0);
+        }
+        else{
+            //Atualizaríamos o valor se conseguíssemos :/
+        }
+        //Chama a função recursivamente pro filho da direita
+        verifica_variaveis(get_node_child(root,1));
+    }
+
+    //Se for um NAME (como já tratamos o caso em que está a esquerda de um ASSIGN, agora é só dar lookup sempre que aparecer um NAME)
+    if(get_kind_node(root) == NAME_NODE){
+        int aux = lookup_var(vt, get_name_node(root));
+        if(aux == -1){
+            printf("ERROR: variable %s not declared\n", get_name_node(root));
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    if(get_kind_node(root) == FOR_NODE){
+        AST* exprlist = get_node_child(root,0); 
+        int exprlist_count = get_node_count(exprlist);
+        for(int i = 0; i < exprlist_count; i++){
+            add_var(vt, get_name_node(get_node_child(exprlist, i)), 0, NO_TYPE, 0, 0);
+        }
+    }
+
+    if(get_kind_node(root) == FUNCDEF_NODE){
+        AST* arglist = get_node_child(root,1);
+        //Adiciona cada um dos filhos na tabela
+        int arglist_count = get_node_count(arglist);
+        for(int i = 0; i < arglist_count; i++){
+            add_var(vt, get_name_node(get_node_child(arglist, i)), 0, NO_TYPE, 0, 0);
+        }
+    }
+    int children_count = get_node_count(root);
+    for(int i = 0; i < children_count; i++){
+        verifica_variaveis(get_node_child(root, i));
+    } 
+}
+
 int main() {
     vt = create_var_table();
     st = create_str_table();
@@ -915,6 +897,7 @@ int main() {
 
 	segunda_passada(root);
     verify_func_calls(root);
+    verifica_variaveis(root);
 
     print_dot(root);
 

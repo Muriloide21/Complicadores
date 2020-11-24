@@ -125,6 +125,10 @@ int add_var(VarTable* vt, char* s, int line, Type type, int func, int n_args) {
     return idx_added;
 }
 
+int get_n_args(VarTable* vt, int i){
+    return vt->t[i].n_args;
+}
+
 char* get_name(VarTable* vt, int i) {
     return vt->t[i].name;
 }

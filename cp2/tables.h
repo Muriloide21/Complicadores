@@ -52,6 +52,8 @@ int add_var(VarTable* vt, char* s, int line, Type type, int func, int n_args);
 // Returns the index where the given variable is stored or -1 otherwise.
 int lookup_var(VarTable* vt, char* s);
 
+int get_n_args(VarTable* vt, int i);
+
 // Returns the variable name stored at the given index.
 // No check is made by this function, so make sure that the index is valid first.
 char* get_name(VarTable* vt, int i);
