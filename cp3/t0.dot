@@ -1,0 +1,16 @@
+digraph {
+graph [ordering="out"];
+node0[label="Program"];
+node1[label="block"];
+node2[label="="];
+node3[label="NAME: x"];
+node2 -> node3;
+node4[label="+"];
+node5[label="NUMBER: 7"];
+node4 -> node5;
+node6[label="STRING: "athus""];
+node4 -> node6;
+node2 -> node4;
+node1 -> node2;
+node0 -> node1;
+}
