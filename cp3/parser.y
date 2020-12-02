@@ -82,14 +82,6 @@ opt_type_comment: %empty
                 | TYPE_COMMENT
 ;
 
-// comma_argument_star: %empty
-// 				   | comma_argument_star COMMA argument
-// ;
-
-opt_assign_test: %empty
-	       | EQUAL test
-;
-
 opt_comma: %empty
          | COMMA
 ;
@@ -97,11 +89,6 @@ opt_comma: %empty
 opt_colon_test: %empty
 			  | COLON test
 ;
-
-// semi_small_stmt_star: %empty
-//                     | semi_small_stmt_star SEMICOLON small_stmt
-// ;
-// REMOVIDA POR CONSIDERARMOS UMA FUNCIONALIDADE POUCO UTILIZADA
 
 opt_semi: %empty
 		    | SEMICOLON
@@ -116,16 +103,6 @@ assing_yield_or_test_plus: EQUAL yield_expr { $$ = $2; }
 opt_assing_yield_or_test: %empty
                         | EQUAL yield_expr
                         | EQUAL testlist_star_expr
-;
-
-// comma_test_star_expr_star: %empty { $$ = new_node(NOOP_NODE, 0, NO_TYPE); }
-//                          | comma_test_star_expr_star COMMA test { add_child($1, $3); $$ = $1; }
-//                      //  | comma_test_star_expr_star COMMA star_expr
-// ;
-
-
-opt_testlist_star_expr: %empty { $$ = new_node(NOOP_NODE, 0, NO_TYPE); }
-                      | testlist_star_expr { $$ = $1; }
 ;
 
 opt_as_name: %empty
@@ -156,10 +133,6 @@ elif_test_suite_plus: ELIF namedexpr_test COLON suite { $$ = new_subtree(ELIF_NO
                     | elif_test_suite_plus ELIF namedexpr_test COLON suite { add_child($1, new_subtree(ELIF_NODE, NO_TYPE, 2, $3, $5)); $$ = $1; }
 ;
 
-// opt_else_suite: %empty { $$ = new_node(NOOP_NODE, 0, NO_TYPE); }
-//               | ELSE COLON suite { $$ = $3; }
-// ;
-
 opt_else_suite: %empty { $$ = new_node(NOOP_NODE, 0, NO_TYPE); }
               | ELSE COLON suite { $$ = new_subtree(ELSE_NODE, NO_TYPE, 1, $3); }
 ;
@@ -180,52 +153,6 @@ stmt_plus: stmt { $$ = new_subtree(BLOCK_NODE, NO_TYPE, 1, $1); }
          | stmt_plus stmt { add_child($1, $2); }
 ;
 
-opt_colonass_test: %empty
-                 | COLONEQUAL test
-;
-
-// or_and_test_star: %empty { $$ = new_node(NOOP_NODE, 0, NO_TYPE); }
-//                 | or_and_test_star OR and_test { add_child($1, $2); }
-// ;
-
-// and_not_test_star: %empty
-//                  | and_not_test_star AND not_test
-// ;
-
-// comp_op_expr_star: %empty
-//                  | comp_op_expr_star comp_op expr
-// ;
-
-or_xor_expr_star: %empty
-                | or_xor_expr_star VBAR xor_expr
-;
-
-xor_and_expr_star: %empty
-                 | xor_and_expr_star CIRCUMFLEX and_expr
-;
-
-and_shift_expr_star: %empty
-                   | and_shift_expr_star AMPER shift_expr
-;
-
-// shift_arith_expr_star: %empty
-//                      | shift_arith_expr_star LEFTSHIFT arith_expr
-//                      | shift_arith_expr_star RIGHTSHIFT arith_expr
-// ;
-
-// op_term_star: %empty
-//             | op_term_star PLUS term
-//             | op_term_star MINUS term
-// ;
-
-// op_factor_star: %empty
-//               | op_factor_star STAR factor
-//               | op_factor_star AT factor
-//               | op_factor_star SLASH factor
-//               | op_factor_star PERCENT factor
-//               | op_factor_star DOUBLESLASH factor
-// ;
-
 opt_await: %empty
          | AWAIT
 ;
@@ -234,38 +161,12 @@ trailer_plus: trailer { $$ = $1; }
 			| trailer_plus trailer { add_child($1, $2); $$ = $1; }
 ;
 
-// trailer_star: %empty 
-// 			| trailer_star trailer
-// ;
-
-// string_plus: STRING { $$ = new_subtree(STRING_NODE, STR_TYPE, 0); }
-//            | string_plus STRING { add_child($1,$2); $$ = $1; }
-// ;
-
-// comma_namedexpr_test_star_expr_star: %empty
-//                                    | comma_namedexpr_test_star_expr_star COMMA namedexpr_test
-//                              //    | comma_namedexpr_test_star_expr_star COMMA star_expr
-// ;
-
-// comma_subscript_star: %empty
-//                     | comma_subscript_star COMMA subscript
-// ;
-
 opt_test: %empty
         | test
 ;
 
 opt_sliceop: %empty
            | sliceop
-;
-
-// comma_expr_star_expr_star: %empty
-//                          | comma_expr_star_expr_star COMMA expr
-//                      //  | comma_expr_star_expr_star COMMA star_expr
-// ;
-
-comma_test_star: %empty
-               | comma_test_star COMMA test
 ;
 
 comma_dict1_star: %empty
@@ -284,8 +185,6 @@ opt_finally_suite: %empty
 // REGRAS
 
 program: file_input { root = new_subtree(PROGRAM_NODE, NO_TYPE, 1, $1); }
-   //  | single_input // Removida de acordo com sugestão do professor
-   //  | eval_input   // Removida de acordo com sugestão do professor
 ;
 
 file_input: newline_or_stmt_star ENDMARKER { $$ = $1; }
@@ -312,9 +211,6 @@ parameters: LPAR RPAR { $$ = new_node(PARS_NODE, 0, NO_TYPE); }
           | LPAR arguments RPAR { $$ = $2; }
 ;
 
-// arguments: argument comma_argument_star
-// ;
-
 arguments: argument COMMA arguments { add_child($3, $1); $$ = $3; }
          | argument { $$ = new_subtree(PARS_NODE, NO_TYPE, 1, $1); }
 ;
@@ -322,9 +218,6 @@ arguments: argument COMMA arguments { add_child($3, $1); $$ = $3; }
 argument: tfpdef EQUAL test { $$ = new_subtree(ASSIGN_NODE, NO_TYPE, 2, $1, $3); }
         | tfpdef { $$ = $1; }
 ;
-
-// typedargslist: arguments
-// ;
 
 tfpdef: NAME opt_colon_test { $$ = new_node(NAME_NODE, 0, NO_TYPE); }
 ;
@@ -339,8 +232,8 @@ simple_stmt: small_stmt opt_semi NEWLINE { $$ = $1; }
 ;
 
 small_stmt: expr_stmt  { $$ = $1; }
-		  | del_stmt  { $$ = $1; } //FOI
-		  | pass_stmt  { $$ = $1; } //FOI
+		  | del_stmt  { $$ = $1; }
+		  | pass_stmt  { $$ = $1; }
 		  | flow_stmt { $$ = $1; }
 		  | import_stmt { $$ = $1; }
 		  | global_stmt { $$ = $1; }
@@ -359,8 +252,6 @@ annassign: COLON test opt_assing_yield_or_test
 ;
 
 testlist_star_expr: test opt_comma { $$ = $1; }
-             //   | test comma_test_star_expr_star opt_comma
-	     //   | star_expr comma_test_star_expr_star opt_comma
 ;
 
 augassign: PLUSEQUAL
@@ -384,8 +275,8 @@ del_stmt: DEL exprlist { $$ = new_subtree(DEL_NODE, NO_TYPE, 1, $2); }
 pass_stmt: PASS { $$ = new_subtree(PASS_NODE, NO_TYPE, 0); }
 ;
 
-flow_stmt: break_stmt { $$ = $1; } //FOI
-         | continue_stmt { $$ = $1; } //FOI
+flow_stmt: break_stmt { $$ = $1; }
+         | continue_stmt { $$ = $1; }
          | return_stmt { $$ = $1; }
          | raise_stmt { $$ = $1; }
          | yield_stmt { $$ = $1; }
@@ -419,14 +310,6 @@ import_name: IMPORT dotted_as_names {}
 import_from: FROM from_part IMPORT import_part
 ;
 
-// ('.' | '...')* dotted_name | ('.' | '...')+)
-// from_part:
-//   dot_ellipsis_star dotted_name
-// | DOT dot_ellipsis_star
-// | ELLIPSIS dot_ellipsis_star
-// ;
-// EZ: This rule is not the same as the one commented, but the original Python
-// rule is too annoying... I will wait if some test case needs this.
 from_part: DOT
 		 | ELLIPSIS
 		 | dotted_name
@@ -506,42 +389,22 @@ suite: simple_stmt { $$ = $1; }
      | NEWLINE INDENT stmt_plus DEDENT { $$ = $3; }
 ;
 
-// namedexpr_test: test opt_colonass_test 
-// ;
-
 namedexpr_test: test { $$ = $1; }
 ;
 
 test: or_test
     | or_test IF or_test ELSE test
-//  | LAMBDA COLON test 
 ;
 
 test_nocond: or_test
-//         | LAMBDA COLON test_nocond
 ;
 
-// SIMPLIFICADAS (LEVADAS PARA O LOCAL ONDE ERAM CHAMADAS):
-//lambdef: LAMBDA COLON test
-//     | LAMBDA varargslist COLON test // Varargslist removida de acordo com indicação do professor.
-//;
-
-//lambdef_nocond: LAMBDA COLON test_nocond
-//            | LAMBDA varargslist COLON test_nocond // Varargslist removida de acordo com indicação do professor.
-//;
-
-or_test: and_test OR or_test { $$ = new_subtree(OR_NODE, BOOL_TYPE, 2, $1, $3); printf("or_test_1\n"); }
+or_test: and_test OR or_test { $$ = new_subtree(OR_NODE, BOOL_TYPE, 2, $1, $3); }
        | and_test { $$ = $1;}
 ;
-        //     OR_NODE
-        //     or_test
-        //     /      \ 
-        //    /        \
-        // and_test    or_test
 
 and_test: not_test AND and_test { $$ = new_subtree(AND_NODE, BOOL_TYPE, 2, $1, $3); }
         | not_test { $$ = $1; }
-        // | not_test and_not_test_star
 ;
 
 not_test: NOT not_test { $$ = new_subtree(NOT_NODE, BOOL_TYPE, 1, $2); }
@@ -560,28 +423,6 @@ comparison: expr LESS comparison { $$ = new_subtree(LESS_NODE, BOOL_TYPE, 2, $1,
           | expr IS NOT comparison { $$ = new_subtree(ISNOT_NODE, BOOL_TYPE, 2, $1, $3); }
           | expr { $$ = $1; }
 ;
-
-// comparison: expr comp_op comparison { $$ = new_subtree}
-//           | expr { $$ = $1; }
-// ;
-
-// comp_op: LESS
-//        | GREATER
-//        | EQEQUAL
-//        | GREATEREQUAL
-//        | LESSEQUAL
-//        | NOTEQUAL
-//        | IN
-//        | NOT IN
-//        | IS
-//        | IS NOT
-// ;
-
-// star_expr: STAR expr
-// ;
-// SIMPLIFICADO POIS NÃO SABEMOS O QUE SIGNIFICA
-// star_expr: expr
-// ;
 
 expr: xor_expr VBAR expr { $$ = new_subtree(BIT_OR_NODE, NO_TYPE, 2, $1, $3); }
     | xor_expr { $$ = $1; }
@@ -627,20 +468,15 @@ atom_expr: opt_await atom trailer_plus { add_child($2, $3); $$ = $2; }
          | opt_await atom { $$ = $2; }
 ;
 
-//x = []   name < equal > list_node
-// x[]     name > list_node
-
 atom: LPAR RPAR { $$ = new_node(PARS_NODE, 0, NO_TYPE); }
     | LPAR yield_expr RPAR { $$ = new_subtree(PARS_NODE, NO_TYPE, 1, $2); }
     | LPAR testlist_comp RPAR { $$ = new_subtree(PARS_NODE, NO_TYPE, 1, $2); }
     | LSQB RSQB { $$ = new_node(LIST_NODE, 0, NO_TYPE); }
-    //| LSQB testlist_comp RSQB { $$ = new_subtree(LIST_NODE, NO_TYPE, 1, $2); }
     | LSQB subscriptlist RSQB { $$ = $2; }
     | LBRACE RBRACE { $$ = new_node(DICT_NODE, 0, NO_TYPE); }
     | LBRACE dictorsetmaker RBRACE { $$ = new_subtree(DICT_NODE, NO_TYPE, 1, $2); }
     | NAME { $$ = new_node(NAME_NODE, 0, NO_TYPE); }
     | NUMBER { $$ = new_node(NUMBER_NODE, 0, NO_TYPE); set_node_string_data($$, yytext);}
-    // | string_plus { $$ = $1; }
     | STRING { $$ = new_node(STRING_NODE, 0, STR_TYPE); }
     | ELLIPSIS { $$ = new_node(ELLIPSIS_NODE, 0, NO_TYPE); }
     | NONE { $$ = new_node(NONE_NODE, 0, NO_TYPE); }
@@ -648,27 +484,18 @@ atom: LPAR RPAR { $$ = new_node(PARS_NODE, 0, NO_TYPE); }
     | FALSE { $$ = new_node(BOOL_VAL_NODE, 0, BOOL_TYPE); }
 ;
 
-// testlist_comp: namedexpr_test comp_for
-//              | testlist
-//             //  | star_expr comp_for
-//             //  | star_expr comma_namedexpr_test_star_expr_star opt_comma
-// ;
-
 testlist_comp: namedexpr_test comp_for
              | testlist { $$ = $1; }
 ;
 
-// o tipo do trailer define o tipo do nó
-trailer: LPAR RPAR { $$ = new_node(ARGLIST_NODE, 0, NO_TYPE); } //funcao
-       | LPAR arglist RPAR { $$ = $2; } // funcao
+trailer: LPAR RPAR { $$ = new_node(ARGLIST_NODE, 0, NO_TYPE); }
+       | LPAR arglist RPAR { $$ = $2; }
        | LSQB subscriptlist RSQB { $$ = $2; }
        | DOT NAME { $$ = new_subtree(LIST_NODE, NO_TYPE, 1, $2); }
 ;
 
-// subscriptlist: subscript comma_subscript_star opt_comma;
-
 subscriptlist: subscript COMMA subscriptlist { add_child($3, $1); $$ = $3; printf("Adiciona comma subscript\n");}
-             | subscript opt_comma { $$ = new_subtree(LIST_NODE, NO_TYPE, 1, $1); printf("Fecha recursão subscript"); }
+             | subscript opt_comma { $$ = new_subtree(LIST_NODE, NO_TYPE, 1, $1); }
 ;
 
 subscript: test
@@ -678,15 +505,9 @@ subscript: test
 sliceop: COLON opt_test 
 ;
 
-// exprlist: expr comma_expr_star_expr_star opt_comma
-// ;
-
 exprlist: expr COMMA exprlist { add_child($3, $1); $$ = $3; }
         | expr opt_comma { $$ = new_subtree(EXPRLIST_NODE, NO_TYPE, 1, $1); }
 ;
-
-// testlist: test comma_test_star opt_comma
-// ;
 
 testlist: test COMMA testlist { add_child($3, $1); $$ = $3; }
         | test opt_comma { $$ = new_subtree(TESTLIST_NODE, NO_TYPE, 1, $1); }
@@ -704,16 +525,10 @@ dictorsetmaker1: test COLON test comp_for
 
 dictorsetmaker2: test comp_for
                | test 
-            //    | test comma_test_star_expr_star opt_comma
-            //    | star_expr comp_for
-            //    | star_expr comma_test_star_expr_star opt_comma
 ;
 
 classdef: CLASS NAME  opt_par_arglist COLON suite
 ;
-
-// arglist: argument1 comma_argument_star opt_comma
-// ;
 
 arglist: argument1 COMMA arglist { add_child($3, $1); $$ = $3; }
        | argument1 opt_comma { $$ = new_subtree(ARGLIST_NODE, NO_TYPE, 1, $1); }
@@ -835,7 +650,7 @@ void verify_func_calls(AST* root) {
 // para operadores do tipo PLUS e MINUS
 Type verifica_precedencia_tipo_1(Type t1, Type t2){
     if(t1 == NO_TYPE || t2 == NO_TYPE){
-        printf("TYPE ERROR: unsupported operand // for type(s): '%s' and '%s'\n", get_text(t1), t2);
+        printf("TYPE ERROR: unsupported operand // for type(s): '%s' and '%s'\n", get_text(t1), get_text(t2));
         exit(EXIT_FAILURE);
     }
     if(t1 == INT_TYPE){
@@ -860,7 +675,7 @@ Type verifica_precedencia_tipo_1(Type t1, Type t2){
             case BOOL_TYPE:
                 return REAL_TYPE;
             default:
-                printf("TYPE ERROR: unsupported operand type(s): '%s' and '%s'\n", get_text(t1), t2);
+                printf("TYPE ERROR: unsupported operand type(s): '%s' and '%s'\n", get_text(t1), get_text(t2));
                 exit(EXIT_FAILURE);
         }
     }
@@ -873,7 +688,7 @@ Type verifica_precedencia_tipo_1(Type t1, Type t2){
             case BOOL_TYPE:
                 return INT_TYPE;
             default:
-                printf("TYPE ERROR: unsupported operand type(s): '%s' and '%s'\n", get_text(t1), t2);
+                printf("TYPE ERROR: unsupported operand type(s): '%s' and '%s'\n", get_text(t1), get_text(t2));
                 exit(EXIT_FAILURE);
         }
     }
@@ -881,7 +696,7 @@ Type verifica_precedencia_tipo_1(Type t1, Type t2){
         if(t2 == STR_TYPE){
             return STR_TYPE;
         }else{
-            printf("TYPE ERROR: unsupported operand type(s): '%s' and '%s'\n", get_text(t1), t2);
+            printf("TYPE ERROR: unsupported operand type(s): '%s' and '%s'\n", get_text(t1), get_text(t2));
             exit(EXIT_FAILURE);
         }
     }
@@ -892,7 +707,7 @@ Type verifica_precedencia_tipo_1(Type t1, Type t2){
 // para operadores do tipo MULTIPLY
 Type verifica_precedencia_tipo_2(Type t1, Type t2){
     if(t1 == NO_TYPE || t2 == NO_TYPE){
-        printf("TYPE ERROR: unsupported operand // for type(s): '%s' and '%s'\n", get_text(t1), t2);
+        printf("TYPE ERROR: unsupported operand // for type(s): '%s' and '%s'\n", get_text(t1), get_text(t2));
         exit(EXIT_FAILURE);
     }
     if(t1 == INT_TYPE){
@@ -906,7 +721,7 @@ Type verifica_precedencia_tipo_2(Type t1, Type t2){
             case STR_TYPE:
                 return STR_TYPE;
             default:
-                printf("TYPE ERROR: unsupported operand type(s): '%s' and '%s'\n", get_text(t1), t2);
+                printf("TYPE ERROR: unsupported operand type(s): '%s' and '%s'\n", get_text(t1), get_text(t2));
                 exit(EXIT_FAILURE);
         }
     }
@@ -919,7 +734,7 @@ Type verifica_precedencia_tipo_2(Type t1, Type t2){
             case BOOL_TYPE:
                 return REAL_TYPE;
             default:
-                printf("TYPE ERROR: unsupported operand type(s): '%s' and '%s'\n", get_text(t1), t2);
+                printf("TYPE ERROR: unsupported operand type(s): '%s' and '%s'\n", get_text(t1), get_text(t2));
                 exit(EXIT_FAILURE);
         }
     }
@@ -934,7 +749,7 @@ Type verifica_precedencia_tipo_2(Type t1, Type t2){
             case STR_TYPE:
                 return STR_TYPE;
             default:
-                printf("TYPE ERROR: unsupported operand type(s): '%s' and '%s'\n", get_text(t1), t2);
+                printf("TYPE ERROR: unsupported operand type(s): '%s' and '%s'\n", get_text(t1), get_text(t2));
                 exit(EXIT_FAILURE);
         }
     }
@@ -945,7 +760,7 @@ Type verifica_precedencia_tipo_2(Type t1, Type t2){
             case BOOL_TYPE:
                 return STR_TYPE;
             default:
-                printf("TYPE ERROR: unsupported operand type(s): '%s' and '%s'\n", get_text(t1), t2);
+                printf("TYPE ERROR: unsupported operand type(s): '%s' and '%s'\n", get_text(t1), get_text(t2));
                 exit(EXIT_FAILURE);
         }
     }
@@ -956,11 +771,11 @@ Type verifica_precedencia_tipo_2(Type t1, Type t2){
 // para operadores do tipo DIVISION
 Type verifica_precedencia_tipo_3(Type t1, Type t2){
     if(t1 == NO_TYPE || t2 == NO_TYPE){
-        printf("TYPE ERROR: unsupported operand // for type(s): '%s' and '%s'\n", get_text(t1), t2);
+        printf("TYPE ERROR: unsupported operand // for type(s): '%s' and '%s'\n", get_text(t1), get_text(t2));
         exit(EXIT_FAILURE);
     }
     if(t1 == STR_TYPE || t2 == STR_TYPE){
-        printf("TYPE ERROR: unsupported operand type(s): '%s' and '%s'\n", get_text(t1), t2);
+        printf("TYPE ERROR: unsupported operand type(s): '%s' and '%s'\n", get_text(t1), get_text(t2));
         exit(EXIT_FAILURE);
     }
     return REAL_TYPE;
@@ -969,11 +784,11 @@ Type verifica_precedencia_tipo_3(Type t1, Type t2){
 // para operadores do tipo INTEGERDIVISION
 Type verifica_precedencia_tipo_4(Type t1, Type t2){
     if(t1 == NO_TYPE || t2 == NO_TYPE){
-        printf("TYPE ERROR: unsupported operand // for type(s): '%s' and '%s'\n", get_text(t1), t2);
+        printf("TYPE ERROR: unsupported operand // for type(s): '%s' and '%s'\n", get_text(t1), get_text(t2));
         exit(EXIT_FAILURE);
     }
     if(t1 == STR_TYPE || t2 == STR_TYPE){
-        printf("TYPE ERROR: unsupported operand // for type(s): '%s' and '%s'\n", get_text(t1), t2);
+        printf("TYPE ERROR: unsupported operand // for type(s): '%s' and '%s'\n", get_text(t1), get_text(t2));
         exit(EXIT_FAILURE);
     }
     if(t1 == REAL_TYPE || t2 == REAL_TYPE){
@@ -986,7 +801,8 @@ Type verifica_precedencia_tipo_4(Type t1, Type t2){
 // Verifica variáveis agora retornará o tipo
 Type verifica_variaveis(AST* root) {
     
-    Type type_of_root = get_kind_node(root);
+    NodeKind type_of_root = get_kind_node(root);
+    // printf("Verificando tipo: %d - %s\n",type_of_root,kind2str(type_of_root));
 
     if(type_of_root == ASSIGN_NODE){
         // Infere Tipo do que estiver a direita
@@ -1001,7 +817,7 @@ Type verifica_variaveis(AST* root) {
         else{
             //Verifica se o tipo é igual a t
             if(get_type(vt,aux) != t){
-                printf("TYPE ERROR: variable expects type %s but received type %s.\n", get_type(vt,aux), t);
+                printf("TYPE ERROR: variable expects type %s but received type %s.\n", get_text(get_type(vt,aux)), get_text(t));
                 exit(EXIT_FAILURE);
             }
         }
@@ -1034,6 +850,10 @@ Type verifica_variaveis(AST* root) {
         return INT_TYPE;
     }
 
+    if(type_of_root == STRING_NODE){
+        return STR_TYPE;
+    }
+
     //Se for um NAME (como já tratamos o caso em que está a esquerda de um ASSIGN, agora é só dar lookup sempre que aparecer um NAME)
     if(type_of_root == NAME_NODE){
         int aux = lookup_var(vt, get_name_node(root));
@@ -1064,7 +884,8 @@ Type verifica_variaveis(AST* root) {
     int children_count = get_node_count(root);
     for(int i = 0; i < children_count; i++){
         verifica_variaveis(get_node_child(root, i));
-    } 
+    }
+    return NO_TYPE; 
 }
 
 int main() {
@@ -1073,20 +894,16 @@ int main() {
 
     lex_init();
     yyparse();
-
-    printf("PARSE SUCCESSFUL!\n");
-
-    // Tá bom
     
-    printf("Size da st: %d", get_size_st(st));
-
-    for(int i = 0; i < names_list.count; i++){
-        printf("Index:%d, %s\n",i,names_list.last_text[i]);
-    }
+    // for(int i = 0; i < names_list.count; i++){
+    //     printf("Index:%d, %s\n",i,names_list.last_text[i]);
+    // }
 
 	segunda_passada(root);
     verify_func_calls(root);
-    //verifica_variaveis(root);
+    verifica_variaveis(root);
+
+    printf("PARSE SUCCESSFUL!\n");
 
     print_dot(root);
 

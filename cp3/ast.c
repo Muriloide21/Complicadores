@@ -33,7 +33,6 @@ void set_name_node(AST* node, char* name){
 }
 
 char* get_name_node(AST* node){
-    //Pode retornar string assim?
     return node->name;
 }
 
@@ -49,8 +48,6 @@ AST* get_node_child(AST* node, int index){
     return node->child[index];
 }
 
-//Como?
-//Parece que o nome não ta salvando msm
 AST* new_node(NodeKind kind, int data, Type type) {
     AST* node = malloc(sizeof * node);
     node->kind = kind;
@@ -136,8 +133,6 @@ void free_tree(AST *tree) {
     }
     free(tree);
 }
-
-// Dot output.
 
 int nr;
 

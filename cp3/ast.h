@@ -63,8 +63,6 @@ typedef enum {
     FUNCDEF_NODE,
     FUNCNAME_NODE,
     FUNC_BUILTIN_NODE,
-
-
 } NodeKind;
 
 struct node;

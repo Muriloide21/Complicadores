@@ -218,7 +218,7 @@ void lex_init(void) {
 
 void process_token(yytoken_kind_t type) {
     //printf("Token: %d\n", type);
-    printf("Token: %s (%d)\n", nomes_var[type-255],type);
+    //printf("Token: %s (%d)\n", nomes_var[type-255],type);
 
     if (type == ENDMARKER) {
         if (token_count > 0 && tokens[token_count-1].type != NEWLINE) {
@@ -276,7 +276,7 @@ void process_indent(void) {
 int next_token = 0;
 
 void add_text(char* text){
-    printf("yytext: %s",yytext);
+    //printf("yytext: %s",yytext);
     names_list.last_text[names_list.count] = malloc(strlen(text) + 1);
     strcpy(names_list.last_text[names_list.count], text);
     names_list.count++;

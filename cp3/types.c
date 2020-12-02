@@ -6,7 +6,8 @@ static const char *TYPE_STRING[] = {
     "real",
     "bool",
     "string",
-    "list"
+    "list",
+    "no-type"
 };
 
 const char* get_text(Type type) {
